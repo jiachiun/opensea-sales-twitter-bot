@@ -1,6 +1,7 @@
 const axios = require('axios');
 const twit = require('twit');
 
+// Sale Bot
 const twitterConfig = {
     consumer_key: process.env.CONSUMER_KEY,
     consumer_secret: process.env.CONSUMER_SECRET,
@@ -8,7 +9,16 @@ const twitterConfig = {
     access_token_secret: process.env.ACCESS_TOKEN_SECRET,
 };
 
+// KIA Official
+const twitterConfig2 = {
+    consumer_key: process.env.CONSUMER_KEY,
+    consumer_secret: process.env.CONSUMER_SECRET,
+    access_token: process.env.ACCESS_TOKEN_KEY_2,
+    access_token_secret: process.env.ACCESS_TOKEN_SECRET_2,
+};
+
 const twitterClient = new twit(twitterConfig);
+const twitterClient2 = new twit(twitterConfig2);
 
 // Tweet a text-based status
 async function tweet(tweetText) {
@@ -17,6 +27,15 @@ async function tweet(tweetText) {
     };
 
     twitterClient.post('statuses/update', tweet, (error, tweet, response) => {
+        if (!error) {
+            console.log(`Successfully tweeted: ${tweetText}`);
+        } else {
+            console.error(error);
+        }
+    });
+    
+    // Client 2
+    twitterClient2.post('statuses/update', tweet, (error, tweet, response) => {
         if (!error) {
             console.log(`Successfully tweeted: ${tweetText}`);
         } else {
@@ -39,6 +58,26 @@ async function tweetWithImage(tweetText, imageUrl) {
             };
 
             twitterClient.post('statuses/update', tweet, (error, tweet, response) => {
+                if (!error) {
+                    console.log(`Successfully tweeted: ${tweetText}`);
+                } else {
+                    console.error(error);
+                }
+            });
+        } else {
+            console.error(error);
+        }
+    });
+    
+    // Twitter Client 2
+    twitterClient2.post('media/upload', { media_data: processedImage }, (error, media, response) => {
+        if (!error) {
+            const tweet = {
+                status: tweetText,
+                media_ids: [media.media_id_string]
+            };
+
+            twitterClient2.post('statuses/update', tweet, (error, tweet, response) => {
                 if (!error) {
                     console.log(`Successfully tweeted: ${tweetText}`);
                 } else {
