@@ -49,9 +49,9 @@ async function tweet(twitterClient, tweetText) {
         status: tweetText,
     };
     
-    const twitterClient = getTwitterClient(twitterClient);
+    const client = getTwitterClient(twitterClient);
 
-    twitterClient.post('statuses/update', tweet, (error, tweet, response) => {
+    client.post('statuses/update', tweet, (error, tweet, response) => {
         if (!error) {
             console.log(`Successfully tweeted: ${tweetText}`);
         } else {
@@ -65,10 +65,10 @@ async function tweetWithImage(twitterClient, tweetText, imageUrl) {
     // Format our image to base64
     const processedImage = await getBase64(imageUrl);
 
-    const twitterClient = getTwitterClient(twitterClient);
+    const client = getTwitterClient(twitterClient);
     
     // Upload the item's image from OpenSea to Twitter & retrieve a reference to it
-    twitterClient.post('media/upload', { media_data: processedImage }, (error, media, response) => {
+    client.post('media/upload', { media_data: processedImage }, (error, media, response) => {
         if (!error) {
             const tweet = {
                 status: tweetText,
