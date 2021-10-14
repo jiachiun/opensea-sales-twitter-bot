@@ -5,16 +5,16 @@ const twit = require('twit');
 const twitterConfig_KIA = {
     consumer_key: process.env.CONSUMER_KEY,
     consumer_secret: process.env.CONSUMER_SECRET,
-    access_token: process.env.ACCESS_TOKEN_KEY,
-    access_token_secret: process.env.ACCESS_TOKEN_SECRET,
+    access_token: process.env.ACCESS_TOKEN_KEY_KIA,
+    access_token_secret: process.env.ACCESS_TOKEN_SECRET_KIA,
 };
 
 // KIASalesBot (OFficial)
 const twitterConfig_KIA2 = {
     consumer_key: process.env.CONSUMER_KEY,
     consumer_secret: process.env.CONSUMER_SECRET,
-    access_token: process.env.ACCESS_TOKEN_KEY_2,
-    access_token_secret: process.env.ACCESS_TOKEN_SECRET_2,
+    access_token: process.env.ACCESS_TOKEN_KEY_KIA2,
+    access_token_secret: process.env.ACCESS_TOKEN_SECRET_KIA2,
 };
 
 // CyberHornetsBot
@@ -26,7 +26,7 @@ const twitterConfig_CYBERHORNETS = {
 };
 
 // Twitter Clients
-const twitterClient_KIA1 = new twit(twitterConfig_KIA1);
+const twitterClient_KIA = new twit(twitterConfig_KIA);
 const twitterClient_KIA2 = new twit(twitterConfig_KIA2);
 const twitterClient_CYBERHORNETS = new twit(twitterConfig_CYBERHORNETS);
 
