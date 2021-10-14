@@ -75,7 +75,7 @@ async function tweetWithImage(twitterClient, tweetText, imageUrl) {
                 media_ids: [media.media_id_string]
             };
 
-            twitterClient.post('statuses/update', tweet, (error, tweet, response) => {
+            client.post('statuses/update', tweet, (error, tweet, response) => {
                 if (!error) {
                     console.log(`Successfully tweeted: ${tweetText}`);
                 } else {
