@@ -62,7 +62,7 @@ setInterval(() => {
             return new Date(created);
         })
 
-        console.log(`${events.length} sales since the last one...`);
+        console.log(`[KIA] ${events.length} sales since the last one...`);
 
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
@@ -101,7 +101,7 @@ setInterval(() => {
             return new Date(created);
         })
 
-        console.log(`${events.length} sales since the last one...`);
+        console.log(`[CyberHornets] ${events.length} sales since the last one...`);
 
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
