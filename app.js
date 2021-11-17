@@ -73,10 +73,10 @@ function showJoke(message) {
         const setup = _.get(response, ['data', 'setup']);
         const delivery = _.get(response, ['data', 'delivery']);
         
-        message.reply(setup).then( sent => {
+        message.inlineReply(setup).then( sent => {
             setTimeout(() => {
                 sent.inlineReply(delivery);
-            }, 5000);
+            }, 8000);
         });
         
         
