@@ -8,7 +8,7 @@ const Discord = require('discord.js');
 require("./ExtendedMessage");
 
 
-function buildSaleMessage(sale) {
+function buildMessageSale(sale) {
     const buyer_name = sale?.winner_account?.user?.username? sale?.winner_account?.user?.username : sale?.winner_account?.address;
     const seller_name = sale?.seller?.user?.username? sale?.seller?.user?.username : sale?.seller?.address;
     const amount = ethers.utils.formatEther(sale.total_price || '0');
@@ -23,8 +23,8 @@ function buildSaleMessage(sale) {
             .addFields(
                 { name: 'Name', value: sale.asset.name },
                 { name: 'Amount', value: `${amount}${ethers.constants.EtherSymbol}` },
-                { name: 'From', value: `[${seller_name}](https://opensea.io/${seller_name})`, },
-                { name: 'To', value: `[${buyer_name}](https://opensea.io/${buyer_name})`, }
+                { name: 'From', value: `[${seller_name}](https://opensea.io/${seller_name})`, inline: true },
+                { name: 'To', value: `[${buyer_name}](https://opensea.io/${buyer_name})`, inline: true }
             )
             .setImage(sale.asset.image_url)
             .setTimestamp(Date.parse(`${sale?.created_date}Z`))
@@ -57,11 +57,47 @@ discordBot.on('message', msg => {
     if (msg.content === "!joke" ) {
         showJoke(msg);
     }
+
+    if (msg.content === "!walladen" || msg.content === "!den" ) {
+        showDen(msg);
+    }
+
+    if (msg.content === "!roadmap" ) {
+        showRoadmap(msg);
+    }
+
 });
 
 
 // Login to Discord Bot
 discordBot.login(process.env.DISCORD_BOT_TOKEN);
+
+function buildMessageDen() {
+
+    return (
+        new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle('Walla Den')
+            .setURL('https://den.koalaintelligence.agency/')
+            .setDescription(`The ability to slip by unnoticed in the heat of the moment is key to the success of a K.I.A Agent. Recent field research has confirmed that high levels of incognito are essential for deep cover Agents to successfully complete their missions.\n\nK.I.A HQ has developed the next tier of covert intelligence support; The Walla Den, a new tool in the arsenal of a K.I.A Agent, allowing for swift adjustments to their disguise so Agents can remain concealed from enemy eyes.`)
+            // .setAuthor('OpenSea Bot', 'https://files.readme.io/566c72b-opensea-logomark-full-colored.png', 'https://github.com/sbauch/opensea-discord-bot')
+            // .setThumbnail(sale.asset.collection.image_url)
+            .addFields(
+                { name: 'Name', value: sale.asset.name },
+                { name: 'Amount', value: `${amount}${ethers.constants.EtherSymbol}` },
+                { name: 'From', value: `[${seller_name}](https://opensea.io/${seller_name})`, },
+                { name: 'To', value: `[${buyer_name}](https://opensea.io/${buyer_name})`, }
+            )
+            .setImage(sale.asset.image_url)
+            .setTimestamp(Date.parse(`${sale?.created_date}Z`))
+            .setFooter('Purchased on OpenSea',)
+    );
+}
+
+function showDen(message) {
+    const msg = buildMessageDen();
+    message.inlineReply("https://den.koalaintelligence.agency/")
+}
 
 function showJoke(message) {
     axios.get('https://v2.jokeapi.dev/joke/Any', {
@@ -76,7 +112,7 @@ function showJoke(message) {
         message.inlineReply(setup).then( sent => {
             setTimeout(() => {
                 sent.inlineReply(delivery);
-            }, 8000);
+            }, 15000);
         });
         
         
@@ -106,7 +142,7 @@ function showRecentSales(message, limit = 1) {
         })
 
         _.each(sortedEvents, (event) => {
-            const msg = buildSaleMessage(event);
+            const msg = buildMessageSale(event);
             message.reply(msg);
             return;
         });
@@ -183,7 +219,7 @@ setInterval(() => {
 
             cache.set('lastSaleTime', moment(created).unix());
 
-            const message = buildSaleMessage(event);
+            const message = buildMessageSale(event);
             sales_bot_channel.send(message);
             // formatAndSendTweet(event, "KIA", "🐨 #HugLife #NFT");
             // formatAndSendTweet(event, "KIA2", "🐨 #HugLife #NFT");
