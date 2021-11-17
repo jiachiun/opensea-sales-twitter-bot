@@ -71,7 +71,7 @@ discordBot.on('message', msg => {
     }
 
     if (msg.content === "!joke" ) {
-        await showJoke(msg);
+        showJoke(msg);
     }
 
 });
