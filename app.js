@@ -73,11 +73,12 @@ function showJoke(message) {
         const setup = _.get(response, ['data', 'setup']);
         const delivery = _.get(response, ['data', 'delivery']);
         
-        (async () => {
-            message.reply(setup);
-            await delay(5000);
-            message.reply(delivery);
-        })();
+        message.reply(setup);
+
+        (async () => await new Promise(resolve => setTimeout(resolve, 3000)))();
+
+        message.reply(delivery);
+       
                 
     
     })
