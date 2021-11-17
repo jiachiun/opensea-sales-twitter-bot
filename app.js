@@ -45,7 +45,7 @@ discordBot.on('message', msg => {
   }
 
   if (msg.content === "test") {
-    discordBot.channels.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT).send("test successful")
+    discordBot.channels.cache.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT).send("test successful")
     .then(message => console.log(`Sent message: ${message.content}`))
     .catch(console.error);
   }
@@ -54,9 +54,9 @@ discordBot.on('message', msg => {
 discordBot.login(process.env.DISCORD_BOT_TOKEN);
 
 // Initialize channels
-var sales_bot_channel = discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID_SALES_BOT);
+// var sales_bot_channel = discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID_SALES_BOT);
 
-discordBot.channels.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT).send("hello world")
+discordBot.channels.cache.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT).send("hello world")
     .then(message => console.log(`Sent message: ${message.content}`))
     .catch(console.error);
 
