@@ -5,6 +5,7 @@ const { ethers } = require('ethers');
 const tweet = require('./tweet');
 const cache = require('./cache');
 const Discord = require('discord.js');
+require("./ExtendedMessage");
 
 
 function buildSaleMessage(sale) {
@@ -72,10 +73,12 @@ function showJoke(message) {
         const setup = _.get(response, ['data', 'setup']);
         const delivery = _.get(response, ['data', 'delivery']);
         
-        message.reply(setup);
-        setTimeout(() => {
-            message.reply(delivery);
-        }, 15000);
+        message.reply(setup).then( sent => {
+            setTimeout(() => {
+                sent.inlineReply(delivery);
+            }, 5000);
+        });
+        
         
         
     })
