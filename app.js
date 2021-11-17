@@ -8,11 +8,7 @@ const cache = require('./cache');
 // Discord start
 const Discord = require('discord.js');
 
-
-
-
 function buildSaleMessage(sale) {
-
     const buyer_name = sale?.winner_account?.user?.username? sale?.winner_account?.user?.username : sale?.winner_account?.address;
     const seller_name = sale?.seller?.user?.username? sale?.seller?.user?.username : sale?.seller?.address;
     const amount = ethers.utils.formatEther(sale.total_price || '0');
@@ -36,8 +32,6 @@ function buildSaleMessage(sale) {
     );
 }
 
-
-
 const discordBot = new Discord.Client();
 var sales_bot_channel;
 
@@ -52,16 +46,6 @@ discordBot.on('ready', () => {
 });
 
 discordBot.on('message', msg => {
-    // if (msg.content === 'ping') {
-    //     msg.reply('pong');
-    // }
-
-    // if (msg.content === "test") {
-    //     sales_bot_channel.send("test...")
-    //     .then(message => console.log(`Sent message: ${message.content}`))
-    //     .catch(console.error);
-    // }
-
     if (msg.content === "!sale" ) {
         showRecentSales(msg, 1);
     }
@@ -73,14 +57,13 @@ discordBot.on('message', msg => {
     if (msg.content === "!joke" ) {
         showJoke(msg);
     }
-
 });
 
 
 // Login to Discord Bot
 discordBot.login(process.env.DISCORD_BOT_TOKEN);
 
-async function showJoke(message) {
+function showJoke(message) {
     axios.get('https://v2.jokeapi.dev/joke/Any', {
         params: {
             type: "twopart"
@@ -90,22 +73,19 @@ async function showJoke(message) {
         const setup = _.get(response, ['data', 'setup']);
         const delivery = _.get(response, ['data', 'delivery']);
         
-        message.reply(setup);
-        await sleep(5000);
-        message.reply(delivery);
-        
-        
+        (async () => {
+            message.reply(setup);
+            await delay(5000);
+            message.reply(delivery);
+        })();
+                
+    
     })
     .catch((error) => {
         console.error(error);
     });
 }
 
-function sleep(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
-}
 function showRecentSales(message, limit = 1) {
 
     axios.get('https://api.opensea.io/api/v1/events', {
