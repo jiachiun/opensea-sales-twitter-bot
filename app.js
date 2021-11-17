@@ -52,15 +52,15 @@ discordBot.on('ready', () => {
 });
 
 discordBot.on('message', msg => {
-    if (msg.content === 'ping') {
-        msg.reply('pong');
-    }
+    // if (msg.content === 'ping') {
+    //     msg.reply('pong');
+    // }
 
-    if (msg.content === "test") {
-        sales_bot_channel.send("test...")
-        .then(message => console.log(`Sent message: ${message.content}`))
-        .catch(console.error);
-    }
+    // if (msg.content === "test") {
+    //     sales_bot_channel.send("test...")
+    //     .then(message => console.log(`Sent message: ${message.content}`))
+    //     .catch(console.error);
+    // }
 
     if (msg.content === "!sale" ) {
         showRecentSales(msg, 1);
@@ -70,7 +70,9 @@ discordBot.on('message', msg => {
         showRecentSales(msg, 3);
     }
 
-
+    if (msg.content === "!joke" ) {
+        showJoke(msg);
+    }
 
 });
 
@@ -78,6 +80,23 @@ discordBot.on('message', msg => {
 // Login to Discord Bot
 discordBot.login(process.env.DISCORD_BOT_TOKEN);
 
+function showJoke(message) {
+    axios.get('https://v2.jokeapi.dev/joke/Any', {
+        params: {
+            type: "twopart"
+        }
+    })
+    .then((response) => {
+        const setup = _.get(response, ['data', 'setup']);
+        const delivery = _.get(response, ['data', 'delivery']);
+        message.reply(setup);
+        message.reply(delivery);
+        
+    })
+    .catch((error) => {
+        console.error(error);
+    });
+}
 
 function showRecentSales(message, limit = 1) {
 
@@ -105,8 +124,6 @@ function showRecentSales(message, limit = 1) {
             // cache.set('lastSaleTime', moment(created).unix());
             const msg = buildSaleMessage(event);
             message.reply(msg);
-            // sales_bot_channel.send(message);
-
             // formatAndSendTweet(event, "KIA", "🐨 #HugLife #NFT");
             // formatAndSendTweet(event, "KIA2", "🐨 #HugLife #NFT");
             return;
