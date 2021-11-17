@@ -73,7 +73,7 @@ function showJoke(message) {
         const delivery = _.get(response, ['data', 'delivery']);
         
         message.reply(setup);
-        setTimeout(resolve, 50000);
+        setTimeout(100000);
         message.reply(delivery);
     })
     .catch((error) => {
