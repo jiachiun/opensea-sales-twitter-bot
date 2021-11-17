@@ -15,7 +15,7 @@ function buildMessage(sale) {
 
     const buyer_name = sale?.winner_account?.user?.username? sale?.winner_account?.user?.username : sale?.winner_account?.address;
     const seller_name = sale?.seller?.user?.username? sale?.seller?.user?.username : sale?.seller?.address;
-    const amount = ethers.utils.formatEther(sale.total_price || '0' + ' ' + ethers.constants.EtherSymbol;
+    const amount = `${ethers.utils.formatEther(sale.total_price || '0')}${ethers.constants.EtherSymbol}`;
 
     return (
         new Discord.MessageEmbed()
