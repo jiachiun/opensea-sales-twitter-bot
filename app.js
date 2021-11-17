@@ -2,7 +2,7 @@ const axios = require('axios');
 const _ = require('lodash');
 const moment = require('moment');
 const { ethers } = require('ethers');
-const tweet = require('./tweet');
+// const tweet = require('./tweet');
 const cache = require('./cache');
 
 
@@ -25,37 +25,37 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 
 
 // Format tweet text
-function formatAndSendTweet(event, twitterClient, customMessage = "") {
-    // Handle both individual items + bundle sales
-    const assetName = _.get(event, ['asset', 'name'], _.get(event, ['asset_bundle', 'name']));
-    const openseaLink = _.get(event, ['asset', 'permalink'], _.get(event, ['asset_bundle', 'permalink']));
+// function formatAndSendTweet(event, twitterClient, customMessage = "") {
+//     // Handle both individual items + bundle sales
+//     const assetName = _.get(event, ['asset', 'name'], _.get(event, ['asset_bundle', 'name']));
+//     const openseaLink = _.get(event, ['asset', 'permalink'], _.get(event, ['asset_bundle', 'permalink']));
 
-    const totalPrice = _.get(event, 'total_price');
+//     const totalPrice = _.get(event, 'total_price');
 
-    const tokenDecimals = _.get(event, ['payment_token', 'decimals']);
-    const tokenUsdPrice = _.get(event, ['payment_token', 'usd_price']);
-    const tokenEthPrice = _.get(event, ['payment_token', 'eth_price']);
+//     const tokenDecimals = _.get(event, ['payment_token', 'decimals']);
+//     const tokenUsdPrice = _.get(event, ['payment_token', 'usd_price']);
+//     const tokenEthPrice = _.get(event, ['payment_token', 'eth_price']);
 
-    const formattedUnits = ethers.utils.formatUnits(totalPrice, tokenDecimals);
-    const formattedEthPrice = formattedUnits * tokenEthPrice;
-    const formattedUsdPrice = formattedUnits * tokenUsdPrice;
+//     const formattedUnits = ethers.utils.formatUnits(totalPrice, tokenDecimals);
+//     const formattedEthPrice = formattedUnits * tokenEthPrice;
+//     const formattedUsdPrice = formattedUnits * tokenUsdPrice;
 
-    const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) ${customMessage} ${openseaLink}`;
+//     const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) ${customMessage} ${openseaLink}`;
 
-    console.log(tweetText);
+//     console.log(tweetText);
 
-    // OPTIONAL PREFERENCE - don't tweet out sales below X ETH (default is 1 ETH - change to what you prefer)
-    // if (Number(formattedEthPrice) < 1) {
-    //     console.log(`${assetName} sold below tweet price (${formattedEthPrice} ETH).`);
-    //     return;
-    // }
+//     // OPTIONAL PREFERENCE - don't tweet out sales below X ETH (default is 1 ETH - change to what you prefer)
+//     // if (Number(formattedEthPrice) < 1) {
+//     //     console.log(`${assetName} sold below tweet price (${formattedEthPrice} ETH).`);
+//     //     return;
+//     // }
 
-    // OPTIONAL PREFERENCE - if you want the tweet to include an attached image instead of just text
-    const imageUrl = _.get(event, ['asset', 'image_url']);
-    return tweet.tweetWithImage(twitterClient, tweetText, imageUrl);
+//     // OPTIONAL PREFERENCE - if you want the tweet to include an attached image instead of just text
+//     const imageUrl = _.get(event, ['asset', 'image_url']);
+//     return tweet.tweetWithImage(twitterClient, tweetText, imageUrl);
 
-    // return tweet.tweet(twitterClient, tweetText);
-}
+//     // return tweet.tweet(twitterClient, tweetText);
+// }
 
 
 // Poll OpenSea every 60 seconds & retrieve all sales for a given collection in either the time since the last sale OR in the last minute
