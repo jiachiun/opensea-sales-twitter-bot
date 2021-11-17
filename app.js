@@ -89,11 +89,11 @@ function showJoke(message) {
     .then((response) => {
         const setup = _.get(response, ['data', 'setup']);
         const delivery = _.get(response, ['data', 'delivery']);
-        message.reply(setup);
-
+        
         (async () => await new Promise(resolve => { 
-            message.reply(delivery);
+            message.reply(setup);
             setTimeout(resolve, 10000);
+            message.reply(delivery);
         }))();
         
         
