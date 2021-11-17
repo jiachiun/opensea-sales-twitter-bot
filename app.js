@@ -52,9 +52,12 @@ discordBot.on('message', msg => {
   }
 
   if (msg.content === "test") {
-    sales_bot_channel.send("test successful")
+    sales_bot_channel.send("test...")
     .then(message => console.log(`Sent message: ${message.content}`))
     .catch(console.error);
+
+    testEmbed();
+
   }
 });
 
@@ -62,42 +65,45 @@ discordBot.login(process.env.DISCORD_BOT_TOKEN);
 
 
 
-const hoursAgo = (Math.round(new Date().getTime() / 1000) - (3600)); // in the last hour, run hourly?
+function testEmbed() {
+    // const hoursAgo = (Math.round(new Date().getTime() / 1000) - (3600)); // in the last hour, run hourly?
 
-axios.get('https://api.opensea.io/api/v1/events', {
-        params: {
-            // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
-            collection_slug: "koala-intelligence-agency",
-            event_type: 'successful',
-            limit: 3,
-            only_opensea: 'false'
-        }
-    })
-    .then((response) => {
-        const events = _.get(response, ['data', 'asset_events']);
-
-        const sortedEvents = _.sortBy(events, function(event) {
-            const created = _.get(event, 'created_date');
-
-            return new Date(created);
+    axios.get('https://api.opensea.io/api/v1/events', {
+            params: {
+                // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
+                collection_slug: "koala-intelligence-agency",
+                event_type: 'successful',
+                limit: 3,
+                only_opensea: 'false'
+            }
         })
+        .then((response) => {
+            const events = _.get(response, ['data', 'asset_events']);
 
-        console.log(`[KIA] ${events.length} sales since the last one...`);
+            const sortedEvents = _.sortBy(events, function(event) {
+                const created = _.get(event, 'created_date');
 
-        _.each(sortedEvents, (event) => {
-            const created = _.get(event, 'created_date');
+                return new Date(created);
+            })
 
-            // cache.set('lastSaleTime', moment(created).unix());
-            buildMessage(event);
+            console.log(`[KIA] ${events.length} sales since the last one...`);
 
-            // formatAndSendTweet(event, "KIA", "🐨 #HugLife #NFT");
-            // formatAndSendTweet(event, "KIA2", "🐨 #HugLife #NFT");
-            return;
+            _.each(sortedEvents, (event) => {
+                const created = _.get(event, 'created_date');
+
+                // cache.set('lastSaleTime', moment(created).unix());
+                const message = buildMessage(event);
+                sales_bot_channel.send(message);
+                
+                // formatAndSendTweet(event, "KIA", "🐨 #HugLife #NFT");
+                // formatAndSendTweet(event, "KIA2", "🐨 #HugLife #NFT");
+                return;
+            });
+        })
+        .catch((error) => {
+            console.error(error);
         });
-    })
-    .catch((error) => {
-        console.error(error);
-    });
+}
 
 
 
