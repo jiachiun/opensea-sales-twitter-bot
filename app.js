@@ -4,9 +4,8 @@ const moment = require('moment');
 const { ethers } = require('ethers');
 const tweet = require('./tweet');
 const cache = require('./cache');
-
-// Discord start
 const Discord = require('discord.js');
+
 
 function buildSaleMessage(sale) {
     const buyer_name = sale?.winner_account?.user?.username? sale?.winner_account?.user?.username : sale?.winner_account?.address;
@@ -74,13 +73,8 @@ function showJoke(message) {
         const delivery = _.get(response, ['data', 'delivery']);
         
         message.reply(setup);
-
-        (async () => await new Promise(resolve => setTimeout(resolve, 3000)))();
-
+        setTimeout(resolve, 50000);
         message.reply(delivery);
-       
-                
-    
     })
     .catch((error) => {
         console.error(error);
@@ -116,15 +110,6 @@ function showRecentSales(message, limit = 1) {
     });
 
 }
-
-
-
-
-
-
-
-
-// Discord end
 
 
 // Format tweet text
