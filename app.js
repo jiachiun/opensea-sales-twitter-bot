@@ -71,7 +71,7 @@ discordBot.on('message', msg => {
     }
 
     if (msg.content === "!joke" ) {
-        showJoke(msg);
+        await showJoke(msg);
     }
 
 });
@@ -80,7 +80,7 @@ discordBot.on('message', msg => {
 // Login to Discord Bot
 discordBot.login(process.env.DISCORD_BOT_TOKEN);
 
-function showJoke(message) {
+async function showJoke(message) {
     axios.get('https://v2.jokeapi.dev/joke/Any', {
         params: {
             type: "twopart"
@@ -90,11 +90,9 @@ function showJoke(message) {
         const setup = _.get(response, ['data', 'setup']);
         const delivery = _.get(response, ['data', 'delivery']);
         
-        (async () => await new Promise(resolve => { 
-            message.reply(setup);
-            setTimeout(resolve, 10000);
-            message.reply(delivery);
-        }))();
+        message.reply(setup);
+        await sleep(5000);
+        message.reply(delivery);
         
         
     })
@@ -103,11 +101,15 @@ function showJoke(message) {
     });
 }
 
+function sleep(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
 function showRecentSales(message, limit = 1) {
 
     axios.get('https://api.opensea.io/api/v1/events', {
         params: {
-            // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
             collection_slug: "koala-intelligence-agency",
             event_type: 'successful',
             limit: limit,
@@ -119,18 +121,12 @@ function showRecentSales(message, limit = 1) {
 
         const sortedEvents = _.sortBy(events, function(event) {
             const created = _.get(event, 'created_date');
-
             return new Date(created);
         })
 
         _.each(sortedEvents, (event) => {
-            const created = _.get(event, 'created_date');
-
-            // cache.set('lastSaleTime', moment(created).unix());
             const msg = buildSaleMessage(event);
             message.reply(msg);
-            // formatAndSendTweet(event, "KIA", "🐨 #HugLife #NFT");
-            // formatAndSendTweet(event, "KIA2", "🐨 #HugLife #NFT");
             return;
         });
     })
