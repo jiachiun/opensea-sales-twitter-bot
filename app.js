@@ -90,7 +90,12 @@ function showJoke(message) {
         const setup = _.get(response, ['data', 'setup']);
         const delivery = _.get(response, ['data', 'delivery']);
         message.reply(setup);
-        message.reply(delivery);
+
+        (async () => await new Promise(resolve => { 
+            message.reply(delivery);
+            setTimeout(resolve, 500);
+        }))();
+        
         
     })
     .catch((error) => {
