@@ -34,7 +34,7 @@ function buildMessage(sale) {
 
 
 const discordBot = new Discord.Client();
-const sales_bot_channel; 
+var sales_bot_channel; 
 
 discordBot.on('ready', () => {
   console.log(`Logged in as ${discordBot.user.tag}!`);
