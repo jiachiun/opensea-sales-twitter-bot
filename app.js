@@ -15,20 +15,20 @@ function buildSaleMessage(sale) {
 
     const buyer_name = sale?.winner_account?.user?.username? sale?.winner_account?.user?.username : sale?.winner_account?.address;
     const seller_name = sale?.seller?.user?.username? sale?.seller?.user?.username : sale?.seller?.address;
-    const amount = `${ethers.utils.formatEther(sale.total_price || '0')}${ethers.constants.EtherSymbol}`;
+    const amount = ethers.utils.formatEther(sale.total_price || '0');
 
     return (
         new Discord.MessageEmbed()
             .setColor('#0099ff')
-            .setTitle(sale.asset.name + ' was purchased for ' + amount)
+            .setTitle(sale.asset.name + ' was purchased for ' + amount + ' ETH')
             .setURL(sale.asset.permalink)
             // .setAuthor('OpenSea Bot', 'https://files.readme.io/566c72b-opensea-logomark-full-colored.png', 'https://github.com/sbauch/opensea-discord-bot')
             // .setThumbnail(sale.asset.collection.image_url)
             .addFields(
                 { name: 'Name', value: sale.asset.name },
-                { name: 'Amount', value: amount },
-                { name: 'Buyer', value: `[${buyer_name}](https://opensea.io/${buyer_name})`, },
-                { name: 'Seller', value: `[${seller_name}](https://opensea.io/${seller_name})`, }
+                { name: 'Amount', value: `${amount}${ethers.constants.EtherSymbol}` },
+                { name: 'From', value: `[${seller_name}](https://opensea.io/${seller_name})`, },
+                { name: 'To', value: `[${buyer_name}](https://opensea.io/${buyer_name})`, }
             )
             .setImage(sale.asset.image_url)
             .setTimestamp(Date.parse(`${sale?.created_date}Z`))
