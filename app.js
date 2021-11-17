@@ -60,9 +60,6 @@ discordBot.on('message', msg => {
         sales_bot_channel.send("test...")
         .then(message => console.log(`Sent message: ${message.content}`))
         .catch(console.error);
-
-        testEmbed();
-
     }
 
     if (msg.content === "!sale" ) {
@@ -119,11 +116,6 @@ function showRecentSales(limit = 1) {
 
 }
 
-function testEmbed() {
-    // const hoursAgo = (Math.round(new Date().getTime() / 1000) - (3600)); // in the last hour, run hourly?
-
-    
-}
 
 
 
