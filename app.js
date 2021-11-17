@@ -11,7 +11,7 @@ const Discord = require('discord.js');
 
 
 
-function buildMessage(sale) {
+function buildSaleMessage(sale) {
 
     const buyer_name = sale?.winner_account?.user?.username? sale?.winner_account?.user?.username : sale?.winner_account?.address;
     const seller_name = sale?.seller?.user?.username? sale?.seller?.user?.username : sale?.seller?.address;
@@ -27,8 +27,8 @@ function buildMessage(sale) {
             .addFields(
                 { name: 'Name', value: sale.asset.name },
                 { name: 'Amount', value: amount },
-                { name: 'Buyer', value: `[${buyer_name}](https://opensea.io/{buyer_name})`, },
-                { name: 'Seller', value: `[${seller_name}](https://opensea.io/{seller_name})`, }
+                { name: 'Buyer', value: `[${buyer_name}](https://opensea.io/${buyer_name})`, },
+                { name: 'Seller', value: `[${seller_name}](https://opensea.io/${seller_name})`, }
             )
             .setImage(sale.asset.image_url)
             .setTimestamp(Date.parse(`${sale?.created_date}Z`))
@@ -63,27 +63,30 @@ discordBot.on('message', msg => {
     }
 
     if (msg.content === "!sale" ) {
-        showRecentSales(1);
+        showRecentSales(msg, 1);
     }
 
     if (msg.content === "!sales" ) {
-        showRecentSales(3);
+        showRecentSales(msg, 3);
     }
 
 
 
 });
 
+
+// Login to Discord Bot
 discordBot.login(process.env.DISCORD_BOT_TOKEN);
 
 
-function showRecentSales(limit = 1) {
+function showRecentSales(message, limit = 1) {
+
     axios.get('https://api.opensea.io/api/v1/events', {
         params: {
             // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
             collection_slug: "koala-intelligence-agency",
             event_type: 'successful',
-            limit: 3,
+            limit: limit,
             only_opensea: 'false'
         }
     })
@@ -96,14 +99,13 @@ function showRecentSales(limit = 1) {
             return new Date(created);
         })
 
-        console.log(`[KIA] ${events.length} sales since the last one...`);
-
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
             // cache.set('lastSaleTime', moment(created).unix());
-            const message = buildMessage(event);
-            sales_bot_channel.send(message);
+            const msg = buildSaleMessage(event);
+            message.reply(msg);
+            // sales_bot_channel.send(message);
 
             // formatAndSendTweet(event, "KIA", "🐨 #HugLife #NFT");
             // formatAndSendTweet(event, "KIA2", "🐨 #HugLife #NFT");
@@ -191,6 +193,8 @@ setInterval(() => {
 
             cache.set('lastSaleTime', moment(created).unix());
 
+            const message = buildSaleMessage(event);
+            sales_bot_channel.send(message);
             // formatAndSendTweet(event, "KIA", "🐨 #HugLife #NFT");
             // formatAndSendTweet(event, "KIA2", "🐨 #HugLife #NFT");
             return;
