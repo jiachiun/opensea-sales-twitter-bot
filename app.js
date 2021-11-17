@@ -39,17 +39,13 @@ discordBot.on('ready', () => {
   console.log(`Logged in as ${discordBot.user.tag}!`);
 });
 
-discordBot.on('ready', async () => {
-    const channel = await discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID);
-});
-
 discordBot.on('message', msg => {
   if (msg.content === 'ping') {
     msg.reply('pong');
   }
 
   if (msg.content === "test") {
-    client.channels.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT).send("test successful")
+    discordBot.channels.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT).send("test successful")
     .then(message => console.log(`Sent message: ${message.content}`))
     .catch(console.error);
   }
@@ -60,7 +56,7 @@ discordBot.login(process.env.DISCORD_BOT_TOKEN);
 // Initialize channels
 var sales_bot_channel = discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID_SALES_BOT);
 
-client.channels.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT).send("hello world")
+discordBot.channels.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT).send("hello world")
     .then(message => console.log(`Sent message: ${message.content}`))
     .catch(console.error);
 
