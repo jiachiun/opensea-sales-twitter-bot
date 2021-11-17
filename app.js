@@ -34,12 +34,13 @@ function buildMessage(sale) {
 
 
 const discordBot = new Discord.Client();
-var sales_bot_channel; 
 
 discordBot.on('ready', () => {
   console.log(`Logged in as ${discordBot.user.tag}!`);
+});
 
-  sales_bot_channel = discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID_SALES_BOT);
+discordBot.on('ready', async () => {
+    const channel = await discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID);
 });
 
 discordBot.on('message', msg => {
@@ -55,6 +56,9 @@ discordBot.on('message', msg => {
 });
 
 discordBot.login(process.env.DISCORD_BOT_TOKEN);
+
+// Initialize channels
+const sales_bot_channel = discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID_SALES_BOT);
 
 sales_bot_channel.send('hello!')
 .then(message => console.log(`Sent message: ${message.content}`))
