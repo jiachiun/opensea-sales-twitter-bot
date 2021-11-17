@@ -39,7 +39,7 @@ var sales_bot_channel;
 discordBot.on('ready', () => {
   console.log(`Logged in as ${discordBot.user.tag}!`);
 
-  sales_bot_channel = await discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID);
+  sales_bot_channel = discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID_SALES_BOT);
 });
 
 discordBot.on('message', msg => {
