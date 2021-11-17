@@ -7,7 +7,6 @@ const cache = require('./cache');
 
 // Discord start
 const Discord = require('discord.js');
-import { TextChannel } from 'discord.js';
 
 
 
