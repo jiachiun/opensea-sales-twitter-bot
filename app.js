@@ -75,7 +75,7 @@ function showJoke(message) {
         message.reply(setup);
         setTimeout(() => {
             message.reply(delivery);
-        }, 5000);
+        }, 15000);
         
         
     })
