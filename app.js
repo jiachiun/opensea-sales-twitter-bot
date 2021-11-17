@@ -72,20 +72,15 @@ discordBot.on('message', msg => {
 // Login to Discord Bot
 discordBot.login(process.env.DISCORD_BOT_TOKEN);
 
-function buildMessageDen() {
-
-    return (
-        new Discord.MessageEmbed()
-            .setColor('#0099ff')
-            .setTitle('Walla Den')
-            .setURL('https://den.koalaintelligence.agency/')
-            .setDescription(`The ability to slip by unnoticed in the heat of the moment is key to the success of a K.I.A Agent. Recent field research has confirmed that high levels of incognito are essential for deep cover Agents to successfully complete their missions.\n\nK.I.A HQ has developed the next tier of covert intelligence support; The Walla Den, a new tool in the arsenal of a K.I.A Agent, allowing for swift adjustments to their disguise so Agents can remain concealed from enemy eyes.`)
-    );
-}
 
 function showDen(message) {
-    const msg = buildMessageDen();
-    message.inlineReply("https://den.koalaintelligence.agency/")
+    const msg = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle('Walla Den')
+        .setURL('https://den.koalaintelligence.agency/')
+        .setDescription(`The ability to slip by unnoticed in the heat of the moment is key to the success of a K.I.A Agent. Recent field research has confirmed that high levels of incognito are essential for deep cover Agents to successfully complete their missions.\n\nK.I.A HQ has developed the next tier of covert intelligence support; The Walla Den, a new tool in the arsenal of a K.I.A Agent, allowing for swift adjustments to their disguise so Agents can remain concealed from enemy eyes.`);
+
+    message.channel.send(msg);
 }
 
 function showJoke(message) {
