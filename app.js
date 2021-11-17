@@ -49,7 +49,7 @@ discordBot.on('message', msg => {
   }
 
   if (msg.content === "test") {
-    sales_bot_channel.send('test successful!')
+    client.channels.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT).send("test successful")
     .then(message => console.log(`Sent message: ${message.content}`))
     .catch(console.error);
   }
@@ -58,11 +58,14 @@ discordBot.on('message', msg => {
 discordBot.login(process.env.DISCORD_BOT_TOKEN);
 
 // Initialize channels
-const sales_bot_channel = discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID_SALES_BOT);
+var sales_bot_channel = discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID_SALES_BOT);
 
-sales_bot_channel.send('hello!')
-.then(message => console.log(`Sent message: ${message.content}`))
-.catch(console.error);
+client.channels.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT).send("hello world")
+    .then(message => console.log(`Sent message: ${message.content}`))
+    .catch(console.error);
+
+// sales_bot_channel.send('hello!')
+
 // Discord end
 
 
