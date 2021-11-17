@@ -12,22 +12,27 @@ const Discord = require('discord.js');
 
 
 function buildMessage(sale) {
+
+    const buyer_name = sale?.winner_account?.user?.username? sale?.winner_account?.user?.username : sale?.winner_account?.address;
+    const seller_name = sale?.seller?.user?.username? sale?.seller?.user?.username : sale?.seller?.address;
+    const amount = ethers.utils.formatEther(sale.total_price || '0' + ' ' + ethers.constants.EtherSymbol;
+
     return (
         new Discord.MessageEmbed()
             .setColor('#0099ff')
-            .setTitle(sale.asset.name + ' sold!')
+            .setTitle(sale.asset.name + ' was purchased for ' + amount)
             .setURL(sale.asset.permalink)
-            .setAuthor('OpenSea Bot', 'https://files.readme.io/566c72b-opensea-logomark-full-colored.png', 'https://github.com/sbauch/opensea-discord-bot')
-            .setThumbnail(sale.asset.collection.image_url)
+            // .setAuthor('OpenSea Bot', 'https://files.readme.io/566c72b-opensea-logomark-full-colored.png', 'https://github.com/sbauch/opensea-discord-bot')
+            // .setThumbnail(sale.asset.collection.image_url)
             .addFields(
                 { name: 'Name', value: sale.asset.name },
-                { name: 'Amount', value: `${ethers.utils.formatEther(sale.total_price || '0')}${ethers.constants.EtherSymbol}` },
-                { name: 'Buyer', value: sale?.winner_account?.address, },
-                { name: 'Seller', value: sale?.seller?.address, }
+                { name: 'Amount', value: amount },
+                { name: 'Buyer', value: `[${buyer_name}](https://opensea.io/{buyer_name})`, },
+                { name: 'Seller', value: `[${seller_name}](https://opensea.io/{seller_name})`, }
             )
             .setImage(sale.asset.image_url)
             .setTimestamp(Date.parse(`${sale?.created_date}Z`))
-            .setFooter('Sold on OpenSea', 'https://files.readme.io/566c72b-opensea-logomark-full-colored.png')
+            .setFooter('Purchased on OpenSea',)
     );
 }
 
@@ -47,62 +52,77 @@ discordBot.on('ready', () => {
 });
 
 discordBot.on('message', msg => {
-  if (msg.content === 'ping') {
-    msg.reply('pong');
-  }
+    if (msg.content === 'ping') {
+        msg.reply('pong');
+    }
 
-  if (msg.content === "test") {
-    sales_bot_channel.send("test...")
-    .then(message => console.log(`Sent message: ${message.content}`))
-    .catch(console.error);
+    if (msg.content === "test") {
+        sales_bot_channel.send("test...")
+        .then(message => console.log(`Sent message: ${message.content}`))
+        .catch(console.error);
 
-    testEmbed();
+        testEmbed();
 
-  }
+    }
+
+    if (msg.content === "!sale" ) {
+        showRecentSales(1);
+    }
+
+    if (msg.content === "!sales" ) {
+        showRecentSales(3);
+    }
+
+
+
 });
 
 discordBot.login(process.env.DISCORD_BOT_TOKEN);
 
 
+function showRecentSales(limit = 1) {
+    axios.get('https://api.opensea.io/api/v1/events', {
+        params: {
+            // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
+            collection_slug: "koala-intelligence-agency",
+            event_type: 'successful',
+            limit: 3,
+            only_opensea: 'false'
+        }
+    })
+    .then((response) => {
+        const events = _.get(response, ['data', 'asset_events']);
+
+        const sortedEvents = _.sortBy(events, function(event) {
+            const created = _.get(event, 'created_date');
+
+            return new Date(created);
+        })
+
+        console.log(`[KIA] ${events.length} sales since the last one...`);
+
+        _.each(sortedEvents, (event) => {
+            const created = _.get(event, 'created_date');
+
+            // cache.set('lastSaleTime', moment(created).unix());
+            const message = buildMessage(event);
+            sales_bot_channel.send(message);
+
+            // formatAndSendTweet(event, "KIA", "🐨 #HugLife #NFT");
+            // formatAndSendTweet(event, "KIA2", "🐨 #HugLife #NFT");
+            return;
+        });
+    })
+    .catch((error) => {
+        console.error(error);
+    });
+
+}
 
 function testEmbed() {
     // const hoursAgo = (Math.round(new Date().getTime() / 1000) - (3600)); // in the last hour, run hourly?
 
-    axios.get('https://api.opensea.io/api/v1/events', {
-            params: {
-                // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
-                collection_slug: "koala-intelligence-agency",
-                event_type: 'successful',
-                limit: 3,
-                only_opensea: 'false'
-            }
-        })
-        .then((response) => {
-            const events = _.get(response, ['data', 'asset_events']);
-
-            const sortedEvents = _.sortBy(events, function(event) {
-                const created = _.get(event, 'created_date');
-
-                return new Date(created);
-            })
-
-            console.log(`[KIA] ${events.length} sales since the last one...`);
-
-            _.each(sortedEvents, (event) => {
-                const created = _.get(event, 'created_date');
-
-                // cache.set('lastSaleTime', moment(created).unix());
-                const message = buildMessage(event);
-                sales_bot_channel.send(message);
-                
-                // formatAndSendTweet(event, "KIA", "🐨 #HugLife #NFT");
-                // formatAndSendTweet(event, "KIA2", "🐨 #HugLife #NFT");
-                return;
-            });
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+    
 }
 
 
