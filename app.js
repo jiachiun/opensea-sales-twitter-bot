@@ -80,17 +80,6 @@ function buildMessageDen() {
             .setTitle('Walla Den')
             .setURL('https://den.koalaintelligence.agency/')
             .setDescription(`The ability to slip by unnoticed in the heat of the moment is key to the success of a K.I.A Agent. Recent field research has confirmed that high levels of incognito are essential for deep cover Agents to successfully complete their missions.\n\nK.I.A HQ has developed the next tier of covert intelligence support; The Walla Den, a new tool in the arsenal of a K.I.A Agent, allowing for swift adjustments to their disguise so Agents can remain concealed from enemy eyes.`)
-            // .setAuthor('OpenSea Bot', 'https://files.readme.io/566c72b-opensea-logomark-full-colored.png', 'https://github.com/sbauch/opensea-discord-bot')
-            // .setThumbnail(sale.asset.collection.image_url)
-            .addFields(
-                { name: 'Name', value: sale.asset.name },
-                { name: 'Amount', value: `${amount}${ethers.constants.EtherSymbol}` },
-                { name: 'From', value: `[${seller_name}](https://opensea.io/${seller_name})`, },
-                { name: 'To', value: `[${buyer_name}](https://opensea.io/${buyer_name})`, }
-            )
-            .setImage(sale.asset.image_url)
-            .setTimestamp(Date.parse(`${sale?.created_date}Z`))
-            .setFooter('Purchased on OpenSea',)
     );
 }
 
