@@ -140,9 +140,6 @@ function showETH(message) {
     
     axios.get('https://api.coinbase.com/v2/prices/ETH-USD/spot')
     .then((response) => {
-        const quote = response.data.
-        const author = response.data[0].a;
-
         const conversion = `1 ${response.data.base} = ${response.data.currency} ${response.data.amount}`;
         
         const msg = new Discord.MessageEmbed()
