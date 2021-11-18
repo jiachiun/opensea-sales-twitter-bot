@@ -82,6 +82,7 @@ function showCommands(message) {
         .setTitle('KIA Bot Commands')
         .addFields(
             { name: ':link: Get link to Walla Den', value: '`!den`' },
+            { name: ':map: Get link to KIA\'s Roadmap', value: '`!roadmap`' },
             { name: ':shopping_cart: Show last sale', value: '`!sale`' },
             { name: ':shopping_cart: Show last 3 sales', value: '`!sales`' },
             { name: ':laughing: Get a joke', value: '`!joke`' },
