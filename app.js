@@ -120,8 +120,8 @@ function showQuote(message) {
     
     axios.get('https://zenquotes.io/api/random')
     .then((response) => {
-        const quote = response.data.payload[0].q;
-        const author = response.data.payload[0].a;
+        const quote = response.data[0].q;
+        const author = response.data[0].a;
         
         const msg = new Discord.MessageEmbed()
             .setColor('#0099ff')
@@ -137,20 +137,25 @@ function showQuote(message) {
 
 function showFact(message) {
     
-    axios.get('https://api.fungenerators.com')
+    axios.get('https://api.fungenerators.com', {
+        params: {
+            category: "Animal",
+            subcategory: 'Koala',
+        }
+    })
     .then((response) => {
-        const quote = response.data[0].q;
-        const author = response.data[0].a;
+        const fact = response.data.contents.fact;
+        
         
         const msg = new Discord.MessageEmbed()
             .setColor('#0099ff')
-            .setTitle(`> ${quote}`)
-            .setFooter(`by ${author}`)
+            .setTitle('Fun Fact about Koalas')
+            .setFooter(`${fact}`)
         message.channel.send(msg);
     })
     .catch((error) => {
         console.error(error);
-        message.inlineReply("Oops. Unable to connect to the API. Please try again later.");
+        message.inlineReply("That's all for today. Come back later for more fun facts about Koalas!");
     });
 }
 
@@ -222,6 +227,10 @@ discordBot.on('message', msg => {
 
     if (msg.content === "!quote" ) {
         showQuote(msg);
+    }
+
+    if (msg.content === "!fact" ) {
+        showFact(msg);
     }
 
     if (msg.content === "!walladen" || msg.content === "!den" ) {
