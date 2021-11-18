@@ -117,7 +117,7 @@ function showDen(message) {
 }
 
 function showJoke(message) {
-    axios.get('https://v2.jokeapi.dev/joke/Any')
+    axios.get('https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit')
     .then((response) => {
         const type = _.get(response, ['data', 'type']);
         
