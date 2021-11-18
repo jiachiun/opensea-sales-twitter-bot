@@ -48,6 +48,7 @@ function showCommands(message) {
             { name: 'Show last 3 sales :shopping_cart:', value: '`!sales`' },
             { name: 'Get a Quote :speech_left:', value: '`!quote`' },
             { name: 'Get a joke :laughing:', value: '`!joke`' },
+            { name: 'Get current price of ETH :coin:', value: '`!eth`' },
             { name: 'See list of commands :robot:', value: '`!commands`' },
         );
 
@@ -125,8 +126,32 @@ function showQuote(message) {
         
         const msg = new Discord.MessageEmbed()
             .setColor('#0099ff')
-            .setTitle(`"${quote}""`)
+            .setTitle(`"${quote}"`)
             .setFooter(`by ${author}`)
+        message.channel.send(msg);
+    })
+    .catch((error) => {
+        console.error(error);
+        message.inlineReply("Oops. Unable to connect to the API. Please try again later.");
+    });
+}
+
+function showETH(message) {
+    
+    axios.get('https://api.coinbase.com/v2/prices/ETH-USD/spot')
+    .then((response) => {
+        const quote = response.data.
+        const author = response.data[0].a;
+
+        const conversion = `1 ${response.data.base} = ${response.data.currency} ${response.data.amount}`;
+        
+        const msg = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle(`"${conversion}"`)
+            .addFields(
+                { name: 'Get the current market price for bitcoin', value: 'Note that exchange rates fluctuates so the price is only correct for seconds at the time.' },
+            )
+            .setFooter(`Data provided by Coinbase`)
         message.channel.send(msg);
     })
     .catch((error) => {
@@ -137,8 +162,6 @@ function showQuote(message) {
 
 
 function showRecentSales(message, limit = 1) {
-
-
     axios.get('https://api.opensea.io/api/v1/events', {
         params: {
             collection_slug: "koala-intelligence-agency",
