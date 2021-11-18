@@ -86,14 +86,13 @@ function showCommands(message) {
         .setTitle('KIA Bot Commands')
         .setThumbnail('https://den.koalaintelligence.agency/assets/logo.png')
         .addFields(
-            { name: 'Walla Den :link:', value: '`!den`', inline: true },
-            { name: 'KIA\'s Roadmap :map:', value: '`!roadmap`', inline: true },
-            { name: 'Rarity :star2:', value: '`!rarity`', inline: true },
-            { name: 'KNet :globe_with_meridians:', value: '`!knet`', inline: true },
-            { name: '\u200B', value: '\u200B' },
-            { name: 'Show last sale :shopping_cart:', value: '`!sale`', inline: true },
-            { name: 'Show last 3 sales :shopping_cart:', value: '`!sales`', inline: true },
-            { name: 'Get a joke :laughing:', value: '`!joke`', inline: true },
+            { name: 'Walla Den :link:', value: '`!den`' },
+            { name: 'KIA\'s Roadmap :map:', value: '`!roadmap`' },
+            { name: 'Rarity :star2:', value: '`!rarity`' },
+            { name: 'KNet :globe_with_meridians:', value: '`!knet`' },
+            { name: 'Show last sale :shopping_cart:', value: '`!sale`' },
+            { name: 'Show last 3 sales :shopping_cart:', value: '`!sales`' },
+            { name: 'Get a joke :laughing:', value: '`!joke`' },
             { name: 'See list of commands :robot:', value: '`!commands`' },
         );
 
