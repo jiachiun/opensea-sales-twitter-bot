@@ -267,7 +267,6 @@ function showStats(message) {
                 { name: 'Market Cap', value: `${stats.market_cap.toFixed(2)}${ethers.constants.EtherSymbol} `, inline: true },
                 { name: '\u200B', value: 'For charts, visit Dune Analytics.\n[Dashboard by YatMaxi](https://dune.xyz/yatmaxi/Koala-Intelligence-Agency)\n[Dashboard by JayC](https://dune.xyz/jayc/Koala-Intelligence-Agency-Dashboard)' },
             )
-            .setTimestamp(Date.parse(`${sale?.created_date}Z`))
 
         message.channel.send(msg);
         
