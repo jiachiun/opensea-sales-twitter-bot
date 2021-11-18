@@ -54,9 +54,9 @@ function showCommands(message) {
             { name: 'Get a Quote', value: ':speech_left: `!quote`' },
             { name: 'Get a Joke', value: ':laughing: `!joke`' },
             { name: '\u200B', value: '\u200B' },
-            // { name: 'See list of commands :robot:', value: '`!commands`' },
+            { name: '\u200B', value: 'Use `!commands` to see list of available commands.' },
         )
-        .setFooter('Use \'!commands\' to see list of available commands.');
+        // .setFooter('Use \'!commands\' to see list of available commands.');
 
     message.channel.send(msg);
 }
