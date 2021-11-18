@@ -84,12 +84,11 @@ function showCommands(message) {
             { name: '\u200B', value: '\u200B' },
             { name: ':link: Get link to Walla Den', value: '`!den`' },
             { name: '\u200B', value: '\u200B' },
-            { name: ':shopping_cart: Show last sale', value: '`!sale`', inline: true },
-            { name: ':shopping_cart: Show last 3 sales', value: '`!sales`', inline: true },
-            { name: '\u200B', value: '\u200B' },
+            { name: ':shopping_cart: Show last sale', value: '`!sale`' },
+            { name: ':shopping_cart: Show last 3 sales', value: '`!sales`' },
             { name: ':laughing: Get a joke', value: '`!joke`' },
             { name: '\u200B', value: '\u200B' },
-            { name: ':robot: See list of commands', value: '`!commands`' }
+            { name: ':robot: See list of commands', value: '`!commands`' },
         );
 
     message.channel.send(msg);
@@ -120,9 +119,6 @@ function showJoke(message) {
                 sent.inlineReply(delivery);
             }, 15000);
         });
-        
-        
-        
     })
     .catch((error) => {
         console.error(error);
