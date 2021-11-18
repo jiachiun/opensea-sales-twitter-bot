@@ -82,14 +82,14 @@ function showCommands(message) {
         .setTitle('KIA Bot Commands')
         .addFields(
             { name: '\u200B', value: '\u200B' },
-            { name: '🔗 Get link to Walla Den', value: '`!den`' },
+            { name: ':link: Get link to Walla Den', value: '`!den`' },
             { name: '\u200B', value: '\u200B' },
-            { name: '🛒 Show last sale', value: '`!sale`', inline: true },
-            { name: '🛒 Show last 3 sales', value: '`!sales`', inline: true },
+            { name: ':shopping_cart: Show last sale', value: '`!sale`', inline: true },
+            { name: ':shopping_cart: Show last 3 sales', value: '`!sales`', inline: true },
             { name: '\u200B', value: '\u200B' },
-            { name: '😆 Get a joke', value: '`!joke`' },
+            { name: ':laughing: Get a joke', value: '`!joke`' },
             { name: '\u200B', value: '\u200B' },
-            { name: '🤖 See list of commands', value: '`!commands`' }
+            { name: ':robot: See list of commands', value: '`!commands`' }
         );
 
     message.channel.send(msg);
@@ -100,7 +100,7 @@ function showDen(message) {
         .setColor('#0099ff')
         .setTitle('Walla Den')
         .setURL('https://den.koalaintelligence.agency/')
-        .setDescription(`The ability to slip by unnoticed in the heat of the moment is key to the success of a K.I.A Agent. Recent field research has confirmed that high levels of incognito are essential for deep cover Agents to successfully complete their missions.\n\nK.I.A HQ has developed the next tier of covert intelligence support; The Walla Den, a new tool in the arsenal of a K.I.A Agent, allowing for swift adjustments to their disguise so Agents can remain concealed from enemy eyes.\n\n[Visit Walla Den](https://den.koalaintelligence.agency/)`)
+        .setDescription(`The ability to slip by unnoticed in the heat of the moment is key to the success of a K.I.A Agent. Recent field research has confirmed that high levels of incognito are essential for deep cover Agents to successfully complete their missions.\n\nK.I.A HQ has developed the next tier of covert intelligence support; The Walla Den, a new tool in the arsenal of a K.I.A Agent, allowing for swift adjustments to their disguise so Agents can remain concealed from enemy eyes.\n\n[:link: Visit Walla Den](https://den.koalaintelligence.agency/)`)
         .setImage('https://images-ext-2.discordapp.net/external/FB1rnCZb-E4mIUPgTURL25k-IsS5GjeHudy3Rn7hQcA/%3Fv%3D43e1c618/https/koalaintelligence.agency/assets/images/image07.jpg?width=1082&height=676');
     message.channel.send(msg);
 }
