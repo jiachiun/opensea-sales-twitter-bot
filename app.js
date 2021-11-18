@@ -46,6 +46,7 @@ function showCommands(message) {
             { name: 'KNet :globe_with_meridians:', value: '`!knet`' },
             { name: 'Show last sale :shopping_cart:', value: '`!sale`' },
             { name: 'Show last 3 sales :shopping_cart:', value: '`!sales`' },
+            { name: 'Get a Quote :speech_left:', value: '`!quote`' },
             { name: 'Get a joke :laughing:', value: '`!joke`' },
             { name: 'See list of commands :robot:', value: '`!commands`' },
         );
@@ -111,6 +112,26 @@ function showJoke(message) {
     })
     .catch((error) => {
         console.error(error);
+        message.inlineReply("Oops. Unable to connect to the API. Please try again later.");
+    });
+}
+
+function showQuote(message) {
+    
+    axios.get('https://zenquotes.io/api/random')
+    .then((response) => {
+        const quote = _.get(response, ['data', 'q']);
+        const author = _.get(response, ['data', 'a']);
+        
+        const msg = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle(`> ${quote}`)
+            .setFooter(`by ${author}`)
+        message.channel.send(msg);
+    })
+    .catch((error) => {
+        console.error(error);
+        message.inlineReply("Oops. Unable to connect to the API. Please try again later.");
     });
 }
 
@@ -141,8 +162,7 @@ function showRecentSales(message, limit = 1) {
     })
     .catch((error) => {
         console.error(error);
-
-        message.inlineReply("Some error occured. The API server could not be connected at the moment. Please try again later.");
+        message.inlineReply("Oops. Unable to connect to the API. Please try again later.");
     });
 
 
@@ -179,6 +199,10 @@ discordBot.on('message', msg => {
 
     if (msg.content === "!joke" ) {
         showJoke(msg);
+    }
+
+    if (msg.content === "!quote" ) {
+        showQuote(msg);
     }
 
     if (msg.content === "!walladen" || msg.content === "!den" ) {
