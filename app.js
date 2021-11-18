@@ -6,9 +6,6 @@ const tweet = require('./tweet');
 const cache = require('./cache');
 const Discord = require('discord.js');
 require("./ExtendedMessage");
-require('./discord-helper');
-
-
 
 function buildMessageSale(sale) {
     const buyer_name = sale?.winner_account?.user?.username? sale?.winner_account?.user?.username : sale?.winner_account?.address;
@@ -288,11 +285,10 @@ var sales_bot_channel;
 discordBot.on('ready', () => {
     console.log(`Logged in as ${discordBot.user.tag}!`);
 
-    sales_bot_channel = discordBot.channels.cache.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT);
-
-    sales_bot_channel.send("hello world")
-        .then(message => console.log(`Sent message: ${message.content}`))
-        .catch(console.error);
+    // sales_bot_channel = discordBot.channels.cache.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT);
+    // sales_bot_channel.send("hello world")
+    //     .then(message => console.log(`Sent message: ${message.content}`))
+    //     .catch(console.error);
 });
 
 discordBot.on('message', msg => {
@@ -421,7 +417,7 @@ setInterval(() => {
 
             const message = buildMessageSale(event);
             sales_bot_channel.send(message);
-            
+
             formatAndSendTweet(event, "KIA", "🐨 #HugLife #NFT");
             formatAndSendTweet(event, "KIA2", "🐨 #HugLife #NFT");
             return;
