@@ -221,7 +221,7 @@ function showRecentSales(message, limit = 1) {
 }
 
 function showFloor(message) {
-    axios.get('https://api.opensea.io/api/v1/https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats')
+    axios.get('https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats?format=json')
     .then((response) => {
         const stats = _.get(response, ['data', 'stats']);
 
@@ -235,7 +235,7 @@ function showFloor(message) {
 
 
 function showStats(message) {
-    axios.get('https://api.opensea.io/api/v1/https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats')
+    axios.get('https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats?format=json')
     .then((response) => {
         const stats = _.get(response, ['data', 'stats']);
 
