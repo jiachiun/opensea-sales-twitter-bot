@@ -40,22 +40,41 @@ function showCommands(message) {
         .setTitle('KIA Bot Commands')
         .setThumbnail('https://den.koalaintelligence.agency/assets/logo.png')
         .addFields(
-            { name: '\u200B', value: 'Information' },
+            { name: '\u200B', value: 'INFO' },
             { name: 'Walla Den :link:', value: '`!den`' },
             { name: 'KIA\'s Roadmap :map:', value: '`!roadmap`' },
-            { name: 'Rarity :star2:', value: '`!rarity`' },
+            { name: 'Rarity Tools :star2:', value: '`!rarity`' },
             { name: 'KNet :globe_with_meridians:', value: '`!knet`' },
-            { name: '\u200B', value: 'Sales' },
+            { name: 'Links :link:', value: '`!links`' },
+            { name: '\u200B', value: 'SALES' },
             { name: 'Show the Latest Sale :shopping_cart:', value: '`!sale`' },
             { name: 'Show Last 3 Sales :shopping_cart:', value: '`!sales`' },
-            { name: 'Get current Market Price of ETH :coin:', value: '`!eth`' },
-            { name: '\u200B', value: 'Fun' },
+            { name: 'Get the current Price for ETH :coin:', value: '`!eth`' },
+            { name: '\u200B', value: 'FUN' },
             { name: 'Get a Quote :speech_left:', value: '`!quote`' },
             { name: 'Get a Joke :laughing:', value: '`!joke`' },
             { name: '\u200B', value: '\u200B' },
             // { name: 'See list of commands :robot:', value: '`!commands`' },
         )
         .setFooter('Use \'!commands\' to see list of available commands.');
+
+    message.channel.send(msg);
+}
+
+function showLinks(message) {
+    const msg = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle('KIA Official Links')
+        .setThumbnail('https://den.koalaintelligence.agency/assets/logo.png')
+        .addFields(
+            { name: 'Websites', value: '<https://koalaintelligence.agency/>\n<https://den.koalaintelligence.agency/>\n' },
+            { name: 'Opensea Accounts', value: '`<https://opensea.io/collection/koala-intelligence-agency>\n<https://opensea.io/collection/kia-ordinance>\n<https://opensea.io/collection/kia-case-files-v2\n`' },
+            { name: 'Social Media', value: '`<https://twitter.com/KoalaAgencyNFT>\n<https://tiktok.com/@koalaagencynft>\n<https://instagram.com/koala.agency.nft>\n`' },
+            { name: 'Verified Contract', value: '`<https://etherscan.io/address/0x3f5fb35468e9834a43dca1c160c69eaae78b6360>\n`' },
+            { name: 'Rarity Tools:', value: '`<https://rarity.tools/koala-intelligence-agency>\n`' },
+            { name: 'HackMD  (Roadmap V2)', value: '<https://hackmd.io/@sJX7GMieToGIMmb_nnCnFQ/kia-v2>\n' },
+            { name: '\n', value: 'Links can be found in #official-kia-links' },
+        )
 
     message.channel.send(msg);
 }
@@ -229,6 +248,10 @@ discordBot.on('message', msg => {
 
     if (msg.content === "!quote" ) {
         showQuote(msg);
+    }
+
+    if (msg.content === "!links" ) {
+        showLinks(msg);
     }
 
     if (msg.content === "!walladen" || msg.content === "!den" ) {
