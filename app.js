@@ -224,12 +224,11 @@ function showFloor(message) {
     axios.get('https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats?format=json')
     .then((response) => {
         const stats = _.get(response, ['data', 'stats']);
-
-        message.channel.send(msg);
+        message.channel.send(`Floor Price: ${stats.floor_price}`);
     })
     .catch((error) => {
         console.error(error);
-        message.channel.send(`Floor Price: ${stats.floor_price}`);
+        message.inlineReply("Oops. Unable to connect to the API. Please try again later.");
     });
 }
 
@@ -239,11 +238,11 @@ function showStats(message) {
     .then((response) => {
         const stats = _.get(response, ['data', 'stats']);
 
-        message.channel.send(msg);
+        message.channel.send(`Floor Price: ${stats.floor_price}`);
     })
     .catch((error) => {
         console.error(error);
-        message.channel.send(`Floor Price: ${stats.floor_price}`);
+        message.inlineReply("Oops. Unable to connect to the API. Please try again later.");
     });
 }
 
