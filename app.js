@@ -81,12 +81,13 @@ function showCommands(message) {
         .setColor('#0099ff')
         .setTitle('KIA Bot Commands')
         .addFields(
-            { name: ':link: Get link to Walla Den', value: '`!den`' },
-            { name: ':map: Get link to KIA\'s Roadmap', value: '`!roadmap`' },
-            { name: ':shopping_cart: Show last sale', value: '`!sale`' },
-            { name: ':shopping_cart: Show last 3 sales', value: '`!sales`' },
-            { name: ':laughing: Get a joke', value: '`!joke`' },
-            { name: ':robot: See list of commands', value: '`!commands`' },
+            { name: 'Get link to Walla Den :link:', value: '`!den`' },
+            { name: 'Get link to KIA\'s Roadmap :map:', value: '`!roadmap`' },
+            { name: '\u200B', value: '\u200B' },
+            { name: 'Show last sale :shopping_cart:', value: '`!sale`' },
+            { name: 'Show last 3 sales :shopping_cart:', value: '`!sales`' },
+            { name: 'Get a joke :laughing:', value: '`!joke`' },
+            { name: 'See list of commands :robot:', value: '`!commands`' },
         );
 
     message.channel.send(msg);
