@@ -44,13 +44,15 @@ function showCommands(message) {
             { name: 'KIA\'s Roadmap :map:', value: '`!roadmap`' },
             { name: 'Rarity :star2:', value: '`!rarity`' },
             { name: 'KNet :globe_with_meridians:', value: '`!knet`' },
+            { name: '\u200B', value: '\u200B' },
             { name: 'Show last sale :shopping_cart:', value: '`!sale`' },
             { name: 'Show last 3 sales :shopping_cart:', value: '`!sales`' },
             { name: 'Get a Quote :speech_left:', value: '`!quote`' },
             { name: 'Get a joke :laughing:', value: '`!joke`' },
             { name: 'Get current price of ETH :coin:', value: '`!eth`' },
-            { name: 'See list of commands :robot:', value: '`!commands`' },
-        );
+            // { name: 'See list of commands :robot:', value: '`!commands`' },
+        )
+        .setFooter('Use `!commands` to see list of available commands.');
 
     message.channel.send(msg);
 }
@@ -240,6 +242,10 @@ discordBot.on('message', msg => {
 
     if (msg.content === "!knet" ) {
         showKNet(msg);
+    }
+
+    if (msg.content === "!eth" ) {
+        showETH(msg);
     }
 });
 
