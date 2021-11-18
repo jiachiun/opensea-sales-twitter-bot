@@ -59,7 +59,7 @@ function showKNet(message) {
         .setTitle('KNet - Koala Network Application')
         .setURL('https://knet.koalaintelligence.agency/')
         .setDescription(`Participate in Geocache missions and win rewards!\n\n[:link: Visit KNet](https://knet.koalaintelligence.agency/)`)
-        .setImage('https://lh3.googleusercontent.com/0xJn2cxCsaQro2dinw-6iZo8ZOcbB8hw7XNBB3vcYWGEa2gfhYcc2-zfLwb4srozEWuO3RRjOqVxA3C3JHc9jgSlgzpWwFQ4d8EPig=s2500');
+        .setImage('https://geo1.koalaintelligence.agency/assets/images/image03.gif');
     message.channel.send(msg);
 }
 
@@ -141,7 +141,8 @@ function showRecentSales(message, limit = 1) {
     })
     .catch((error) => {
         console.error(error);
-        message.inlineReply("Some error occured. This could be due to the API server or our bot. Please try again later.");
+
+        message.inlineReply("Some error occured. The API server could not be connected at the moment. Please try again later.");
     });
 
 
