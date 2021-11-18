@@ -218,7 +218,7 @@ function showRecentSales(message, limit = 1) {
     })
     .catch((error) => {
         console.error(error);
-        message.inlineReply("Oops. Unable to connect to the API. Please try again later.\nNote: OpenSea is currently experiencing Elevated API errors and is making changes to its API. This affects projects all across. Please be patient.");
+        message.inlineReply("Oops. Unable to connect to the API. Please try again later.\n:warning: OpenSea is currently experiencing Elevated API errors and is making changes to its API. All projects are experiencing disruption now. Please be patient.");
     });
 }
 
@@ -230,7 +230,7 @@ function showFloor(message) {
     })
     .catch((error) => {
         console.error(error);
-        message.inlineReply("Oops. Unable to connect to the API. Please try again later.\nNote: OpenSea is currently experiencing Elevated API errors and is making changes to its API. This affects projects all across. Please be patient.");
+        message.inlineReply("Oops. Unable to connect to the API. Please try again later.\n:warning: OpenSea is currently experiencing Elevated API errors and is making changes to its API. All projects are experiencing disruption now. Please be patient.");
     });
 }
 
@@ -277,7 +277,7 @@ function showStats(message) {
     })
     .catch((error) => {
         console.error(error);
-        message.inlineReply("Oops. Unable to connect to the API. Please try again later.\nNote: OpenSea is currently experiencing Elevated API errors and is making changes to its API. This affects projects all across. Please be patient.");
+        message.inlineReply("Oops. Unable to connect to the API. Please try again later.\n:warning: OpenSea is currently experiencing Elevated API errors and is making changes to its API. All projects are experiencing disruption now. Please be patient.");
     });
 }
 
