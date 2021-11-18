@@ -246,10 +246,10 @@ function showStats(message) {
             .setURL('https://opensea.io/collection/koala-intelligence-agency?tab=activity')
             .setThumbnail('https://den.koalaintelligence.agency/assets/logo.png')
             .addFields(
-                { name: '\u200B', value: '────────────────────────' },
+                { name: '\u200B', value: '────────────────────────────' },
                 { name: 'Unique Owners', value: `${stats.num_owners}`, inline: true },
                 { name: 'Floor Price', value: `${stats.floor_price}${ethers.constants.EtherSymbol}`, inline: true },
-                { name: '\u200B', value: '────────────────────────' },
+                { name: '\u200B', value: '────────────────────────────' },
                 { name: 'Sales (24H)', value: `${stats.one_day_sales}`, inline: true },
                 { name: 'Volume (24H)', value: `${stats.one_day_volume.toFixed(2)}${ethers.constants.EtherSymbol} `, inline: true },
                 { name: 'Change (24H)', value: `${stats.one_day_change.toFixed(4)}${ethers.constants.EtherSymbol} `, inline: true },
@@ -261,7 +261,7 @@ function showStats(message) {
                 { name: 'Sales (30D)', value: `${stats.thirty_day_sales}`, inline: true },
                 { name: 'Volume (30D)', value: `${stats.thirty_day_volume.toFixed(2)}${ethers.constants.EtherSymbol} `, inline: true },
                 { name: 'Change (30D)', value: `${stats.thirty_day_change.toFixed(4)}${ethers.constants.EtherSymbol} `, inline: true },
-                { name: '\u200B', value: '────────────────────────' },
+                { name: '\u200B', value: '────────────────────────────' },
                 { name: 'Avg Price (24H)', value: `${stats.one_day_average_price.toFixed(3)}${ethers.constants.EtherSymbol} `, inline: true},
                 { name: 'Avg Price (7D)', value: `${stats.seven_day_average_price.toFixed(3)}${ethers.constants.EtherSymbol} `, inline: true },
                 { name: 'Avg Price (30D)', value: `${stats.thirty_day_average_price.toFixed(3)}${ethers.constants.EtherSymbol} `, inline: true},
@@ -269,7 +269,7 @@ function showStats(message) {
                 { name: 'Total Sales', value: `${stats.total_sales}`, inline: true },
                 { name: 'Total Volume', value: `${stats.total_volume.toFixed(2)}${ethers.constants.EtherSymbol} `, inline: true },
                 { name: 'Market Cap', value: `${stats.market_cap.toFixed(2)}${ethers.constants.EtherSymbol} `, inline: true },
-                { name: '\u200B', value: 'For charts, visit Dune Analytics.\n[Dashboard by YatMaxi](https://dune.xyz/yatmaxi/Koala-Intelligence-Agency)\n[Dashboard by JayC](https://dune.xyz/jayc/Koala-Intelligence-Agency-Dashboard)' },
+                { name: '\u200B', value: 'For charts, visit Dune Analytics.\n[:link: Dashboard by YatMaxi](https://dune.xyz/yatmaxi/Koala-Intelligence-Agency)\n[:link: Dashboard by JayC](https://dune.xyz/jayc/Koala-Intelligence-Agency-Dashboard)' },
             )
 
         message.channel.send(msg);
