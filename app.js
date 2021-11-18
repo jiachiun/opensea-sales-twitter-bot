@@ -116,31 +116,37 @@ function showJoke(message) {
 
 function showRecentSales(message, limit = 1) {
 
-    axios.get('https://api.opensea.io/api/v1/events', {
-        params: {
-            collection_slug: "koala-intelligence-agency",
-            event_type: 'successful',
-            limit: limit,
-            only_opensea: 'false'
-        }
-    })
-    .then((response) => {
-        const events = _.get(response, ['data', 'asset_events']);
-
-        const sortedEvents = _.sortBy(events, function(event) {
-            const created = _.get(event, 'created_date');
-            return new Date(created);
+    try {
+        axios.get('https://api.opensea.io/api/v1/events', {
+            params: {
+                collection_slug: "koala-intelligence-agency",
+                event_type: 'successful',
+                limit: limit,
+                only_opensea: 'false'
+            }
         })
+        .then((response) => {
+            const events = _.get(response, ['data', 'asset_events']);
 
-        _.each(sortedEvents, (event) => {
-            const msg = buildMessageSale(event);
-            message.reply(msg);
-            return;
+            const sortedEvents = _.sortBy(events, function(event) {
+                const created = _.get(event, 'created_date');
+                return new Date(created);
+            })
+
+            _.each(sortedEvents, (event) => {
+                const msg = buildMessageSale(event);
+                message.channel.send(msg);
+                return;
+            });
+        })
+        .catch((error) => {
+            console.error(error);
         });
-    })
-    .catch((error) => {
-        console.error(error);
-    });
+    }
+    catch(err) {
+        console.error(err);
+        message.inlineReply("Some error occured. Please try again later.");
+    }
 
 }
 
