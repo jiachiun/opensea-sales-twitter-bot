@@ -70,6 +70,10 @@ discordBot.on('message', msg => {
     if (msg.content === "!roadmap" ) {
         showRoadmap(msg);
     }
+
+    if (msg.content === "!rarity" ) {
+        showRarity(msg);
+    }
 });
 
 
@@ -83,12 +87,24 @@ function showCommands(message) {
         .addFields(
             { name: 'Walla Den :link:', value: '`!den`' },
             { name: 'KIA\'s Roadmap :map:', value: '`!roadmap`' },
+            { name: 'Rarity :star2:', value: '`!rarity`' },
+            { name: '----', value: '' },
             { name: 'Show last sale :shopping_cart:', value: '`!sale`' },
             { name: 'Show last 3 sales :shopping_cart:', value: '`!sales`' },
             { name: 'Get a joke :laughing:', value: '`!joke`' },
             { name: 'See list of commands :robot:', value: '`!commands`' },
         );
 
+    message.channel.send(msg);
+}
+
+function showRarity(message) {
+    const msg = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle('Rarity - Koala Intelligence Agency')
+        .setURL('https://rarity.tools/koala-intelligence-agency')
+        .setDescription(`Check out the official ranking by Rarity.\n\n[:link: Visit Rarity](https://rarity.tools/koala-intelligence-agency)`)
+        .setImage('https://lh3.googleusercontent.com/0xJn2cxCsaQro2dinw-6iZo8ZOcbB8hw7XNBB3vcYWGEa2gfhYcc2-zfLwb4srozEWuO3RRjOqVxA3C3JHc9jgSlgzpWwFQ4d8EPig=s2500');
     message.channel.send(msg);
 }
 
