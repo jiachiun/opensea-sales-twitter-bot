@@ -127,16 +127,16 @@ function showJoke(message) {
         if(type === "single")
         {
             const joke = _.get(response, ['data', 'joke']);
-            message.channel.send(joke);
+            message.channel.send(`**${joke}**`);
         }
         else if(type === "twopart")
         {
             const setup = _.get(response, ['data', 'setup']);
             const delivery = _.get(response, ['data', 'delivery']);
             
-            message.channel.send(setup).then( sent => {
+            message.channel.send(`**${setup}**`).then( sent => {
                 setTimeout(() => {
-                    sent.inlineReply(delivery);
+                    sent.inlineReply(`**${delivery}**`);
                 }, 11000);
             });
         }
