@@ -71,7 +71,7 @@ function showLinks(message) {
             { name: 'Verified Contract', value: '<https://etherscan.io/address/0x3f5fb35468e9834a43dca1c160c69eaae78b6360>\n' },
             { name: 'Rarity Tools:', value: '<https://rarity.tools/koala-intelligence-agency>\n' },
             { name: 'HackMD  (Roadmap V2)', value: '<https://hackmd.io/@sJX7GMieToGIMmb_nnCnFQ/kia-v2>\n' },
-            { name: '\u200B', value: 'Links can be found in #🔗︱official-links s' },
+            { name: '\u200B', value: 'Links can be found in #official-links channel' },
         )
 
     message.channel.send(msg);
@@ -118,20 +118,31 @@ function showDen(message) {
 }
 
 function showJoke(message) {
-    axios.get('https://v2.jokeapi.dev/joke/Any', {
-        params: {
-            type: "twopart"
-        }
-    })
+    axios.get('https://v2.jokeapi.dev/joke/Any')
     .then((response) => {
-        const setup = _.get(response, ['data', 'setup']);
-        const delivery = _.get(response, ['data', 'delivery']);
+        const type = _.get(response, ['data', 'type']);
         
-        message.channel.send(setup).then( sent => {
-            setTimeout(() => {
-                sent.inlineReply(delivery);
-            }, 11000);
-        });
+        if(type === "single")
+        {
+            const joke = _.get(response, ['data', 'joke']);
+            message.channel.send(joke);
+        }
+        else if(type === "twopart")
+        {
+            const setup = _.get(response, ['data', 'setup']);
+            const delivery = _.get(response, ['data', 'delivery']);
+            
+            message.channel.send(setup).then( sent => {
+                setTimeout(() => {
+                    sent.inlineReply(delivery);
+                }, 11000);
+            });
+        }
+        else
+        {
+            message.channel.send("Get a new joke!");
+        }
+        
     })
     .catch((error) => {
         console.error(error);
