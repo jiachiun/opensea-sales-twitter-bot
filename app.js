@@ -91,6 +91,16 @@ function showCommands(message) {
     message.channel.send(msg);
 }
 
+function showRoadmap(message) {
+    const msg = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle('Roadmap')
+        .setURL('https://hackmd.io/@sJX7GMieToGIMmb_nnCnFQ/kia-v2')
+        .setDescription(`Learn more about KIA's Roadmap V2.\n\n[:link: Visit Roadmap V2](https://hackmd.io/@sJX7GMieToGIMmb_nnCnFQ/kia-v2)`)
+        .setImage('https://pbs.twimg.com/media/FAYj6T0VcAEEcns?format=jpg&name=4096x4096');
+    message.channel.send(msg);
+}
+
 function showDen(message) {
     const msg = new Discord.MessageEmbed()
         .setColor('#0099ff')
