@@ -240,32 +240,34 @@ function showStats(message) {
 
         const msg = new Discord.MessageEmbed()
             .setColor('#0099ff')
-            .setTitle('KIA Official Links')
+            .setTitle('KIA OpenSea Stats')
+            .setURL('https://opensea.io/collection/koala-intelligence-agency')
             .setThumbnail('https://den.koalaintelligence.agency/assets/logo.png')
             .addFields(
-                { name: 'Unique Owners', value: stats.num_owners },
-                { name: 'Floor Price', value: `${stats.floor_price}ETH`, inline: true },
+                { name: 'Unique Owners', value: stats.num_owners, inline: true },
+                { name: 'Floor Price', value: `${stats.floor_price}ETH` },
 
-                { name: 'Sales (24H)', value: `${stats.one_day_sales}` },
+                { name: 'Sales (24H)', value: `${stats.one_day_sales}`, inline: true },
                 { name: 'Volume (24H)', value: `${stats.one_day_volume.toFixed(2)}ETH`, inline: true },
                 { name: 'Change (24H)', value: `${stats.one_day_change.toFixed(4)}ETH`, inline: true },
-                { name: 'Avg Price (24H)', value: `${stats.one_day_average_price.toFixed(3)}ETH`, inline: true },
+                { name: 'Avg Price (24H)', value: `${stats.one_day_average_price.toFixed(3)}ETH`},
                 
-                { name: 'Sales (7D)', value: `${stats.seven_day_sales}` },
+                { name: 'Sales (7D)', value: `${stats.seven_day_sales}`, inline: true },
                 { name: 'Volume (7D)', value: `${stats.seven_day_volume.toFixed(2)}ETH`, inline: true },
                 { name: 'Change (7D)', value: `${stats.seven_day_change.toFixed(4)}ETH`, inline: true },
-                { name: 'Avg Price (7D)', value: `${stats.seven_day_average_price.toFixed(3)}ETH`, inline: true },
+                { name: 'Avg Price (7D)', value: `${stats.seven_day_average_price.toFixed(3)}ETH` },
 
-                { name: 'Sales (30D)', value: `${stats.thirty_day_sales}` },
+                { name: 'Sales (30D)', value: `${stats.thirty_day_sales}`, inline: true },
                 { name: 'Volume (30D)', value: `${stats.thirty_day_volume.toFixed(2)}ETH`, inline: true },
                 { name: 'Change (30D)', value: `${stats.thirty_day_change.toFixed(4)}ETH`, inline: true },
-                { name: 'Avg Price (30D)', value: `${stats.thirty_day_average_price.toFixed(3)}ETH`, inline: true },
+                { name: 'Avg Price (30D)', value: `${stats.thirty_day_average_price.toFixed(3)}ETH`},
 
-                { name: 'Total Sales', value: `${stats.total_sales}` },
+                { name: 'Total Sales', value: `${stats.total_sales}`, inline: true },
                 { name: 'Total Volume', value: `${stats.total_volume.toFixed(2)}ETH`, inline: true },
-                { name: 'Market Cap', value: `${stats.market_cap.toFixed(2)}ETH`, inline: true },
+                { name: 'Market Cap', value: `${stats.market_cap.toFixed(2)}ETH` },
                 { name: '\u200B', value: 'Links can be found in #official-links channel' },
             )
+            
 
         message.channel.send(msg);
         
