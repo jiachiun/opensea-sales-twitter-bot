@@ -40,17 +40,17 @@ function showCommands(message) {
         .setTitle('KIA Bot Commands')
         .setThumbnail('https://den.koalaintelligence.agency/assets/logo.png')
         .addFields(
-            { name: '\u200B', value: 'INFO' },
-            { name: 'Walla Den :link:', value: '`!den`' },
+            { name: '\u200B', value: '───── INFO ─────' },
+            { name: 'Walla Den', value: ':link: `!den`' },
             { name: 'KIA\'s Roadmap :map:', value: '`!roadmap`' },
             { name: 'Rarity Tools :star2:', value: '`!rarity`' },
             { name: 'KNet :globe_with_meridians:', value: '`!knet`' },
             { name: 'Links :link:', value: '`!links`' },
-            { name: '\u200B', value: 'SALES' },
+            { name: '\u200B', value: '───── SALES ─────' },
             { name: 'Show the Latest Sale :shopping_cart:', value: '`!sale`' },
             { name: 'Show Last 3 Sales :shopping_cart:', value: '`!sales`' },
             { name: 'Get the current Price for ETH :coin:', value: '`!eth`' },
-            { name: '\u200B', value: 'FUN' },
+            { name: '\u200B', value: '───── FUN ─────' },
             { name: 'Get a Quote :speech_left:', value: '`!quote`' },
             { name: 'Get a Joke :laughing:', value: '`!joke`' },
             { name: '\u200B', value: '\u200B' },
