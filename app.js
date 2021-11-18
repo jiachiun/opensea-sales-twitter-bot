@@ -92,7 +92,7 @@ function showRarity(message) {
         .setColor('#0099ff')
         .setTitle('Rarity - Koala Intelligence Agency')
         .setURL('https://rarity.tools/koala-intelligence-agency')
-        .setDescription(`Check out the official ranking by Rarity.\n\n[:link: Visit Rarity](https://rarity.tools/koala-intelligence-agency)`)
+        .setDescription(`Check out the official ranking by Rarity.\n\n[:link: Visit Rarity Tools](https://rarity.tools/koala-intelligence-agency)`)
         .setImage('https://koalaintelligence.agency/assets/images/image02.gif?v=8ab28727');
     message.channel.send(msg);
 }
