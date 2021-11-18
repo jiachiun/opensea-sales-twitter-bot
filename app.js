@@ -246,9 +246,10 @@ function showStats(message) {
             .setURL('https://opensea.io/collection/koala-intelligence-agency?tab=activity')
             .setThumbnail('https://den.koalaintelligence.agency/assets/logo.png')
             .addFields(
-                { name: 'Unique Owners', value: stats.num_owners, inline: true },
-                { name: 'Floor Price', value: `${stats.floor_price}${ethers.constants.EtherSymbol} `, inline: true },
-
+                { name: '\u200B', value: '────────────────────────' },
+                { name: 'Unique Owners', value: `${stats.num_owners}`, inline: true },
+                { name: 'Floor Price', value: `${stats.floor_price}${ethers.constants.EtherSymbol}`, inline: true },
+                { name: '\u200B', value: '────────────────────────' },
                 { name: 'Sales (24H)', value: `${stats.one_day_sales}`, inline: true },
                 { name: 'Volume (24H)', value: `${stats.one_day_volume.toFixed(2)}${ethers.constants.EtherSymbol} `, inline: true },
                 { name: 'Change (24H)', value: `${stats.one_day_change.toFixed(4)}${ethers.constants.EtherSymbol} `, inline: true },
@@ -260,7 +261,7 @@ function showStats(message) {
                 { name: 'Sales (30D)', value: `${stats.thirty_day_sales}`, inline: true },
                 { name: 'Volume (30D)', value: `${stats.thirty_day_volume.toFixed(2)}${ethers.constants.EtherSymbol} `, inline: true },
                 { name: 'Change (30D)', value: `${stats.thirty_day_change.toFixed(4)}${ethers.constants.EtherSymbol} `, inline: true },
-                
+                { name: '\u200B', value: '────────────────────────' },
                 { name: 'Avg Price (24H)', value: `${stats.one_day_average_price.toFixed(3)}${ethers.constants.EtherSymbol} `, inline: true},
                 { name: 'Avg Price (7D)', value: `${stats.seven_day_average_price.toFixed(3)}${ethers.constants.EtherSymbol} `, inline: true },
                 { name: 'Avg Price (30D)', value: `${stats.thirty_day_average_price.toFixed(3)}${ethers.constants.EtherSymbol} `, inline: true},
