@@ -88,7 +88,6 @@ function showCommands(message) {
             { name: 'Walla Den :link:', value: '`!den`' },
             { name: 'KIA\'s Roadmap :map:', value: '`!roadmap`' },
             { name: 'Rarity :star2:', value: '`!rarity`' },
-            { name: '----', value: '' },
             { name: 'Show last sale :shopping_cart:', value: '`!sale`' },
             { name: 'Show last 3 sales :shopping_cart:', value: '`!sales`' },
             { name: 'Get a joke :laughing:', value: '`!joke`' },
