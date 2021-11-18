@@ -135,6 +135,25 @@ function showQuote(message) {
     });
 }
 
+function showFact(message) {
+    
+    axios.get('https://api.fungenerators.com')
+    .then((response) => {
+        const quote = response.data[0].q;
+        const author = response.data[0].a;
+        
+        const msg = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle(`> ${quote}`)
+            .setFooter(`by ${author}`)
+        message.channel.send(msg);
+    })
+    .catch((error) => {
+        console.error(error);
+        message.inlineReply("Oops. Unable to connect to the API. Please try again later.");
+    });
+}
+
 function showRecentSales(message, limit = 1) {
 
 
