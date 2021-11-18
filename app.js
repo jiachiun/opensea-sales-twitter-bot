@@ -46,6 +46,11 @@ discordBot.on('ready', () => {
 });
 
 discordBot.on('message', msg => {
+
+    if (msg.content === "!commands" ) {
+        showCommands(msg);
+    }
+
     if (msg.content === "!sale" ) {
         showRecentSales(msg, 1);
     }
@@ -65,13 +70,25 @@ discordBot.on('message', msg => {
     if (msg.content === "!roadmap" ) {
         showRoadmap(msg);
     }
-
 });
 
 
 // Login to Discord Bot
 discordBot.login(process.env.DISCORD_BOT_TOKEN);
 
+function showCommands(message) {
+    const msg = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle('KIA Bot Commands')
+        .addFields(
+            { name: 'Show last sale', value: '`!sale`' },
+            { name: 'Show last 3 sales', value: '`!sales`' },
+            { name: 'Get link to Walla Den', value: '`!den`' },
+            { name: 'Get a joke', value: '`!joke`' },
+            { name: 'See list of commands', value: '`!commands`' },
+        );
+    message.channel.send(msg);
+}
 
 function showDen(message) {
     const msg = new Discord.MessageEmbed()
@@ -93,7 +110,7 @@ function showJoke(message) {
         const setup = _.get(response, ['data', 'setup']);
         const delivery = _.get(response, ['data', 'delivery']);
         
-        message.inlineReply(setup).then( sent => {
+        message.channel.send(setup).then( sent => {
             setTimeout(() => {
                 sent.inlineReply(delivery);
             }, 15000);
