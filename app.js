@@ -69,7 +69,7 @@ function showRarity(message) {
         .setTitle('Rarity - Koala Intelligence Agency')
         .setURL('https://rarity.tools/koala-intelligence-agency')
         .setDescription(`Check out the official ranking by Rarity.\n\n[:link: Visit Rarity](https://rarity.tools/koala-intelligence-agency)`)
-        .setImage('https://lh3.googleusercontent.com/0xJn2cxCsaQro2dinw-6iZo8ZOcbB8hw7XNBB3vcYWGEa2gfhYcc2-zfLwb4srozEWuO3RRjOqVxA3C3JHc9jgSlgzpWwFQ4d8EPig=s2500');
+        .setImage('https://koalaintelligence.agency/assets/images/image02.gif?v=8ab28727');
     message.channel.send(msg);
 }
 
