@@ -82,15 +82,16 @@ function showCommands(message) {
         .setTitle('KIA Bot Commands')
         .addFields(
             { name: '\u200B', value: '\u200B' },
-            { name: 'Get link to Walla Den', value: '`!den`' },
+            { name: '🔗 Get link to Walla Den', value: '`!den`' },
             { name: '\u200B', value: '\u200B' },
-            { name: 'Show last sale', value: '`!sale`', inline: true },
-            { name: 'Show last 3 sales', value: '`!sales`', inline: true },
+            { name: '🛒 Show last sale', value: '`!sale`', inline: true },
+            { name: '🛒 Show last 3 sales', value: '`!sales`', inline: true },
             { name: '\u200B', value: '\u200B' },
-            { name: 'Get a joke', value: '`!joke`' },
+            { name: '😆 Get a joke', value: '`!joke`' },
             { name: '\u200B', value: '\u200B' },
-            { name: 'See list of commands', value: '`!commands`' },
+            { name: '🤖 See list of commands', value: '`!commands`' }
         );
+
     message.channel.send(msg);
 }
 
