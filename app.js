@@ -40,23 +40,21 @@ function showCommands(message) {
         .setTitle('KIA Bot Commands')
         .setThumbnail('https://den.koalaintelligence.agency/assets/logo.png')
         .addFields(
-            { name: '\u200B', value: '───── INFO ─────' },
+            { name: '\u200B', value: '──────── INFO ────────' },
             { name: 'Walla Den', value: ':link: `!den`' },
             { name: 'KIA\'s Roadmap', value: ':map: `!roadmap`' },
             { name: 'Rarity Tools', value: ':star2: `!rarity`' },
             { name: 'KNet', value: ':globe_with_meridians: `!knet`' },
             { name: 'Links', value: ':link: `!links`' },
-            { name: '\u200B', value: '───── SALES ─────' },
+            { name: '\u200B', value: '──────── SALES ────────' },
             { name: 'Show the Latest Sale', value: ':shopping_cart: `!sale`' },
             { name: 'Show Last 3 Sales', value: ':shopping_cart: `!sales`' },
             { name: 'Get the current Price for ETH', value: ':coin: `!eth`' },
-            { name: '\u200B', value: '───── FUN ─────' },
+            { name: '\u200B', value: '──────── FUN ────────' },
             { name: 'Get a Quote', value: ':speech_left: `!quote`' },
             { name: 'Get a Joke', value: ':laughing: `!joke`' },
-            { name: '\u200B', value: '\u200B' },
             { name: '\u200B', value: 'Use `!commands` to see list of available commands.' },
         )
-        // .setFooter('Use \'!commands\' to see list of available commands.');
 
     message.channel.send(msg);
 }
