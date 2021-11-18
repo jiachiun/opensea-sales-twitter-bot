@@ -46,12 +46,12 @@ function showCommands(message) {
             { name: 'Rarity :star2:', value: '`!rarity`' },
             { name: 'KNet :globe_with_meridians:', value: '`!knet`' },
             { name: '\u200B', value: '\u200B' },
-            { name: 'Show last sale :shopping_cart:', value: '`!sale`' },
-            { name: 'Show last 3 sales :shopping_cart:', value: '`!sales`' },
-            { name: 'Get current price of ETH :coin:', value: '`!eth`' },
+            { name: 'Show the Latest Sale :shopping_cart:', value: '`!sale`' },
+            { name: 'Show Last 3 Sales :shopping_cart:', value: '`!sales`' },
+            { name: 'Get current Market Price of ETH :coin:', value: '`!eth`' },
             { name: '\u200B', value: '\u200B' },
             { name: 'Get a Quote :speech_left:', value: '`!quote`' },
-            { name: 'Get a joke :laughing:', value: '`!joke`' },
+            { name: 'Get a Joke :laughing:', value: '`!joke`' },
             { name: '\u200B', value: '\u200B' },
             // { name: 'See list of commands :robot:', value: '`!commands`' },
         )
@@ -113,7 +113,7 @@ function showJoke(message) {
         message.channel.send(setup).then( sent => {
             setTimeout(() => {
                 sent.inlineReply(delivery);
-            }, 12000);
+            }, 11000);
         });
     })
     .catch((error) => {
@@ -145,13 +145,13 @@ function showETH(message) {
     
     axios.get('https://api.coinbase.com/v2/prices/ETH-USD/spot')
     .then((response) => {
-        const conversion = `1 ${response.data.base} = ${response.data.currency} ${response.data.amount}`;
+        const conversion = `1 ${response.data.data.base} = ${response.data.data.currency} ${response.data.data.amount}`;
         
         const msg = new Discord.MessageEmbed()
             .setColor('#0099ff')
-            .setTitle(`"${conversion}"`)
+            .setTitle('Current Market Price for ETH')
             .addFields(
-                { name: 'Get the current market price for bitcoin', value: 'Note that exchange rates fluctuates so the price is only correct for seconds at the time.' },
+                { name: `${conversion}`, value: '\u200B' },
             )
             .setFooter(`Data provided by Coinbase`)
         message.channel.send(msg);
