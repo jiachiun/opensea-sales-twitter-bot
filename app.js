@@ -218,10 +218,34 @@ function showRecentSales(message, limit = 1) {
         console.error(error);
         message.inlineReply("Oops. Unable to connect to the API. Please try again later.");
     });
-
-
 }
 
+function showFloor(message) {
+    axios.get('https://api.opensea.io/api/v1/https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats')
+    .then((response) => {
+        const stats = _.get(response, ['data', 'stats']);
+
+        message.channel.send(msg);
+    })
+    .catch((error) => {
+        console.error(error);
+        message.channel.send(`Floor Price: ${stats.floor_price}`);
+    });
+}
+
+
+function showStats(message) {
+    axios.get('https://api.opensea.io/api/v1/https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats')
+    .then((response) => {
+        const stats = _.get(response, ['data', 'stats']);
+
+        message.channel.send(msg);
+    })
+    .catch((error) => {
+        console.error(error);
+        message.channel.send(`Floor Price: ${stats.floor_price}`);
+    });
+}
 
 
 const discordBot = new Discord.Client();
@@ -249,6 +273,14 @@ discordBot.on('message', msg => {
 
     if (msg.content === "!sales" ) {
         showRecentSales(msg, 3);
+    }
+
+    if (msg.content === "!floor" ) {
+        showFloor(msg);
+    }
+
+    if (msg.content === "!stats" ) {
+        showStats(msg);
     }
 
     if (msg.content === "!joke" ) {
@@ -283,7 +315,7 @@ discordBot.on('message', msg => {
         showETH(msg);
     }
 });
-
+https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats
 
 // Login to Discord Bot
 discordBot.login(process.env.DISCORD_BOT_TOKEN);
