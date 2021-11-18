@@ -120,8 +120,8 @@ function showQuote(message) {
     
     axios.get('https://zenquotes.io/api/random')
     .then((response) => {
-        const quote = _.get(response, 'q');
-        const author = _.get(response, 'a');
+        const quote = _.get(response[0], ['data', 'q']);
+        const author = _.get(response[0], ['data', 'a']);
         
         const msg = new Discord.MessageEmbed()
             .setColor('#0099ff')
