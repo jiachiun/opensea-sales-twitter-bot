@@ -41,7 +41,6 @@ function showCommands(message) {
     message.channel.send(msg);
 }
 
-
 function showKNet(message) {
     const msg = new Discord.MessageEmbed()
         .setColor('#0099ff')
@@ -132,3 +131,14 @@ function showRecentSales(message, limit = 1) {
     });
 
 }
+
+module.exports = {
+    buildMessageSale: buildMessageSale,
+    showCommands: showCommands,
+    showKNet: showKNet,
+    showRarity: showRarity,
+    showRoadmap: showRoadmap,
+    showDen: showDen,
+    showJoke: showJoke,
+    showRecentSales: showRecentSales,
+};
