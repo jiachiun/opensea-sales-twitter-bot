@@ -224,7 +224,7 @@ function showFloor(message) {
     axios.get('https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats?format=json')
     .then((response) => {
         const stats = _.get(response, ['data', 'stats']);
-        message.channel.send(`Floor Price: ${stats.floor_price}`);
+        message.channel.send(`Floor Price: ${stats.floor_price}ETH`);
     })
     .catch((error) => {
         console.error(error);
@@ -238,7 +238,37 @@ function showStats(message) {
     .then((response) => {
         const stats = _.get(response, ['data', 'stats']);
 
-        message.channel.send(`Floor Price: ${stats.floor_price}`);
+        const msg = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle('KIA Official Links')
+            .setThumbnail('https://den.koalaintelligence.agency/assets/logo.png')
+            .addFields(
+                { name: 'Unique Owners', value: stats.num_owners },
+                { name: 'Floor Price', value: `${stats.floor_price}ETH`, inline: true },
+
+                { name: 'Sales (24H)', value: `${stats.one_day_sales}` },
+                { name: 'Volume (24H)', value: `${stats.one_day_volume.toFixed(2)}ETH`, inline: true },
+                { name: 'Change (24H)', value: `${stats.one_day_change.toFixed(4)}ETH`, inline: true },
+                { name: 'Avg Price (24H)', value: `${stats.one_day_average_price.toFixed(3)}ETH`, inline: true },
+                
+                { name: 'Sales (7D)', value: `${stats.seven_day_sales}` },
+                { name: 'Volume (7D)', value: `${stats.seven_day_volume.toFixed(2)}ETH`, inline: true },
+                { name: 'Change (7D)', value: `${stats.seven_day_change.toFixed(4)}ETH`, inline: true },
+                { name: 'Avg Price (7D)', value: `${stats.seven_day_average_price.toFixed(3)}ETH`, inline: true },
+
+                { name: 'Sales (30D)', value: `${stats.thirty_day_sales}` },
+                { name: 'Volume (30D)', value: `${stats.thirty_day_volume.toFixed(2)}ETH`, inline: true },
+                { name: 'Change (30D)', value: `${stats.thirty_day_change.toFixed(4)}ETH`, inline: true },
+                { name: 'Avg Price (30D)', value: `${stats.thirty_day_average_price.toFixed(3)}ETH`, inline: true },
+
+                { name: 'Total Sales', value: `${stats.total_sales}` },
+                { name: 'Total Volume', value: `${stats.total_volume.toFixed(2)}ETH`, inline: true },
+                { name: 'Market Cap', value: `${stats.market_cap.toFixed(2)}ETH`, inline: true },
+                { name: '\u200B', value: 'Links can be found in #official-links channel' },
+            )
+
+        message.channel.send(msg);
+        
     })
     .catch((error) => {
         console.error(error);
