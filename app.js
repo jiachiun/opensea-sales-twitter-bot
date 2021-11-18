@@ -66,12 +66,12 @@ function showLinks(message) {
         .setThumbnail('https://den.koalaintelligence.agency/assets/logo.png')
         .addFields(
             { name: 'Websites', value: '<https://koalaintelligence.agency/>\n<https://den.koalaintelligence.agency/>\n' },
-            { name: 'Opensea Accounts', value: '<https://opensea.io/collection/koala-intelligence-agency>\n<https://opensea.io/collection/kia-ordinance>\n<https://opensea.io/collection/kia-case-files-v2\n' },
+            { name: 'Opensea Accounts', value: '<https://opensea.io/collection/koala-intelligence-agency>\n<https://opensea.io/collection/kia-ordinance>\n<https://opensea.io/collection/kia-case-files-v2>\n' },
             { name: 'Social Media', value: '<https://twitter.com/KoalaAgencyNFT>\n<https://tiktok.com/@koalaagencynft>\n<https://instagram.com/koala.agency.nft>\n' },
             { name: 'Verified Contract', value: '<https://etherscan.io/address/0x3f5fb35468e9834a43dca1c160c69eaae78b6360>\n' },
             { name: 'Rarity Tools:', value: '<https://rarity.tools/koala-intelligence-agency>\n' },
             { name: 'HackMD  (Roadmap V2)', value: '<https://hackmd.io/@sJX7GMieToGIMmb_nnCnFQ/kia-v2>\n' },
-            { name: '\u200B', value: 'Links can be found in #official-kia-links' },
+            { name: '\u200B', value: 'Links can be found in #🔗︱official-links s' },
         )
 
     message.channel.send(msg);
