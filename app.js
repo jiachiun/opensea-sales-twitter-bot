@@ -81,13 +81,10 @@ function showCommands(message) {
         .setColor('#0099ff')
         .setTitle('KIA Bot Commands')
         .addFields(
-            { name: '\u200B', value: '\u200B' },
             { name: ':link: Get link to Walla Den', value: '`!den`' },
-            { name: '\u200B', value: '\u200B' },
             { name: ':shopping_cart: Show last sale', value: '`!sale`' },
             { name: ':shopping_cart: Show last 3 sales', value: '`!sales`' },
             { name: ':laughing: Get a joke', value: '`!joke`' },
-            { name: '\u200B', value: '\u200B' },
             { name: ':robot: See list of commands', value: '`!commands`' },
         );
 
