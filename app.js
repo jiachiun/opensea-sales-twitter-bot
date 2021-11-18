@@ -125,7 +125,7 @@ function showQuote(message) {
         
         const msg = new Discord.MessageEmbed()
             .setColor('#0099ff')
-            .setTitle(`> ${quote}`)
+            .setTitle(`"${quote}""`)
             .setFooter(`by ${author}`)
         message.channel.send(msg);
     })
@@ -135,29 +135,6 @@ function showQuote(message) {
     });
 }
 
-function showFact(message) {
-    
-    axios.get('https://api.fungenerators.com', {
-        params: {
-            category: "Animal",
-            subcategory: 'Koala',
-        }
-    })
-    .then((response) => {
-        const fact = response.data.contents.fact;
-        
-        
-        const msg = new Discord.MessageEmbed()
-            .setColor('#0099ff')
-            .setTitle('Fun Fact about Koalas')
-            .setFooter(`${fact}`)
-        message.channel.send(msg);
-    })
-    .catch((error) => {
-        console.error(error);
-        message.inlineReply("That's all for today. Come back later for more fun facts about Koalas!");
-    });
-}
 
 function showRecentSales(message, limit = 1) {
 
@@ -227,10 +204,6 @@ discordBot.on('message', msg => {
 
     if (msg.content === "!quote" ) {
         showQuote(msg);
-    }
-
-    if (msg.content === "!fact" ) {
-        showFact(msg);
     }
 
     if (msg.content === "!walladen" || msg.content === "!den" ) {
