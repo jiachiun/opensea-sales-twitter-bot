@@ -390,82 +390,83 @@ function formatAndSendTweet(event, twitterClient, customMessage = "") {
 
 // Poll OpenSea every 60 seconds & retrieve all sales for a given collection in either the time since the last sale OR in the last minute
 // FOR KIA
-// setInterval(() => {
-//     const lastSaleTime = cache.get('lastSaleTime', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+setInterval(() => {
+    const lastSaleTime = cache.get('lastSaleTime', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
-//     console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime', null)}`);
+    console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime', null)}`);
 
-//     axios.get('https://api.opensea.io/api/v1/events', {
-//         params: {
-//             // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
-//             collection_slug: "koala-intelligence-agency",
-//             event_type: 'successful',
-//             occurred_after: lastSaleTime,
-//             only_opensea: 'false'
-//         }
-//     }).then((response) => {
-//         const events = _.get(response, ['data', 'asset_events']);
+    axios.get('https://api.opensea.io/api/v1/events', {
+        params: {
+            // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
+            collection_slug: "koala-intelligence-agency",
+            event_type: 'successful',
+            occurred_after: lastSaleTime,
+            only_opensea: 'false'
+        }
+    }).then((response) => {
+        const events = _.get(response, ['data', 'asset_events']);
 
-//         const sortedEvents = _.sortBy(events, function(event) {
-//             const created = _.get(event, 'created_date');
+        const sortedEvents = _.sortBy(events, function(event) {
+            const created = _.get(event, 'created_date');
 
-//             return new Date(created);
-//         })
+            return new Date(created);
+        })
 
-//         console.log(`[KIA] ${events.length} sales since the last one...`);
+        console.log(`[KIA] ${events.length} sales since the last one...`);
 
-//         _.each(sortedEvents, (event) => {
-//             const created = _.get(event, 'created_date');
+        _.each(sortedEvents, (event) => {
+            const created = _.get(event, 'created_date');
 
-//             cache.set('lastSaleTime', moment(created).unix());
+            cache.set('lastSaleTime', moment(created).unix());
 
-//             const message = buildMessageSale(event);
-//             sales_bot_channel.send(message);
-//             formatAndSendTweet(event, "KIA", "🐨 #HugLife #NFT");
-//             formatAndSendTweet(event, "KIA2", "🐨 #HugLife #NFT");
-//             return;
-//         });
-//     }).catch((error) => {
-//         console.error(error);
-//     });
-// }, 60000);
+            const message = buildMessageSale(event);
+            sales_bot_channel.send(message);
+            
+            formatAndSendTweet(event, "KIA", "🐨 #HugLife #NFT");
+            formatAndSendTweet(event, "KIA2", "🐨 #HugLife #NFT");
+            return;
+        });
+    }).catch((error) => {
+        console.error(error);
+    });
+}, 60000);
 
-// // FOR CYBERHORNETS
-// setInterval(() => {
-//     const lastSaleTime = cache.get('lastSaleTime', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+// FOR CYBERHORNETS
+setInterval(() => {
+    const lastSaleTime = cache.get('lastSaleTime', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
-//     console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime', null)}`);
+    console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime', null)}`);
 
-//     axios.get('https://api.opensea.io/api/v1/events', {
-//         params: {
-//             // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
-//             collection_slug: "cyber-hornets-colony-club",
-//             event_type: 'successful',
-//             occurred_after: lastSaleTime,
-//             only_opensea: 'false'
-//         }
-//     }).then((response) => {
-//         const events = _.get(response, ['data', 'asset_events']);
+    axios.get('https://api.opensea.io/api/v1/events', {
+        params: {
+            // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
+            collection_slug: "cyber-hornets-colony-club",
+            event_type: 'successful',
+            occurred_after: lastSaleTime,
+            only_opensea: 'false'
+        }
+    }).then((response) => {
+        const events = _.get(response, ['data', 'asset_events']);
 
-//         const sortedEvents = _.sortBy(events, function(event) {
-//             const created = _.get(event, 'created_date');
+        const sortedEvents = _.sortBy(events, function(event) {
+            const created = _.get(event, 'created_date');
 
-//             return new Date(created);
-//         })
+            return new Date(created);
+        })
 
-//         console.log(`[CyberHornets] ${events.length} sales since the last one...`);
+        console.log(`[CyberHornets] ${events.length} sales since the last one...`);
 
-//         _.each(sortedEvents, (event) => {
-//             const created = _.get(event, 'created_date');
+        _.each(sortedEvents, (event) => {
+            const created = _.get(event, 'created_date');
 
-//             cache.set('lastSaleTime', moment(created).unix());
+            cache.set('lastSaleTime', moment(created).unix());
 
-//             return formatAndSendTweet(event, "CYBERHORNETS" , "#CyberHornets #TheSwarm");
-//         });
-//     }).catch((error) => {
-//         console.error(error);
-//     });
-// }, 60000);
+            return formatAndSendTweet(event, "CYBERHORNETS" , "#CyberHornets #TheSwarm");
+        });
+    }).catch((error) => {
+        console.error(error);
+    });
+}, 60000);
 
 
 
