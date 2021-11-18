@@ -40,6 +40,7 @@ function showCommands(message) {
         .setTitle('KIA Bot Commands')
         .setThumbnail('https://den.koalaintelligence.agency/assets/logo.png')
         .addFields(
+            { name: '\u200B', value: '\u200B' },
             { name: 'Walla Den :link:', value: '`!den`' },
             { name: 'KIA\'s Roadmap :map:', value: '`!roadmap`' },
             { name: 'Rarity :star2:', value: '`!rarity`' },
@@ -47,12 +48,14 @@ function showCommands(message) {
             { name: '\u200B', value: '\u200B' },
             { name: 'Show last sale :shopping_cart:', value: '`!sale`' },
             { name: 'Show last 3 sales :shopping_cart:', value: '`!sales`' },
+            { name: 'Get current price of ETH :coin:', value: '`!eth`' },
+            { name: '\u200B', value: '\u200B' },
             { name: 'Get a Quote :speech_left:', value: '`!quote`' },
             { name: 'Get a joke :laughing:', value: '`!joke`' },
-            { name: 'Get current price of ETH :coin:', value: '`!eth`' },
+            { name: '\u200B', value: '\u200B' },
             // { name: 'See list of commands :robot:', value: '`!commands`' },
         )
-        .setFooter('Use `!commands` to see list of available commands.');
+        .setFooter('Use \'!commands\' to see list of available commands.');
 
     message.channel.send(msg);
 }
