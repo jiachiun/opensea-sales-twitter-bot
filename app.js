@@ -192,6 +192,9 @@ function showETH(message) {
 
 function showRecentSales(message, limit = 1) {
     axios.get('https://api.opensea.io/api/v1/events', {
+        headers: {
+            "X-API-KEY": process.env.OPENSEA_API_KEY,
+        },
         params: {
             collection_slug: "koala-intelligence-agency",
             event_type: 'successful',
@@ -220,7 +223,11 @@ function showRecentSales(message, limit = 1) {
 }
 
 function showFloor(message) {
-    axios.get('https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats?format=json')
+    axios.get('https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats?format=json', {
+        headers: {
+            "X-API-KEY": process.env.OPENSEA_API_KEY,
+        }
+    })
     .then((response) => {
         const stats = _.get(response, ['data', 'stats']);
         message.channel.send(`Floor Price: ${stats.floor_price}ETH`);
@@ -233,7 +240,11 @@ function showFloor(message) {
 
 
 function showStats(message) {
-    axios.get('https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats?format=json')
+    axios.get('https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats?format=json', {
+        headers: {
+            "X-API-KEY": process.env.OPENSEA_API_KEY,
+        }
+    })
     .then((response) => {
         const stats = _.get(response, ['data', 'stats']);
 
@@ -392,6 +403,9 @@ setInterval(() => {
     console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime', null)}`);
 
     axios.get('https://api.opensea.io/api/v1/events', {
+        headers: {
+            "X-API-KEY": process.env.OPENSEA_API_KEY,
+        },
         params: {
             // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
             collection_slug: "koala-intelligence-agency",
@@ -434,6 +448,9 @@ setInterval(() => {
     console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime', null)}`);
 
     axios.get('https://api.opensea.io/api/v1/events', {
+        headers: {
+            "X-API-KEY": process.env.OPENSEA_API_KEY,
+        },
         params: {
             // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
             collection_slug: "cyber-hornets-colony-club",
