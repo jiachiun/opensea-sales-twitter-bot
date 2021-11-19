@@ -195,6 +195,9 @@ function showETH(message) {
 
 function showRecentSales(message, limit = 1) {
     axios.get('https://api.opensea.io/api/v1/events', {
+        headers: {
+            "X-API-KEY": process.env.DISCORD_CHANNEL_ID_SALES_BOT,
+        },
         params: {
             collection_slug: "koala-intelligence-agency",
             event_type: 'successful',
