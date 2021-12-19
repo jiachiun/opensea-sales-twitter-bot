@@ -29,8 +29,8 @@ const twitterConfig_CYBERHORNETS = {
 const twitterConfig_CASTLE_KID = {
     consumer_key: process.env.CONSUMER_KEY,
     consumer_secret: process.env.CONSUMER_SECRET,
-    access_token: process.env.ACCESS_TOKEN_KEY_CASTLE_KID,
-    access_token_secret: process.env.ACCESS_TOKEN_SECRET_CASTLE_KID,
+    access_token: process.env.ACCESS_TOKEN_KEY__CASTLE_KID,
+    access_token_secret: process.env.ACCESS_TOKEN_SECRET__CASTLE_KID,
 };
 
 // Twitter Clients
