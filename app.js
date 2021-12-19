@@ -31,7 +31,7 @@ function buildMessageSale(sale) {
     );
 }
 
-function showCommands(message) {
+function showCommands_KIA(message) {
     const msg = new Discord.MessageEmbed()
         .setColor('#0099ff')
         .setTitle('KIA Bot Commands')
@@ -52,6 +52,21 @@ function showCommands(message) {
             { name: '\u200B', value: '──────── FUN ────────' },
             { name: 'Get a Quote', value: ':speech_left: `!quote`' },
             { name: 'Get a Joke', value: ':laughing: `!joke`' },
+            { name: '\u200B', value: 'Use `!commands` to see list of available commands.' },
+        )
+
+    message.channel.send(msg);
+}
+
+function showCommands_CASTLE_KID(message) {
+    const msg = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle('Castle Kid Bot Commands')
+        .setThumbnail('https://uploads-ssl.webflow.com/618ed456007311248b074a6f/61a6633da16c350520699845_sneakpeek1-p-500.jpeg')
+        .addFields(
+            { name: '\u200B', value: '──────── SALES ────────' },
+            { name: 'Show the Latest Sale', value: ':shopping_cart: `!sale`' },
+            { name: 'Show Last 3 Sales', value: ':shopping_bags: `!sales`' },
             { name: '\u200B', value: 'Use `!commands` to see list of available commands.' },
         )
 
@@ -190,36 +205,42 @@ function showETH(message) {
 }
 
 
-function showRecentSales(message, limit = 1) {
-    axios.get('https://api.opensea.io/api/v1/events', {
-        headers: {
-            "X-API-KEY": process.env.OPENSEA_API_KEY,
-        },
-        params: {
-            collection_slug: "koala-intelligence-agency",
-            event_type: 'successful',
-            limit: limit,
-            only_opensea: 'false'
-        }
-    })
-    .then((response) => {
-        const events = _.get(response, ['data', 'asset_events']);
+function showRecentSales(message, collection_slug = null, limit = 1) {
 
-        const sortedEvents = _.sortBy(events, function(event) {
-            const created = _.get(event, 'created_date');
-            return new Date(created);
+    if(collection_slug == null)
+        message.inlineReply("Oops. Unable to complete the request.\nReason: The collection name is invalid or has been recently changed. Please contact the developer for tech support.");
+    else {
+
+        axios.get('https://api.opensea.io/api/v1/events', {
+            headers: {
+                "X-API-KEY": process.env.OPENSEA_API_KEY,
+            },
+            params: {
+                collection_slug: collection_slug,
+                event_type: 'successful',
+                limit: limit,
+                only_opensea: 'false'
+            }
         })
+        .then((response) => {
+            const events = _.get(response, ['data', 'asset_events']);
 
-        _.each(sortedEvents, (event) => {
-            const msg = buildMessageSale(event);
-            message.channel.send(msg);
-            return;
+            const sortedEvents = _.sortBy(events, function(event) {
+                const created = _.get(event, 'created_date');
+                return new Date(created);
+            })
+
+            _.each(sortedEvents, (event) => {
+                const msg = buildMessageSale(event);
+                message.channel.send(msg);
+                return;
+            });
+        })
+        .catch((error) => {
+            console.error(error);
+            message.inlineReply("Oops. Unable to connect to the API. Please try again later.\n:warning: The OpenSea API is temporarily down causing disruption to our bots: Please go to <https://opensea.io/collection/koala-intelligence-agency?tab=activity> to check the activities while OpenSea works to resolve, thank you!");
         });
-    })
-    .catch((error) => {
-        console.error(error);
-        message.inlineReply("Oops. Unable to connect to the API. Please try again later.\n:warning: The OpenSea API is temporarily down causing disruption to our bots: Please go to <https://opensea.io/collection/koala-intelligence-agency?tab=activity> to check the activities while OpenSea works to resolve, thank you!");
-    });
+    }
 }
 
 function showFloor(message) {
@@ -310,15 +331,15 @@ discordBot_KIA.on('ready', () => {
 discordBot_KIA.on('message', msg => {
 
     if (msg.content === "!commands" || msg.content === "!command" ) {
-        showCommands(msg);
+        showCommands_KIA(msg);
     }
 
     if (msg.content === "!sale" ) {
-        showRecentSales(msg, 1);
+        showRecentSales(msg, "koala-intelligence-agency", 1);
     }
 
     if (msg.content === "!sales" ) {
-        showRecentSales(msg, 3);
+        showRecentSales(msg, "koala-intelligence-agency", 3);
     }
 
     if (msg.content === "!floor" ) {
@@ -369,6 +390,21 @@ discordBot_KIA.on('message', msg => {
 discordBot_CASTLE_KID.on('ready', () => {
     console.log(`Logged in as ${discordBot_CASTLE_KID.user.tag}!`);
     sales_bot_channel_CASTLE_KID = discordBot_CASTLE_KID.channels.cache.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT__CASTLE_KID);
+});
+
+discordBot_CASTLE_KID.on('message', msg => {
+
+    if (msg.content === "!commands" || msg.content === "!command" ) {
+        showCommands_CASTLE_KID(msg);
+    }
+    
+    if (msg.content === "!sale" ) {
+        showRecentSales(msg, "castle-kid-colin-tilley", 1);
+    }
+
+    if (msg.content === "!sales" ) {
+        showRecentSales(msg, "castle-kid-colin-tilley", 3);
+    }
 });
 
 // Login to Discord Bot
