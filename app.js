@@ -289,20 +289,25 @@ function showStats(message) {
     });
 }
 
+// ===================================================================================
+// Discord Bots
+// ===================================================================================
 
-const discordBot = new Discord.Client();
-var sales_bot_channel;
+const discordBot_KIA = new Discord.Client();
+const discordBot_CASTLE_KID = new Discord.Client();
+var sales_bot_channel_KIA;
+var sales_bot_channel_CASTLE_KID;
 
-discordBot.on('ready', () => {
-    console.log(`Logged in as ${discordBot.user.tag}!`);
+// ====================================================================
+// Discord Bot: KIA
+// ====================================================================
 
-    sales_bot_channel = discordBot.channels.cache.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT);
-    // sales_bot_channel.send("hello world")
-    //     .then(message => console.log(`Sent message: ${message.content}`))
-    //     .catch(console.error);
+discordBot_KIA.on('ready', () => {
+    console.log(`Logged in as ${discordBot_KIA.user.tag}!`);
+    sales_bot_channel_KIA = discordBot_KIA.channels.cache.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT__KIA);
 });
 
-discordBot.on('message', msg => {
+discordBot_KIA.on('message', msg => {
 
     if (msg.content === "!commands" || msg.content === "!command" ) {
         showCommands(msg);
@@ -357,8 +362,18 @@ discordBot.on('message', msg => {
     }
 });
 
+// ====================================================================
+// Discord Bot: Castle Kid
+// ====================================================================
+
+discordBot_CASTLE_KID.on('ready', () => {
+    console.log(`Logged in as ${discordBot_CASTLE_KID.user.tag}!`);
+    sales_bot_channel_CASTLE_KID = discordBot_CASTLE_KID.channels.cache.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT__CASTLE_KID);
+});
+
 // Login to Discord Bot
-discordBot.login(process.env.DISCORD_BOT_TOKEN);
+discordBot_KIA.login(process.env.DISCORD_BOT_TOKEN__KIA);
+discordBot_CASTLE_KID.login(process.env.DISCORD_BOT_TOKEN__CASTLE_KID);
 
 
 // Format tweet text
@@ -430,7 +445,7 @@ setInterval(() => {
             cache.set('lastSaleTime', moment(created).unix());
 
             const message = buildMessageSale(event);
-            sales_bot_channel.send(message);
+            sales_bot_channel_KIA.send(message);
 
             formatAndSendTweet(event, "KIA", "🐨 #HugLife #NFT");
             formatAndSendTweet(event, "KIA2", "🐨 #HugLife #NFT");
@@ -484,3 +499,47 @@ setInterval(() => {
 
 
 
+
+// FOR CASTLE_KID
+setInterval(() => {
+    const lastSaleTime = cache.get('lastSaleTime', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+
+    console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime', null)}`);
+
+    axios.get('https://api.opensea.io/api/v1/events', {
+        headers: {
+            "X-API-KEY": process.env.OPENSEA_API_KEY,
+        },
+        params: {
+            // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
+            collection_slug: "castle-kid-colin-tilley",
+            event_type: 'successful',
+            occurred_after: lastSaleTime,
+            only_opensea: 'false'
+        }
+    }).then((response) => {
+        const events = _.get(response, ['data', 'asset_events']);
+
+        const sortedEvents = _.sortBy(events, function(event) {
+            const created = _.get(event, 'created_date');
+
+            return new Date(created);
+        })
+
+        console.log(`[CASTLE KID] ${events.length} sales since the last one...`);
+
+        _.each(sortedEvents, (event) => {
+            const created = _.get(event, 'created_date');
+
+            cache.set('lastSaleTime', moment(created).unix());
+
+            const message = buildMessageSale(event);
+            sales_bot_channel_CASTLE_KID.send(message);
+
+            formatAndSendTweet(event, "CASTLE_KID", "🏰 #stormthecastle");
+            return;
+        });
+    }).catch((error) => {
+        console.error(error);
+    });
+}, 60000);

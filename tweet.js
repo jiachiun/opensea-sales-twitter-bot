@@ -25,10 +25,19 @@ const twitterConfig_CYBERHORNETS = {
     access_token_secret: process.env.ACCESS_TOKEN_SECRET_CYBERHORNETS,
 };
 
+// Castle Kid
+const twitterConfig_CASTLE_KID = {
+    consumer_key: process.env.CONSUMER_KEY,
+    consumer_secret: process.env.CONSUMER_SECRET,
+    access_token: process.env.ACCESS_TOKEN_KEY_CASTLE_KID,
+    access_token_secret: process.env.ACCESS_TOKEN_SECRET_CASTLE_KID,
+};
+
 // Twitter Clients
 const twitterClient_KIA = new twit(twitterConfig_KIA);
 const twitterClient_KIA2 = new twit(twitterConfig_KIA2);
 const twitterClient_CYBERHORNETS = new twit(twitterConfig_CYBERHORNETS);
+const twitterClient_CASTLE_KID = new twit(twitterConfig_CASTLE_KID);
 
 function getTwitterClient(twitterClient) {
     switch(twitterClient) {
@@ -38,6 +47,8 @@ function getTwitterClient(twitterClient) {
             return twitterClient_KIA2;
         case "CYBERHORNETS":
             return twitterClient_CYBERHORNETS;
+        case "CASTLE_KID":
+            return twitterClient_CASTLE_KID;
         default:
             return null;
     }
