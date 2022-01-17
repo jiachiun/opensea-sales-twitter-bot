@@ -7,6 +7,12 @@ const cache = require('./cache');
 const Discord = require('discord.js');
 require("./ExtendedMessage");
 
+
+// ===================================================================================
+// Message Formatting
+// ===================================================================================
+
+// Build Sale Message
 function buildMessageSale(sale) {
     const buyer_name = sale?.winner_account?.user?.username? sale?.winner_account?.user?.username : sale?.winner_account?.address;
     const seller_name = sale?.seller?.user?.username? sale?.seller?.user?.username : sale?.seller?.address;
@@ -30,6 +36,87 @@ function buildMessageSale(sale) {
             .setFooter('Purchased on OpenSea',)
     );
 }
+
+// Build Listing Message
+function buildMessageListing(listing) {
+    const buyer_name = listing?.winner_account?.user?.username? listing?.winner_account?.user?.username : listing?.winner_account?.address;
+    const seller_name = listing?.seller?.user?.username? listing?.seller?.user?.username : listing?.seller?.address;
+    const amount = ethers.utils.formatEther(listing.ending_price || '0');
+
+    return (
+        new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle(listing.asset.name + ' was listed for ' + amount + ' ETH')
+            .setURL(listing.asset.permalink)
+            .addFields(
+                { name: 'Name', value: listing.asset.name },
+                { name: 'Amount', value: `${amount}${ethers.constants.EtherSymbol}` },
+                { name: 'Owner', value: `[${seller_name}](https://opensea.io/${seller_name})` }
+            )
+            .setImage(listing.asset.image_url)
+            .setTimestamp(Date.parse(`${listing?.created_date}Z`))
+            .setFooter('Listed on OpenSea',)
+    );
+}
+
+// Build Delisting Message
+function buildMessageDelisting(delisting) {
+    const buyer_name = delisting?.winner_account?.user?.username? delisting?.winner_account?.user?.username : delisting?.winner_account?.address;
+    const seller_name = delisting?.seller?.user?.username? delisting?.seller?.user?.username : delisting?.seller?.address;
+    const amount = ethers.utils.formatEther(delisting.ending_price || '0');
+
+    return (
+        new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle(delisting.asset.name + ' was delisted. Rooty Roo!')
+            .setURL(delisting.asset.permalink)
+            .addFields(
+                { name: 'Name', value: delisting.asset.name },
+                { name: 'Amount', value: `${amount}${ethers.constants.EtherSymbol}` },
+                { name: 'Owner', value: `[${seller_name}](https://opensea.io/${seller_name})` }
+            )
+            .setImage(delisting.asset.image_url)
+            .setTimestamp(Date.parse(`${delisting?.created_date}Z`))
+            .setFooter('Delisted from OpenSea',)
+    );
+}
+
+// Format tweet text
+function formatAndSendTweet(event, twitterClient, customMessage = "") {
+    // Handle both individual items + bundle sales
+    const assetName = _.get(event, ['asset', 'name'], _.get(event, ['asset_bundle', 'name']));
+    const openseaLink = _.get(event, ['asset', 'permalink'], _.get(event, ['asset_bundle', 'permalink']));
+
+    const totalPrice = _.get(event, 'total_price');
+
+    const tokenDecimals = _.get(event, ['payment_token', 'decimals']);
+    const tokenUsdPrice = _.get(event, ['payment_token', 'usd_price']);
+    const tokenEthPrice = _.get(event, ['payment_token', 'eth_price']);
+
+    const formattedUnits = ethers.utils.formatUnits(totalPrice, tokenDecimals);
+    const formattedEthPrice = formattedUnits * tokenEthPrice;
+    const formattedUsdPrice = formattedUnits * tokenUsdPrice;
+
+    const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) ${customMessage} ${openseaLink}`;
+
+    console.log(tweetText);
+
+    // OPTIONAL PREFERENCE - don't tweet out sales below X ETH (default is 1 ETH - change to what you prefer)
+    // if (Number(formattedEthPrice) < 1) {
+    //     console.log(`${assetName} sold below tweet price (${formattedEthPrice} ETH).`);
+    //     return;
+    // }
+
+    // OPTIONAL PREFERENCE - if you want the tweet to include an attached image instead of just text
+    const imageUrl = _.get(event, ['asset', 'image_url']);
+    return tweet.tweetWithImage(twitterClient, tweetText, imageUrl);
+
+    // return tweet.tweet(twitterClient, tweetText);
+}
+
+// ===================================================================================
+// Discord Custom Commands
+// ===================================================================================
 
 function showCommands_KIA(message) {
     const msg = new Discord.MessageEmbed()
@@ -204,7 +291,6 @@ function showETH(message) {
     });
 }
 
-
 function showRecentSales(message, collection_slug = null, limit = 1) {
 
     if(collection_slug == null)
@@ -259,7 +345,6 @@ function showFloor(message) {
     });
 }
 
-
 function showStats(message) {
     axios.get('https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats?format=json', {
         headers: {
@@ -313,11 +398,24 @@ function showStats(message) {
 // ===================================================================================
 // Discord Bots
 // ===================================================================================
-
 const discordBot_KIA = new Discord.Client();
 const discordBot_CASTLE_KID = new Discord.Client();
+const discordBot_ROO_TROOP = new Discord.Client();
+
+// ===================================================================================
+// Discord Channels
+// ===================================================================================
+
+// KIA
 var sales_bot_channel_KIA;
+
+// Castle Kid
 var sales_bot_channel_CASTLE_KID;
+
+// Roo Troop
+var listing_bot_channel_ROO_TROOP;
+var delisting_bot_channel_ROO_TROOP;
+
 
 // ====================================================================
 // Discord Bot: KIA
@@ -407,51 +505,35 @@ discordBot_CASTLE_KID.on('message', msg => {
     }
 });
 
-// Login to Discord Bot
+
+// ====================================================================
+// Discord Bot: Roo Troop
+// ====================================================================
+
+discordBot_ROO_TROOP.on('ready', () => {
+    console.log(`Logged in as ${discordBot_ROO_TROOP.user.tag}!`);
+    listing_bot_channel_ROO_TROOP = discordBot_ROO_TROOP.channels.cache.get(process.env.DISCORD_CHANNEL_ID_LISTING_BOT__ROO_TROOP);
+    delisting_bot_channel_ROO_TROOP = discordBot_ROO_TROOP.channels.cache.get(process.env.DISCORD_CHANNEL_ID_DELISTING_BOT__ROO_TROOP);
+});
+
+// ====================================================================
+// Login to Discord Bots
+// ====================================================================
 discordBot_KIA.login(process.env.DISCORD_BOT_TOKEN__KIA);
 discordBot_CASTLE_KID.login(process.env.DISCORD_BOT_TOKEN__CASTLE_KID);
+discordBot_ROO_TROOP.login(process.env.DISCORD_BOT_TOKEN__ROO_TROOP);
 
 
-// Format tweet text
-function formatAndSendTweet(event, twitterClient, customMessage = "") {
-    // Handle both individual items + bundle sales
-    const assetName = _.get(event, ['asset', 'name'], _.get(event, ['asset_bundle', 'name']));
-    const openseaLink = _.get(event, ['asset', 'permalink'], _.get(event, ['asset_bundle', 'permalink']));
-
-    const totalPrice = _.get(event, 'total_price');
-
-    const tokenDecimals = _.get(event, ['payment_token', 'decimals']);
-    const tokenUsdPrice = _.get(event, ['payment_token', 'usd_price']);
-    const tokenEthPrice = _.get(event, ['payment_token', 'eth_price']);
-
-    const formattedUnits = ethers.utils.formatUnits(totalPrice, tokenDecimals);
-    const formattedEthPrice = formattedUnits * tokenEthPrice;
-    const formattedUsdPrice = formattedUnits * tokenUsdPrice;
-
-    const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) ${customMessage} ${openseaLink}`;
-
-    console.log(tweetText);
-
-    // OPTIONAL PREFERENCE - don't tweet out sales below X ETH (default is 1 ETH - change to what you prefer)
-    // if (Number(formattedEthPrice) < 1) {
-    //     console.log(`${assetName} sold below tweet price (${formattedEthPrice} ETH).`);
-    //     return;
-    // }
-
-    // OPTIONAL PREFERENCE - if you want the tweet to include an attached image instead of just text
-    const imageUrl = _.get(event, ['asset', 'image_url']);
-    return tweet.tweetWithImage(twitterClient, tweetText, imageUrl);
-
-    // return tweet.tweet(twitterClient, tweetText);
-}
-
-
+// ====================================================================
+// Retrieve Event
 // Poll OpenSea every 60 seconds & retrieve all sales for a given collection in either the time since the last sale OR in the last minute
-// FOR KIA
-setInterval(() => {
-    const lastSaleTime = cache.get('lastSaleTime', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+// ====================================================================
 
-    console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime', null)}`);
+// GET SALE EVENT FOR KIA
+setInterval(() => {
+    const lastSaleTime_KIA = cache.get('lastSaleTime_KIA', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+
+    console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime_KIA', null)}`);
 
     axios.get('https://api.opensea.io/api/v1/events', {
         headers: {
@@ -461,7 +543,7 @@ setInterval(() => {
             // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
             collection_slug: "koala-intelligence-agency",
             event_type: 'successful',
-            occurred_after: lastSaleTime,
+            occurred_after: lastSaleTime_KIA,
             only_opensea: 'false'
         }
     }).then((response) => {
@@ -478,7 +560,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            cache.set('lastSaleTime', moment(created).unix());
+            cache.set('lastSaleTime_KIA', moment(created).unix());
 
             const message = buildMessageSale(event);
             sales_bot_channel_KIA.send(message);
@@ -492,11 +574,11 @@ setInterval(() => {
     });
 }, 60000);
 
-// FOR CYBERHORNETS
+// GET SALE EVENT FOR CYBERHORNETS
 setInterval(() => {
-    const lastSaleTime = cache.get('lastSaleTime', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+    const lastSaleTime_CYBERHORNETS = cache.get('lastSaleTime_CYBERHORNETS', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
-    console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime', null)}`);
+    console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime_CYBERHORNETS', null)}`);
 
     axios.get('https://api.opensea.io/api/v1/events', {
         headers: {
@@ -506,7 +588,7 @@ setInterval(() => {
             // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
             collection_slug: "cyber-hornets-colony-club",
             event_type: 'successful',
-            occurred_after: lastSaleTime,
+            occurred_after: lastSaleTime_CYBERHORNETS,
             only_opensea: 'false'
         }
     }).then((response) => {
@@ -523,7 +605,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            cache.set('lastSaleTime', moment(created).unix());
+            cache.set('lastSaleTime_CYBERHORNETS', moment(created).unix());
 
             return formatAndSendTweet(event, "CYBERHORNETS" , "#CyberHornets #TheSwarm");
         });
@@ -532,15 +614,11 @@ setInterval(() => {
     });
 }, 60000);
 
-
-
-
-
-// FOR CASTLE_KID
+// GET SALE EVENT FOR CASTLE_KID
 setInterval(() => {
-    const lastSaleTime = cache.get('lastSaleTime', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+    const lastSaleTime_CASTLE_KID = cache.get('lastSaleTime_CASTLE_KID', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
-    console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime', null)}`);
+    console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime_CASTLE_KID', null)}`);
 
     axios.get('https://api.opensea.io/api/v1/events', {
         headers: {
@@ -550,7 +628,7 @@ setInterval(() => {
             // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
             collection_slug: "castle-kid-colin-tilley",
             event_type: 'successful',
-            occurred_after: lastSaleTime,
+            occurred_after: lastSaleTime_CASTLE_KID,
             only_opensea: 'false'
         }
     }).then((response) => {
@@ -567,12 +645,100 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            cache.set('lastSaleTime', moment(created).unix());
+            cache.set('lastSaleTime_CASTLE_KID', moment(created).unix());
 
             const message = buildMessageSale(event);
             sales_bot_channel_CASTLE_KID.send(message);
 
             formatAndSendTweet(event, "CASTLE_KID", "🏰 #stormthecastle");
+            return;
+        });
+    }).catch((error) => {
+        console.error(error);
+    });
+}, 60000);
+
+
+// GET LISTING EVENT FOR ROO TROOP
+setInterval(() => {
+    const lastListingTime_ROO_TROOP = cache.get('lastListingTime_ROO_TROOP', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+
+    console.log(`Last listing (in seconds since Unix epoch): ${cache.get('lastListingTime_ROO_TROOP', null)}`);
+
+    axios.get('https://api.opensea.io/api/v1/events', {
+        headers: {
+            "X-API-KEY": process.env.OPENSEA_API_KEY,
+        },
+        params: {
+            collection_slug: "roo-troop",
+            event_type: 'created',
+            occurred_after: lastListingTime_ROO_TROOP,
+            only_opensea: 'false'
+        }
+    }).then((response) => {
+        const events = _.get(response, ['data', 'asset_events']);
+
+        const sortedEvents = _.sortBy(events, function(event) {
+            const created = _.get(event, 'created_date');
+
+            return new Date(created);
+        })
+
+        console.log(`[ROO TROOP] ${events.length} listings since the last one...`);
+
+        _.each(sortedEvents, (event) => {
+            const created = _.get(event, 'created_date');
+
+            cache.set('lastListingTime_ROO_TROOP', moment(created).unix());
+
+            const message = buildMessageListing(event);
+            listing_bot_channel_ROO_TROOP.send(message);
+
+            // formatAndSendTweet(event, "ROO_TROOP", "#rootyroo");
+            return;
+        });
+    }).catch((error) => {
+        console.error(error);
+    });
+}, 60000);
+
+
+// GET LISTING EVENT FOR ROO TROOP
+setInterval(() => {
+    const lastDelistingTime_ROO_TROOP = cache.get('lastDelistingTime_ROO_TROOP', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+
+    console.log(`Last listing (in seconds since Unix epoch): ${cache.get('lastDelistingTime_ROO_TROOP', null)}`);
+
+    axios.get('https://api.opensea.io/api/v1/events', {
+        headers: {
+            "X-API-KEY": process.env.OPENSEA_API_KEY,
+        },
+        params: {
+            collection_slug: "roo-troop",
+            event_type: 'cancelled',
+            occurred_after: lastDelistingTime_ROO_TROOP,
+            only_opensea: 'false'
+        }
+    }).then((response) => {
+        const events = _.get(response, ['data', 'asset_events']);
+
+        const sortedEvents = _.sortBy(events, function(event) {
+            const created = _.get(event, 'created_date');
+
+            return new Date(created);
+        })
+
+        console.log(`[ROO TROOP] ${events.length} listings since the last one...`);
+
+        _.each(sortedEvents, (event) => {
+            const created = _.get(event, 'created_date');
+
+            cache.set('lastDelistingTime_ROO_TROOP', moment(created).unix());
+
+            const message = buildMessageDelisting(event);
+            delisting_bot_channel_ROO_TROOP.send(message);
+
+            // formatAndSendTweet(event, "ROO_TROOP", "#rootyroo");
             return;
         });
     }).catch((error) => {
