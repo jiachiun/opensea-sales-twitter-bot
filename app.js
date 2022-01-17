@@ -703,11 +703,11 @@ setInterval(() => {
 }, 60000);
 
 
-// GET LISTING EVENT FOR ROO TROOP
+// GET DELISTING EVENT FOR ROO TROOP
 setInterval(() => {
     const lastDelistingTime_ROO_TROOP = cache.get('lastDelistingTime_ROO_TROOP', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
-    console.log(`Last listing (in seconds since Unix epoch): ${cache.get('lastDelistingTime_ROO_TROOP', null)}`);
+    console.log(`Last delisting (in seconds since Unix epoch): ${cache.get('lastDelistingTime_ROO_TROOP', null)}`);
 
     axios.get('https://api.opensea.io/api/v1/events', {
         headers: {
@@ -728,7 +728,7 @@ setInterval(() => {
             return new Date(created);
         })
 
-        console.log(`[ROO TROOP] ${events.length} listings since the last one...`);
+        console.log(`[ROO TROOP] ${events.length} delistings since the last one...`);
 
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
