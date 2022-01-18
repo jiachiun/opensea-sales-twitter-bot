@@ -42,7 +42,7 @@ function buildMessageListing(listing) {
 
     if(listing.asset)
     {
-        const owner_name = listing?.owner?.user?.username? listing?.owner?.user?.username : listing?.owner?.address;
+        const seller_name = listing?.seller?.user?.username? listing?.seller?.user?.username : listing?.seller?.address;
         const amount = ethers.utils.formatEther(listing.ending_price || '0');
 
         return (
@@ -54,7 +54,7 @@ function buildMessageListing(listing) {
                 .addFields(
                     { name: 'Name', value: listing.asset.name },
                     { name: 'Amount', value: `${amount}${ethers.constants.EtherSymbol}` },
-                    { name: 'Owner', value: `[${owner_name}](https://opensea.io/${owner_name})`, inline: true }
+                    { name: 'Owner', value: `[${seller_name}](https://opensea.io/${seller_name})`, inline: true }
                 )
                 .setImage(listing.asset.image_url)
                 .setTimestamp(Date.parse(`${listing?.created_date}Z`))
