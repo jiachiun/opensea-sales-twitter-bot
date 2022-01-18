@@ -39,24 +39,55 @@ function buildMessageSale(sale) {
 
 // Build Listing Message
 function buildMessageListing(listing) {
-    const buyer_name = listing?.winner_account?.user?.username? listing?.winner_account?.user?.username : listing?.winner_account?.address;
-    const seller_name = listing?.seller?.user?.username? listing?.seller?.user?.username : listing?.seller?.address;
-    const amount = ethers.utils.formatEther(listing.ending_price || '0');
 
-    return (
-        new Discord.MessageEmbed()
-            .setColor('#0099ff')
-            .setTitle(listing.asset.name + ' was listed for ' + amount + ' ETH')
-            .setURL(listing.asset.permalink)
-            .addFields(
-                { name: 'Name', value: listing.asset.name },
-                { name: 'Amount', value: `${amount}${ethers.constants.EtherSymbol}` },
-                { name: 'Owner', value: `[${seller_name}](https://opensea.io/${seller_name})` }
-            )
-            .setImage(listing.asset.image_url)
-            .setTimestamp(Date.parse(`${listing?.created_date}Z`))
-            .setFooter('Listed on OpenSea',)
-    );
+    if(listing.asset)
+    {
+        const owner_name = listing?.owner?.user?.username? listing?.owner?.user?.username : listing?.owner?.address;
+        const amount = ethers.utils.formatEther(listing.ending_price || '0');
+
+        return (
+        
+            new Discord.MessageEmbed()
+                .setColor('#0099ff')
+                .setTitle(listing.asset.name + ' was listed for ' + amount + ' ETH')
+                .setURL(listing.asset.permalink)
+                .addFields(
+                    { name: 'Name', value: listing.asset.name },
+                    { name: 'Amount', value: `${amount}${ethers.constants.EtherSymbol}` },
+                    { name: 'Owner', value: `[${owner_name}](https://opensea.io/${owner_name})`, inline: true }
+                )
+                .setImage(listing.asset.image_url)
+                .setTimestamp(Date.parse(`${listing?.created_date}Z`))
+                .setFooter('Listed on OpenSea',)
+        );
+    }
+    else if(listing.asset_bundle)
+    {
+        const maker_name = listing?.maker?.user?.username? listing?.maker?.user?.username : listing?.maker?.address;
+        const amount = ethers.utils.formatEther(listing.ending_price || '0');
+
+        return (
+        
+            new Discord.MessageEmbed()
+                .setColor('#0099ff')
+                .setTitle('A bundle titled \'' + listing.asset_bundle.name + '\'was listed for ' + amount + ' ETH')
+                .setURL(listing.asset_bundle.permalink)
+                .addFields(
+                    { name: 'Name', value: listing.asset_bundle.name },
+                    { name: 'Amount', value: `${amount}${ethers.constants.EtherSymbol}` },
+                    { name: 'Owner', value: `[${maker_name}](https://opensea.io/${maker_name})`, inline: true },
+                    { name: 'Quantity', value: `${listing.quantity.}`, inline: true },
+                    
+                )
+                .setImage(listing.asset_bundle.asset[0].image_url)
+                .setTimestamp(Date.parse(`${listing?.created_date}Z`))
+                .setFooter('Listed on OpenSea',)
+        );
+    }
+
+       
+    
+    
 }
 
 // Build Delisting Message
@@ -72,7 +103,6 @@ function buildMessageDelisting(delisting) {
             .setURL(delisting.asset.permalink)
             .addFields(
                 { name: 'Name', value: delisting.asset.name },
-                { name: 'Amount', value: `${amount}${ethers.constants.EtherSymbol}` },
                 { name: 'Owner', value: `[${seller_name}](https://opensea.io/${seller_name})` }
             )
             .setImage(delisting.asset.image_url)
