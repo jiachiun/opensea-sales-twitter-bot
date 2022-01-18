@@ -76,7 +76,7 @@ function buildMessageListing(listing) {
                     { name: 'Name', value: listing.asset_bundle.name },
                     { name: 'Amount', value: `${amount}${ethers.constants.EtherSymbol}` },
                     { name: 'Owner', value: `[${maker_name}](https://opensea.io/${maker_name})`, inline: true },
-                    { name: 'Quantity', value: `${listing.quantity.}`, inline: true },
+                    { name: 'Quantity', value: `${listing.quantity}`, inline: true }
                     
                 )
                 .setImage(listing.asset_bundle.asset[0].image_url)
