@@ -702,7 +702,7 @@ setInterval(() => {
         params: {
             collection_slug: "roo-troop",
             event_type: 'created',
-            occurred_after: lastListingTime_ROO_TROOP,
+            occurred_after: lastListingTime_ROO_TROOP+1,
             only_opensea: 'false'
         }
     }).then((response) => {
@@ -719,12 +719,11 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            cache.set('lastListingTime_ROO_TROOP', moment(created).unix());
-
             const message = buildMessageListing(event);
             listing_bot_channel_ROO_TROOP.send(message);
 
             // formatAndSendTweet(event, "ROO_TROOP", "#rootyroo");
+            cache.set('lastListingTime_ROO_TROOP', moment(created).unix());
             return;
         });
     }).catch((error) => {
