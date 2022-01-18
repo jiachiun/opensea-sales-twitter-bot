@@ -667,7 +667,7 @@ setInterval(() => {
 
     axios.get('https://api.opensea.io/api/v1/events', {
         headers: {
-            "X-API-KEY": process.env.OPENSEA_API_KEY,
+            "X-API-KEY": process.env.OPENSEA_API_KEY_JC,
         },
         params: {
             collection_slug: "roo-troop",
@@ -711,7 +711,7 @@ setInterval(() => {
 
     axios.get('https://api.opensea.io/api/v1/events', {
         headers: {
-            "X-API-KEY": process.env.OPENSEA_API_KEY,
+            "X-API-KEY": process.env.OPENSEA_API_KEY_JC,
         },
         params: {
             collection_slug: "roo-troop",
