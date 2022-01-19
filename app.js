@@ -747,7 +747,7 @@ setInterval(() => {
         params: {
             collection_slug: "roo-troop",
             event_type: 'cancelled',
-            occurred_after: lastDelistingTime_ROO_TROOP,
+            occurred_after: lastDelistingTime_ROO_TROOP+1,
             only_opensea: 'false'
         }
     }).then((response) => {
@@ -764,11 +764,10 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            cache.set('lastDelistingTime_ROO_TROOP', moment(created).unix());
-
             const message = buildMessageDelisting(event);
             delisting_bot_channel_ROO_TROOP.send(message);
 
+            cache.set('lastDelistingTime_ROO_TROOP', moment(created).unix());
             // formatAndSendTweet(event, "ROO_TROOP", "#rootyroo");
             return;
         });
