@@ -575,7 +575,7 @@ setInterval(() => {
             // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
             collection_slug: "koala-intelligence-agency",
             event_type: 'successful',
-            occurred_after: lastSaleTime_KIA,
+            occurred_after: lastSaleTime_KIA+1,
             only_opensea: 'false'
         }
     }).then((response) => {
@@ -592,13 +592,13 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            cache.set('lastSaleTime_KIA', moment(created).unix());
-
             const message = buildMessageSale(event);
             sales_bot_channel_KIA.send(message);
 
             formatAndSendTweet(event, "KIA", "🐨 #HugLife #NFT");
             formatAndSendTweet(event, "KIA2", "🐨 #HugLife #NFT");
+
+            cache.set('lastSaleTime_KIA', moment(created).unix());
             return;
         });
     }).catch((error) => {
@@ -660,7 +660,7 @@ setInterval(() => {
             // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
             collection_slug: "castle-kid-colin-tilley",
             event_type: 'successful',
-            occurred_after: lastSaleTime_CASTLE_KID,
+            occurred_after: lastSaleTime_CASTLE_KID+1,
             only_opensea: 'false'
         }
     }).then((response) => {
@@ -677,12 +677,15 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            cache.set('lastSaleTime_CASTLE_KID', moment(created).unix());
+            
 
             const message = buildMessageSale(event);
             sales_bot_channel_CASTLE_KID.send(message);
 
             formatAndSendTweet(event, "CASTLE_KID", "🏰 #stormthecastle");
+            
+            cache.set('lastSaleTime_CASTLE_KID', moment(created).unix());
+
             return;
         });
     }).catch((error) => {
