@@ -14,27 +14,58 @@ require("./ExtendedMessage");
 
 // Build Sale Message
 function buildMessageSale(sale) {
-    const buyer_name = sale?.winner_account?.user?.username? sale?.winner_account?.user?.username : sale?.winner_account?.address;
-    const seller_name = sale?.seller?.user?.username? sale?.seller?.user?.username : sale?.seller?.address;
-    const amount = ethers.utils.formatEther(sale.total_price || '0');
 
-    return (
-        new Discord.MessageEmbed()
-            .setColor('#0099ff')
-            .setTitle(sale.asset.name + ' was purchased for ' + amount + ' ETH')
-            .setURL(sale.asset.permalink)
-            // .setAuthor('OpenSea Bot', 'https://files.readme.io/566c72b-opensea-logomark-full-colored.png', 'https://github.com/sbauch/opensea-discord-bot')
-            // .setThumbnail(sale.asset.collection.image_url)
-            .addFields(
-                { name: 'Name', value: sale.asset.name },
-                { name: 'Amount', value: `${amount}${ethers.constants.EtherSymbol}` },
-                { name: 'From', value: `[${seller_name}](https://opensea.io/${seller_name})`, inline: true },
-                { name: 'To', value: `[${buyer_name}](https://opensea.io/${buyer_name})`, inline: true }
-            )
-            .setImage(sale.asset.image_url)
-            .setTimestamp(Date.parse(`${sale?.created_date}Z`))
-            .setFooter('Purchased on OpenSea',)
-    );
+    // If single sale
+    if(sale.asset)
+    {
+        const buyer_name = sale?.winner_account?.user?.username? sale?.winner_account?.user?.username : sale?.winner_account?.address;
+        const seller_name = sale?.seller?.user?.username? sale?.seller?.user?.username : sale?.seller?.address;
+        const amount = ethers.utils.formatEther(sale.total_price || '0');
+
+        return (
+            new Discord.MessageEmbed()
+                .setColor('#0099ff')
+                .setTitle(sale.asset.name + ' was purchased for ' + amount + ' ETH')
+                .setURL(sale.asset.permalink)
+                // .setAuthor('OpenSea Bot', 'https://files.readme.io/566c72b-opensea-logomark-full-colored.png', 'https://github.com/sbauch/opensea-discord-bot')
+                // .setThumbnail(sale.asset.collection.image_url)
+                .addFields(
+                    { name: 'Name', value: sale.asset.name },
+                    { name: 'Amount', value: `${amount}${ethers.constants.EtherSymbol}` },
+                    { name: 'From', value: `[${seller_name}](https://opensea.io/${seller_name})`, inline: true },
+                    { name: 'To', value: `[${buyer_name}](https://opensea.io/${buyer_name})`, inline: true }
+                )
+                .setImage(sale.asset.image_url)
+                .setTimestamp(Date.parse(`${sale?.created_date}Z`))
+                .setFooter('Purchased on OpenSea',)
+        );
+    }
+    // If is bundle
+    else if(sale.asset_bundle)
+    {
+        const buyer_name = sale?.winner_account?.user?.username? sale?.winner_account?.user?.username : sale?.winner_account?.address;
+        const seller_name = sale?.seller?.user?.username? sale?.seller?.user?.username : sale?.seller?.address;
+        const amount = ethers.utils.formatEther(sale.total_price || '0');
+
+        return (
+            new Discord.MessageEmbed()
+                .setColor('#0099ff')
+                .setTitle('A bundle titled \'' + sale.asset_bundle.name + '\' was purchased for ' + amount + ' ETH')
+                .setURL(sale.asset_bundle.permalink)
+                // .setAuthor('OpenSea Bot', 'https://files.readme.io/566c72b-opensea-logomark-full-colored.png', 'https://github.com/sbauch/opensea-discord-bot')
+                // .setThumbnail(sale.asset.collection.image_url)
+                .addFields(
+                    { name: 'Name', value: sale.asset_bundle.name },
+                    { name: 'Amount', value: `${amount}${ethers.constants.EtherSymbol}` },
+                    { name: 'From', value: `[${seller_name}](https://opensea.io/${seller_name})`, inline: true },
+                    { name: 'To', value: `[${buyer_name}](https://opensea.io/${buyer_name})`, inline: true },
+                    { name: 'Quantity', value: `${sale.quantity}` }
+                )
+                .setImage(sale.asset_bundle.assets[0].image_url)
+                .setTimestamp(Date.parse(`${sale?.created_date}Z`))
+                .setFooter('Purchased on OpenSea',)
+        );
+    }
 }
 
 // Build Listing Message
@@ -79,7 +110,7 @@ function buildMessageListing(listing) {
                     { name: 'Quantity', value: `${listing.quantity}`, inline: true }
                     
                 )
-                .setImage(listing.asset_bundle.asset[0].image_url)
+                .setImage(listing.asset_bundle.assets[0].image_url)
                 .setTimestamp(Date.parse(`${listing?.created_date}Z`))
                 .setFooter('Listed on OpenSea',)
         );
@@ -602,6 +633,7 @@ setInterval(() => {
             return;
         });
     }).catch((error) => {
+        lastSaleTime_KIA++;
         console.error(error);
     });
 }, 60000);
@@ -642,6 +674,7 @@ setInterval(() => {
             return formatAndSendTweet(event, "CYBERHORNETS" , "#CyberHornets #TheSwarm");
         });
     }).catch((error) => {
+        lastSaleTime_CYBERHORNETS++;
         console.error(error);
     });
 }, 60000);
@@ -689,6 +722,7 @@ setInterval(() => {
             return;
         });
     }).catch((error) => {
+        lastSaleTime_CASTLE_KID++;
         console.error(error);
     });
 }, 60000);
@@ -732,6 +766,7 @@ setInterval(() => {
             return;
         });
     }).catch((error) => {
+        lastListingTime_ROO_TROOP++;    // Increment the time by 1 second to skip the error-causing item
         console.error(error);
     });
 }, 60000);
@@ -775,6 +810,7 @@ setInterval(() => {
             return;
         });
     }).catch((error) => {
+        lastDelistingTime_ROO_TROOP++;
         console.error(error);
     });
 }, 60000);
