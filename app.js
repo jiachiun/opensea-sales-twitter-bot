@@ -391,19 +391,23 @@ function showRecentSales(message, collection_slug = null, limit = 1) {
 }
 
 function showFloor(message) {
-    axios.get('https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats?format=json', {
-        headers: {
-            "X-API-KEY": process.env.OPENSEA_API_KEY,
-        }
-    })
-    .then((response) => {
-        const stats = _.get(response, ['data', 'stats']);
-        message.channel.send(`Floor Price: ${stats.floor_price}ETH`);
-    })
-    .catch((error) => {
-        console.error(error);
-        message.inlineReply("Oops. Unable to connect to the API. Please try again later.\n:warning: The OpenSea API is temporarily down causing disruption to our bots: Please go to <https://opensea.io/collection/koala-intelligence-agency?tab=activity> to check the activities while OpenSea works to resolve, thank you!");
-    });
+    const msg = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle(`"If you focus on the floor you will miss the moon."`)
+    message.channel.send(msg);
+    // axios.get('https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats?format=json', {
+    //     headers: {
+    //         "X-API-KEY": process.env.OPENSEA_API_KEY,
+    //     }
+    // })
+    // .then((response) => {
+    //     const stats = _.get(response, ['data', 'stats']);
+    //     message.channel.send(`Floor Price: ${stats.floor_price}ETH`);
+    // })
+    // .catch((error) => {
+    //     console.error(error);
+    //     message.inlineReply("Oops. Unable to connect to the API. Please try again later.\n:warning: The OpenSea API is temporarily down causing disruption to our bots: Please go to <https://opensea.io/collection/koala-intelligence-agency?tab=activity> to check the activities while OpenSea works to resolve, thank you!");
+    // });
 }
 
 function showStats(message) {
