@@ -598,7 +598,7 @@ discordBot_ROO_TROOP.login(process.env.DISCORD_BOT_TOKEN__ROO_TROOP);
 
 // GET SALE EVENT FOR KIA
 setInterval(() => {
-    const lastSaleTime_KIA = cache.get('lastSaleTime_KIA', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+    var lastSaleTime_KIA = cache.get('lastSaleTime_KIA', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
     console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime_KIA', null)}`);
 
@@ -644,7 +644,7 @@ setInterval(() => {
 
 // GET SALE EVENT FOR CYBERHORNETS
 setInterval(() => {
-    const lastSaleTime_CYBERHORNETS = cache.get('lastSaleTime_CYBERHORNETS', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+    var lastSaleTime_CYBERHORNETS = cache.get('lastSaleTime_CYBERHORNETS', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
     console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime_CYBERHORNETS', null)}`);
 
@@ -685,7 +685,7 @@ setInterval(() => {
 
 // GET SALE EVENT FOR CASTLE_KID
 setInterval(() => {
-    const lastSaleTime_CASTLE_KID = cache.get('lastSaleTime_CASTLE_KID', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+    var lastSaleTime_CASTLE_KID = cache.get('lastSaleTime_CASTLE_KID', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
     console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime_CASTLE_KID', null)}`);
 
@@ -734,7 +734,7 @@ setInterval(() => {
 
 // GET LISTING EVENT FOR ROO TROOP
 setInterval(() => {
-    const lastListingTime_ROO_TROOP = cache.get('lastListingTime_ROO_TROOP', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+    var lastListingTime_ROO_TROOP = cache.get('lastListingTime_ROO_TROOP', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
     console.log(`Last listing (in seconds since Unix epoch): ${cache.get('lastListingTime_ROO_TROOP', null)}`);
 
@@ -778,7 +778,7 @@ setInterval(() => {
 
 // GET DELISTING EVENT FOR ROO TROOP
 setInterval(() => {
-    const lastDelistingTime_ROO_TROOP = cache.get('lastDelistingTime_ROO_TROOP', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+    var lastDelistingTime_ROO_TROOP = cache.get('lastDelistingTime_ROO_TROOP', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
     console.log(`Last delisting (in seconds since Unix epoch): ${cache.get('lastDelistingTime_ROO_TROOP', null)}`);
 
