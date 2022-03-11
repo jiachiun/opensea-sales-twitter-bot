@@ -598,7 +598,7 @@ discordBot_ROO_TROOP.login(process.env.DISCORD_BOT_TOKEN__ROO_TROOP);
 
 // GET SALE EVENT FOR KIA
 setInterval(() => {
-    var lastSaleTime_KIA = cache.get('lastSaleTime_KIA', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+    const lastSaleTime_KIA = cache.get('lastSaleTime_KIA', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
     console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime_KIA', null)}`);
 
@@ -637,14 +637,14 @@ setInterval(() => {
             return;
         });
     }).catch((error) => {
-        lastSaleTime_KIA++;
+        // lastSaleTime_KIA++;
         console.error(error);
     });
 }, 60000);
 
 // GET SALE EVENT FOR CYBERHORNETS
 setInterval(() => {
-    var lastSaleTime_CYBERHORNETS = cache.get('lastSaleTime_CYBERHORNETS', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+    const lastSaleTime_CYBERHORNETS = cache.get('lastSaleTime_CYBERHORNETS', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
     console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime_CYBERHORNETS', null)}`);
 
@@ -678,14 +678,14 @@ setInterval(() => {
             return formatAndSendTweet(event, "CYBERHORNETS" , "#CyberHornets #TheSwarm");
         });
     }).catch((error) => {
-        lastSaleTime_CYBERHORNETS++;
+        // lastSaleTime_CYBERHORNETS++;
         console.error(error);
     });
 }, 60000);
 
 // GET SALE EVENT FOR CASTLE_KID
 setInterval(() => {
-    var lastSaleTime_CASTLE_KID = cache.get('lastSaleTime_CASTLE_KID', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+    const lastSaleTime_CASTLE_KID = cache.get('lastSaleTime_CASTLE_KID', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
     console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime_CASTLE_KID', null)}`);
 
@@ -726,7 +726,7 @@ setInterval(() => {
             return;
         });
     }).catch((error) => {
-        lastSaleTime_CASTLE_KID++;
+        // lastSaleTime_CASTLE_KID++;
         console.error(error);
     });
 }, 60000);
@@ -734,7 +734,7 @@ setInterval(() => {
 
 // GET LISTING EVENT FOR ROO TROOP
 setInterval(() => {
-    var lastListingTime_ROO_TROOP = cache.get('lastListingTime_ROO_TROOP', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+    const lastListingTime_ROO_TROOP = cache.get('lastListingTime_ROO_TROOP', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
     console.log(`Last listing (in seconds since Unix epoch): ${cache.get('lastListingTime_ROO_TROOP', null)}`);
 
@@ -770,7 +770,7 @@ setInterval(() => {
             return;
         });
     }).catch((error) => {
-        lastListingTime_ROO_TROOP++;    // Increment the time by 1 second to skip the error-causing item
+        // lastListingTime_ROO_TROOP++;    // Increment the time by 1 second to skip the error-causing item
         console.error(error);
     });
 }, 60000);
@@ -778,7 +778,7 @@ setInterval(() => {
 
 // GET DELISTING EVENT FOR ROO TROOP
 setInterval(() => {
-    var lastDelistingTime_ROO_TROOP = cache.get('lastDelistingTime_ROO_TROOP', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+    const lastDelistingTime_ROO_TROOP = cache.get('lastDelistingTime_ROO_TROOP', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
     console.log(`Last delisting (in seconds since Unix epoch): ${cache.get('lastDelistingTime_ROO_TROOP', null)}`);
 
@@ -814,7 +814,7 @@ setInterval(() => {
             return;
         });
     }).catch((error) => {
-        lastDelistingTime_ROO_TROOP++;
+        // lastDelistingTime_ROO_TROOP++;
         console.error(error);
     });
 }, 60000);
