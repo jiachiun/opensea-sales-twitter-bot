@@ -628,7 +628,7 @@ setInterval(() => {
             const created = _.get(event, 'created_date');
 
             if(lastSaleTime_KIA && moment(created).unix() < lastSaleTime_KIA)
-                continue;
+                return;
 
             const message = buildMessageSale(event);
             sales_bot_channel_KIA.send(message);
@@ -677,7 +677,7 @@ setInterval(() => {
             const created = _.get(event, 'created_date');
 
             if(lastSaleTime_CYBERHORNETS && moment(created).unix() < lastSaleTime_CYBERHORNETS)
-                continue;
+                return;
 
             cache.set('lastSaleTime_CYBERHORNETS', moment(created).unix());
 
@@ -720,7 +720,7 @@ setInterval(() => {
             const created = _.get(event, 'created_date');
 
             if(lastSaleTime_CASTLE_KID && moment(created).unix() < lastSaleTime_CASTLE_KID)
-                continue;
+                return;
             
 
             const message = buildMessageSale(event);
@@ -770,7 +770,7 @@ setInterval(() => {
             const created = _.get(event, 'created_date');
 
             if(lastListingTime_ROO_TROOP && moment(created).unix() < lastListingTime_ROO_TROOP)
-                continue;
+                return;
 
             const message = buildMessageListing(event);
             listing_bot_channel_ROO_TROOP.send(message);
@@ -817,7 +817,7 @@ setInterval(() => {
             const created = _.get(event, 'created_date');
 
             if(lastDelistingTime_ROO_TROOP && moment(created).unix() < lastDelistingTime_ROO_TROOP)
-                continue;
+                return;
 
             const message = buildMessageDelisting(event);
             delisting_bot_channel_ROO_TROOP.send(message);
