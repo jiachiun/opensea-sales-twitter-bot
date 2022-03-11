@@ -627,7 +627,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(lastSaleTime_KIA && moment(created).unix() < lastSaleTime_KIA)
+            if(moment(created).unix() < moment().startOf('minute').subtract(59, "seconds").unix() )
                 return;
 
             const message = buildMessageSale(event);
@@ -676,7 +676,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(lastSaleTime_CYBERHORNETS && moment(created).unix() < lastSaleTime_CYBERHORNETS)
+            if(moment(created).unix() < moment().startOf('minute').subtract(59, "seconds").unix() )
                 return;
 
             cache.set('lastSaleTime_CYBERHORNETS', moment(created).unix());
@@ -719,7 +719,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(lastSaleTime_CASTLE_KID && moment(created).unix() < lastSaleTime_CASTLE_KID)
+            if(moment(created).unix() < moment().startOf('minute').subtract(59, "seconds").unix() )
                 return;
             
 
@@ -769,7 +769,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(lastListingTime_ROO_TROOP && moment(created).unix() < lastListingTime_ROO_TROOP)
+            if(moment(created).unix() < moment().startOf('minute').subtract(59, "seconds").unix() )
                 return;
 
             const message = buildMessageListing(event);
@@ -816,7 +816,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(lastDelistingTime_ROO_TROOP && moment(created).unix() < lastDelistingTime_ROO_TROOP)
+            if(moment(created).unix() < moment().startOf('minute').subtract(59, "seconds").unix() )
                 return;
 
             const message = buildMessageDelisting(event);
