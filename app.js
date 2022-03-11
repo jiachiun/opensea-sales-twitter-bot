@@ -610,7 +610,7 @@ setInterval(() => {
             // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
             collection_slug: "koala-intelligence-agency",
             event_type: 'successful',
-            occurred_after: lastSaleTime_KIA+1,
+            // occurred_after: lastSaleTime_KIA+1,
             only_opensea: 'false'
         }
     }).then((response) => {
@@ -626,6 +626,9 @@ setInterval(() => {
 
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
+
+            if(lastSaleTime_KIA && moment(created).unix() < lastSaleTime_KIA)
+                continue;
 
             const message = buildMessageSale(event);
             sales_bot_channel_KIA.send(message);
@@ -656,7 +659,7 @@ setInterval(() => {
             // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
             collection_slug: "cyber-hornets-colony-club",
             event_type: 'successful',
-            occurred_after: lastSaleTime_CYBERHORNETS,
+            // occurred_after: lastSaleTime_CYBERHORNETS,
             only_opensea: 'false'
         }
     }).then((response) => {
@@ -673,6 +676,9 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
+            if(lastSaleTime_CYBERHORNETS && moment(created).unix() < lastSaleTime_CYBERHORNETS)
+                continue;
+
             cache.set('lastSaleTime_CYBERHORNETS', moment(created).unix());
 
             return formatAndSendTweet(event, "CYBERHORNETS" , "#CyberHornets #TheSwarm");
@@ -686,7 +692,6 @@ setInterval(() => {
 // GET SALE EVENT FOR CASTLE_KID
 setInterval(() => {
     const lastSaleTime_CASTLE_KID = cache.get('lastSaleTime_CASTLE_KID', null) || moment().startOf('minute').subtract(59, "seconds").unix();
-
     console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime_CASTLE_KID', null)}`);
 
     axios.get('https://api.opensea.io/api/v1/events', {
@@ -697,7 +702,7 @@ setInterval(() => {
             // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
             collection_slug: "castle-kid-colin-tilley",
             event_type: 'successful',
-            occurred_after: lastSaleTime_CASTLE_KID+1,
+            // occurred_after: lastSaleTime_CASTLE_KID+1,
             only_opensea: 'false'
         }
     }).then((response) => {
@@ -714,6 +719,8 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
+            if(lastSaleTime_CASTLE_KID && moment(created).unix() < lastSaleTime_CASTLE_KID)
+                continue;
             
 
             const message = buildMessageSale(event);
@@ -745,7 +752,7 @@ setInterval(() => {
         params: {
             collection_slug: "roo-troop",
             event_type: 'created',
-            occurred_after: lastListingTime_ROO_TROOP+1,
+            // occurred_after: lastListingTime_ROO_TROOP+1,
             only_opensea: 'false'
         }
     }).then((response) => {
@@ -761,6 +768,9 @@ setInterval(() => {
 
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
+
+            if(lastListingTime_ROO_TROOP && moment(created).unix() < lastListingTime_ROO_TROOP)
+                continue;
 
             const message = buildMessageListing(event);
             listing_bot_channel_ROO_TROOP.send(message);
@@ -789,7 +799,7 @@ setInterval(() => {
         params: {
             collection_slug: "roo-troop",
             event_type: 'cancelled',
-            occurred_after: lastDelistingTime_ROO_TROOP+1,
+            // occurred_after: lastDelistingTime_ROO_TROOP+1,
             only_opensea: 'false'
         }
     }).then((response) => {
@@ -805,6 +815,9 @@ setInterval(() => {
 
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
+
+            if(lastDelistingTime_ROO_TROOP && moment(created).unix() < lastDelistingTime_ROO_TROOP)
+                continue;
 
             const message = buildMessageDelisting(event);
             delisting_bot_channel_ROO_TROOP.send(message);
