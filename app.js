@@ -627,7 +627,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() + 1 < moment().startOf('minute').subtract(59, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
                 return;
 
             const message = buildMessageSale(event);
@@ -676,7 +676,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() + 1 < moment().startOf('minute').subtract(59, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
                 return;
 
             cache.set('lastSaleTime_CYBERHORNETS', moment(created).unix());
@@ -719,7 +719,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() + 1 < moment().startOf('minute').subtract(59, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
                 return;
             
 
@@ -769,7 +769,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() + 2 < moment().startOf('minute').subtract(59, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
                 return;
 
             const message = buildMessageListing(event);
@@ -816,7 +816,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() + 2 < moment().startOf('minute').subtract(59, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
                 return;
 
             const message = buildMessageDelisting(event);
@@ -862,7 +862,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() + 2 < moment().startOf('minute').subtract(59, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
                 return;
 
             const message = buildMessageListing(event);
@@ -909,7 +909,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() + 2 < moment().startOf('minute').subtract(59, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
                 return;
 
             const message = buildMessageDelisting(event);
