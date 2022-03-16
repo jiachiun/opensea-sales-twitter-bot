@@ -769,7 +769,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() + 1 < moment().startOf('minute').subtract(59, "seconds").unix() )
+            if(moment(created).unix() + 2 < moment().startOf('minute').subtract(59, "seconds").unix() )
                 return;
 
             const message = buildMessageListing(event);
@@ -816,7 +816,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() + 1 < moment().startOf('minute').subtract(59, "seconds").unix() )
+            if(moment(created).unix() + 2 < moment().startOf('minute').subtract(59, "seconds").unix() )
                 return;
 
             const message = buildMessageDelisting(event);
@@ -831,6 +831,100 @@ setInterval(() => {
         console.error(error);
     });
 }, 60000);
+
+// GET LISTING EVENT FOR JoeyMob
+setInterval(() => {
+    const lastListingTime_JOEYMOB = cache.get('lastListingTime_ROO_TROOP', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+
+    console.log(`Last listing (in seconds since Unix epoch): ${cache.get('lastListingTime_JOEYMOB', null)}`);
+
+    axios.get('https://api.opensea.io/api/v1/events', {
+        headers: {
+            "X-API-KEY": process.env.OPENSEA_API_KEY_JC,
+        },
+        params: {
+            collection_slug: "joeymob",
+            event_type: 'created',
+            // occurred_after: lastListingTime_JOEYMOB+1,
+            only_opensea: 'false'
+        }
+    }).then((response) => {
+        const events = _.get(response, ['data', 'asset_events']);
+
+        const sortedEvents = _.sortBy(events, function(event) {
+            const created = _.get(event, 'created_date');
+
+            return new Date(created);
+        })
+
+        console.log(`[JOEYMOB] ${events.length} listings since the last one...`);
+
+        _.each(sortedEvents, (event) => {
+            const created = _.get(event, 'created_date');
+
+            if(moment(created).unix() + 2 < moment().startOf('minute').subtract(59, "seconds").unix() )
+                return;
+
+            const message = buildMessageListing(event);
+            listing_bot_channel_ROO_TROOP.send(message);
+
+            // formatAndSendTweet(event, "ROO_TROOP", "#rootyroo");
+            cache.set('lastListingTime_JOEYMOB', moment(created).unix());
+            return;
+        });
+    }).catch((error) => {
+        // lastListingTime_ROO_TROOP++;    // Increment the time by 1 second to skip the error-causing item
+        console.error(error);
+    });
+}, 60000);
+
+
+// GET DELISTING EVENT FOR JOEYMOB
+setInterval(() => {
+    const lastDelistingTime_JOEYMOB = cache.get('lastDelistingTime_ROO_TROOP', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+
+    console.log(`Last delisting (in seconds since Unix epoch): ${cache.get('lastDelistingTime_JOEYMOB', null)}`);
+
+    axios.get('https://api.opensea.io/api/v1/events', {
+        headers: {
+            "X-API-KEY": process.env.OPENSEA_API_KEY_JC,
+        },
+        params: {
+            collection_slug: "joeymob",
+            event_type: 'cancelled',
+            // occurred_after: lastDelistingTime_JOEYMOB+1,
+            only_opensea: 'false'
+        }
+    }).then((response) => {
+        const events = _.get(response, ['data', 'asset_events']);
+
+        const sortedEvents = _.sortBy(events, function(event) {
+            const created = _.get(event, 'created_date');
+
+            return new Date(created);
+        })
+
+        console.log(`[JOEYMOB] ${events.length} delistings since the last one...`);
+
+        _.each(sortedEvents, (event) => {
+            const created = _.get(event, 'created_date');
+
+            if(moment(created).unix() + 2 < moment().startOf('minute').subtract(59, "seconds").unix() )
+                return;
+
+            const message = buildMessageDelisting(event);
+            delisting_bot_channel_ROO_TROOP.send(message);
+
+            cache.set('lastDelistingTime_JOEYMOB', moment(created).unix());
+            // formatAndSendTweet(event, "ROO_TROOP", "#rootyroo");
+            return;
+        });
+    }).catch((error) => {
+        // lastDelistingTime_JOEYMOB++;
+        console.error(error);
+    });
+}, 60000);
+
 
 
 console.log(`============================================================`);
