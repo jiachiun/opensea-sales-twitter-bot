@@ -900,7 +900,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() < moment().subtract(179, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(159, "seconds").unix() )
                 return;
             
 
@@ -917,7 +917,7 @@ setInterval(() => {
         // lastSaleTime_CASTLE_KID++;
         console.error(error);
     });
-}, 180000);
+}, 160000);
 
 
 // GET LISTING EVENT FOR ROO TROOP
@@ -950,7 +950,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() < moment().subtract(179, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(139, "seconds").unix() )
                 return;
 
             const message = buildMessageListing(event);
@@ -964,7 +964,7 @@ setInterval(() => {
         // lastListingTime_ROO_TROOP++;    // Increment the time by 1 second to skip the error-causing item
         console.error(error);
     });
-}, 180000);
+}, 140000);
 
 
 // GET DELISTING EVENT FOR ROO TROOP
@@ -997,7 +997,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() < moment().subtract(179, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(189, "seconds").unix() )
                 return;
 
             const message = buildMessageDelisting(event);
@@ -1011,7 +1011,7 @@ setInterval(() => {
         // lastDelistingTime_ROO_TROOP++;
         console.error(error);
     });
-}, 180000);
+}, 190000);
 
 // GET LISTING EVENT FOR JoeyMob
 setInterval(() => {
@@ -1043,7 +1043,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() < moment().subtract(179, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(149, "seconds").unix() )
                 return;
 
             const message = buildMessageListing(event);
@@ -1057,7 +1057,7 @@ setInterval(() => {
         // lastListingTime_ROO_TROOP++;    // Increment the time by 1 second to skip the error-causing item
         console.error(error);
     });
-}, 180000);
+}, 150000);
 
 
 // GET DELISTING EVENT FOR JOEYMOB
