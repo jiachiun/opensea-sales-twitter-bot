@@ -808,7 +808,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(119, "seconds").unix() )
                 return;
 
             const message = buildMessageSale(event);
@@ -824,7 +824,7 @@ setInterval(() => {
         // lastSaleTime_KIA++;
         console.error(error);
     });
-}, 60000);
+}, 120000);
 
 // GET SALE EVENT FOR CYBERHORNETS
 // setInterval(() => {
@@ -900,7 +900,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() < moment().subtract(119, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(179, "seconds").unix() )
                 return;
             
 
@@ -917,7 +917,7 @@ setInterval(() => {
         // lastSaleTime_CASTLE_KID++;
         console.error(error);
     });
-}, 120000);
+}, 180000);
 
 
 // GET LISTING EVENT FOR ROO TROOP
@@ -928,7 +928,7 @@ setInterval(() => {
 
     axios.get('https://api.opensea.io/api/v1/events', {
         headers: {
-            "X-API-KEY": process.env.OPENSEA_API_KEY_JC,
+            "X-API-KEY": process.env.OPENSEA_API_KEY,
         },
         params: {
             collection_slug: "roo-troop",
@@ -950,7 +950,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() < moment().subtract(119, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(179, "seconds").unix() )
                 return;
 
             const message = buildMessageListing(event);
@@ -964,7 +964,7 @@ setInterval(() => {
         // lastListingTime_ROO_TROOP++;    // Increment the time by 1 second to skip the error-causing item
         console.error(error);
     });
-}, 120000);
+}, 180000);
 
 
 // GET DELISTING EVENT FOR ROO TROOP
@@ -975,7 +975,7 @@ setInterval(() => {
 
     axios.get('https://api.opensea.io/api/v1/events', {
         headers: {
-            "X-API-KEY": process.env.OPENSEA_API_KEY_JC,
+            "X-API-KEY": process.env.OPENSEA_API_KEY,
         },
         params: {
             collection_slug: "roo-troop",
@@ -997,7 +997,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() < moment().subtract(119, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(179, "seconds").unix() )
                 return;
 
             const message = buildMessageDelisting(event);
@@ -1011,7 +1011,7 @@ setInterval(() => {
         // lastDelistingTime_ROO_TROOP++;
         console.error(error);
     });
-}, 120000);
+}, 180000);
 
 // GET LISTING EVENT FOR JoeyMob
 setInterval(() => {
@@ -1021,7 +1021,7 @@ setInterval(() => {
 
     axios.get('https://api.opensea.io/api/v1/events', {
         headers: {
-            "X-API-KEY": process.env.OPENSEA_API_KEY_JC,
+            "X-API-KEY": process.env.OPENSEA_API_KEY,
         },
         params: {
             collection_slug: "joeymob",
@@ -1043,7 +1043,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() < moment().subtract(119, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(179, "seconds").unix() )
                 return;
 
             const message = buildMessageListing(event);
@@ -1057,7 +1057,7 @@ setInterval(() => {
         // lastListingTime_ROO_TROOP++;    // Increment the time by 1 second to skip the error-causing item
         console.error(error);
     });
-}, 120000);
+}, 180000);
 
 
 // GET DELISTING EVENT FOR JOEYMOB
@@ -1068,7 +1068,7 @@ setInterval(() => {
 
     axios.get('https://api.opensea.io/api/v1/events', {
         headers: {
-            "X-API-KEY": process.env.OPENSEA_API_KEY_JC,
+            "X-API-KEY": process.env.OPENSEA_API_KEY,
         },
         params: {
             collection_slug: "joeymob",
@@ -1090,7 +1090,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(179, "seconds").unix() )
                 return;
 
             const message = buildMessageDelisting(event);
@@ -1104,7 +1104,7 @@ setInterval(() => {
         // lastDelistingTime_JOEYMOB++;
         console.error(error);
     });
-}, 60000);
+}, 180000);
 
 // GET SALE EVENT FOR ELDR: doodles-official
 setInterval(() => {
@@ -1112,7 +1112,7 @@ setInterval(() => {
     console.log('Logging sales for Doodles');
     axios.get('https://api.opensea.io/api/v1/events', {
         headers: {
-            "X-API-KEY": process.env.OPENSEA_API_KEY,
+            "X-API-KEY": process.env.OPENSEA_API_KEY_JC,
         },
         params: {
             collection_slug: "doodles-official",
@@ -1170,7 +1170,7 @@ setInterval(() => {
     console.log('Logging sales for Azuki');
     axios.get('https://api.opensea.io/api/v1/events', {
         headers: {
-            "X-API-KEY": process.env.OPENSEA_API_KEY,
+            "X-API-KEY": process.env.OPENSEA_API_KEY_JC,
         },
         params: {
             collection_slug: "azuki",
