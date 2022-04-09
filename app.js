@@ -390,27 +390,86 @@ function showRecentSales(message, collection_slug = null, limit = 1) {
     }
 }
 
-function showFloor(message) {
+function showFloor(message, collection_slug = null) {
+
+    if(collection_slug == null)
+        message.inlineReply("Oops. Unable to complete the request.\nReason: The collection name is invalid or has been recently changed. Please contact the developer for tech support.");
+    else {
+        axios.get('https://api.opensea.io/api/v1/collection/' + collection_slug + '/stats?format=json', {
+            headers: {
+                "X-API-KEY": process.env.OPENSEA_API_KEY,
+            }
+        })
+        .then((response) => {
+            const stats = _.get(response, ['data', 'stats']);
+            message.channel.send(`Floor Price: ${stats.floor_price}ETH`);
+        })
+        .catch((error) => {
+            console.error(error);
+            message.inlineReply("Oops. Unable to connect to the API. Please try again later.\n:Warning: The OpenSea API may be temporarily down causing disruption to our bots: Please go to <https://opensea.io/collection/" + collection_slug + "?tab=activity> to check the activities while OpenSea works to resolve, thank you!");
+        });
+    }
+}
+
+function showMoonMessage(message) {
     const msg = new Discord.MessageEmbed()
         .setColor('#0099ff')
         .setTitle(`"If you focus on the floor you will miss the moon."`)
     message.channel.send(msg);
-    // axios.get('https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats?format=json', {
-    //     headers: {
-    //         "X-API-KEY": process.env.OPENSEA_API_KEY,
-    //     }
-    // })
-    // .then((response) => {
-    //     const stats = _.get(response, ['data', 'stats']);
-    //     message.channel.send(`Floor Price: ${stats.floor_price}ETH`);
-    // })
-    // .catch((error) => {
-    //     console.error(error);
-    //     message.inlineReply("Oops. Unable to connect to the API. Please try again later.\n:warning: The OpenSea API is temporarily down causing disruption to our bots: Please go to <https://opensea.io/collection/koala-intelligence-agency?tab=activity> to check the activities while OpenSea works to resolve, thank you!");
-    // });
 }
 
-function showStats(message) {
+function showStats(message, collection_slug = null) {
+    axios.get('https://api.opensea.io/api/v1/collection/' + collection_slug + '/stats?format=json', {
+        headers: {
+            "X-API-KEY": process.env.OPENSEA_API_KEY,
+        }
+    })
+    .then((response) => {
+        const stats = _.get(response, ['data', 'stats']);
+
+        const msg = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle('OpenSea Stats')
+            .setURL('https://opensea.io/collection/koala-intelligence-agency?tab=activity')
+            .setThumbnail('https://den.koalaintelligence.agency/assets/logo.png')
+            .addFields(
+                { name: '\u200B', value: '────────────────────────────' },
+                { name: 'Unique Owners', value: `${stats.num_owners}`, inline: true },
+                { name: 'Floor Price', value: `${stats.floor_price}${ethers.constants.EtherSymbol}`, inline: true },
+                { name: '\u200B', value: '────────────────────────────' },
+                { name: 'Sales (24H)', value: `${stats.one_day_sales}`, inline: true },
+                { name: 'Volume (24H)', value: `${stats.one_day_volume.toFixed(2)}${ethers.constants.EtherSymbol} `, inline: true },
+                { name: 'Change (24H)', value: `${stats.one_day_change.toFixed(4)}${ethers.constants.EtherSymbol} `, inline: true },
+                
+                { name: 'Sales (7D)', value: `${stats.seven_day_sales}`, inline: true },
+                { name: 'Volume (7D)', value: `${stats.seven_day_volume.toFixed(2)}${ethers.constants.EtherSymbol} `, inline: true },
+                { name: 'Change (7D)', value: `${stats.seven_day_change.toFixed(4)}${ethers.constants.EtherSymbol} `, inline: true },
+
+                { name: 'Sales (30D)', value: `${stats.thirty_day_sales}`, inline: true },
+                { name: 'Volume (30D)', value: `${stats.thirty_day_volume.toFixed(2)}${ethers.constants.EtherSymbol} `, inline: true },
+                { name: 'Change (30D)', value: `${stats.thirty_day_change.toFixed(4)}${ethers.constants.EtherSymbol} `, inline: true },
+                { name: '\u200B', value: '────────────────────────────' },
+                { name: 'Avg Price (24H)', value: `${stats.one_day_average_price.toFixed(3)}${ethers.constants.EtherSymbol} `, inline: true},
+                { name: 'Avg Price (7D)', value: `${stats.seven_day_average_price.toFixed(3)}${ethers.constants.EtherSymbol} `, inline: true },
+                { name: 'Avg Price (30D)', value: `${stats.thirty_day_average_price.toFixed(3)}${ethers.constants.EtherSymbol} `, inline: true},
+
+                { name: 'Total Sales', value: `${stats.total_sales}`, inline: true },
+                { name: 'Total Volume', value: `${stats.total_volume.toFixed(2)}${ethers.constants.EtherSymbol} `, inline: true },
+                { name: 'Market Cap', value: `${stats.market_cap.toFixed(2)}${ethers.constants.EtherSymbol} `, inline: true },
+                { name: '\u200B', value: 'For charts, visit Dune Analytics.\n[:link: Dashboard by YatMaxi](https://dune.xyz/yatmaxi/Koala-Intelligence-Agency)\n[:link: Dashboard by JayC](https://dune.xyz/jayc/Koala-Intelligence-Agency-Dashboard)' },
+            )
+
+        message.channel.send(msg);
+        
+    })
+    .catch((error) => {
+        console.error(error);
+        message.inlineReply("Oops. Unable to connect to the API. Please try again later.\n:warning: The OpenSea API is temporarily down causing disruption to our bots: Please go to <https://opensea.io/collection/koala-intelligence-agency?tab=activity> to check the activities while OpenSea works to resolve, thank you!");
+    });
+}
+
+
+function showStatsKIA(message) {
     axios.get('https://api.opensea.io/api/v1/collection/koala-intelligence-agency/stats?format=json', {
         headers: {
             "X-API-KEY": process.env.OPENSEA_API_KEY,
@@ -466,6 +525,7 @@ function showStats(message) {
 const discordBot_KIA = new Discord.Client();
 const discordBot_CASTLE_KID = new Discord.Client();
 const discordBot_ROO_TROOP = new Discord.Client();
+const discordBot_ELDR = new Discord.Client();
 
 // ===================================================================================
 // Discord Channels
@@ -481,6 +541,8 @@ var sales_bot_channel_CASTLE_KID;
 var listing_bot_channel_ROO_TROOP;
 var delisting_bot_channel_ROO_TROOP;
 
+// ELDR
+var sales_bot_channel_ELDR;
 
 
 
@@ -508,11 +570,11 @@ discordBot_KIA.on('message', msg => {
     }
 
     if (msg.content === "!floor" ) {
-        showFloor(msg);
+        showMoonMessage(msg);
     }
 
     if (msg.content === "!stats" ) {
-        showStats(msg);
+        showStatsKIA(msg);
     }
 
     if (msg.content === "!joke" ) {
@@ -527,21 +589,6 @@ discordBot_KIA.on('message', msg => {
         showLinks(msg);
     }
 
-    if (msg.content === "!walladen" || msg.content === "!den" ) {
-        showDen(msg);
-    }
-
-    if (msg.content === "!roadmap" ) {
-        showRoadmap(msg);
-    }
-
-    if (msg.content === "!rarity" ) {
-        showRarity(msg);
-    }
-
-    if (msg.content === "!knet" ) {
-        showKNet(msg);
-    }
 
     if (msg.content === "!eth" ) {
         showETH(msg);
@@ -584,11 +631,108 @@ discordBot_ROO_TROOP.on('ready', () => {
 });
 
 // ====================================================================
+// Discord Bot: ELDR
+// ====================================================================
+
+discordBot_ELDR.on('ready', () => {
+    console.log(`Logged in as ${discordBot_ELDR.user.tag}!`);
+    sales_bot_channel_ELDR = discordBot_ELDR.channels.cache.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT__ELDR);
+});
+
+discordBot_ELDR.on('message', msg => {
+
+    let content = msg.content.toLowerCase();
+
+    if (content === "!commands" || msg.content === "!command" ) {
+        showCommands_ELDR(msg);
+    }
+
+    // ============================================
+    // Doodles - https://opensea.io/collection/doodles-official
+    // ============================================
+
+    if(content.startsWith("!sale"))
+    {
+        if (content === "!sale doodles" ) {
+            showRecentSales(msg, "doodles-official", 1);
+        }
+
+        if (content === "!sale clonex" ) {
+            showRecentSales(msg, "clonex", 1);
+        }
+
+        if (content === "!sale azuki" ) {
+            showRecentSales(msg, "azuki", 1);
+        }
+    }
+
+    if(content.startsWith("!sales"))
+    {
+        if (content === "!sales doodles" ) {
+            showRecentSales(msg, "doodles-official", 3);
+        }
+
+        if (content === "!sales clonex" ) {
+            showRecentSales(msg, "clonex", 3);
+        }
+
+        if (content === "!sales azuki" ) {
+            showRecentSales(msg, "azuki", 3);
+        }
+    }
+
+    if(content.startsWith("!sales"))
+    {
+        if (content === "!floor doodles" ) {
+            showFloor(msg, "doodles-official");
+        }
+
+        if (content === "!floor clonex" ) {
+            showFloor(msg, "clonex");
+        }
+
+        if (content === "!floor azuki" ) {
+            showFloor(msg, "azuki");
+        }
+    }
+
+    if(content.startsWith("!stats"))
+    {
+        if (content === "!stats doodles" ) {
+            showStats(msg, "doodles-official");
+        }
+
+        if (content === "!stats clonex" ) {
+            showStats(msg, "clonex");
+        }
+
+        if (content === "!stats azuki" ) {
+            showStats(msg, "azuki");
+        }
+    }
+
+
+    if (content === "!quote" ) {
+        showQuote(msg);
+    }
+
+    if (content === "!links" ) {
+        showLinks(msg);
+    }
+
+    if (content === "!eth" ) {
+        showETH(msg);
+    }
+});
+
+
+// ====================================================================
 // Login to Discord Bots
 // ====================================================================
 discordBot_KIA.login(process.env.DISCORD_BOT_TOKEN__KIA);
 discordBot_CASTLE_KID.login(process.env.DISCORD_BOT_TOKEN__CASTLE_KID);
 discordBot_ROO_TROOP.login(process.env.DISCORD_BOT_TOKEN__ROO_TROOP);
+discordBot_ELDR.login(process.env.DISCORD_BOT_TOKEN__ELDR);
 
 
 // ====================================================================
@@ -925,6 +1069,97 @@ setInterval(() => {
     });
 }, 60000);
 
+// GET SALE EVENT FOR ELDR: doodles-official
+setInterval(() => {
 
+    console.log('Logging sales for Doodles');
+    axios.get('https://api.opensea.io/api/v1/events', {
+        headers: {
+            "X-API-KEY": process.env.OPENSEA_API_KEY,
+        },
+        params: {
+            collection_slug: "doodles-official",
+            event_type: 'successful',
+            only_opensea: 'false'
+        }
+    }).then((response) => {
+        const events = _.get(response, ['data', 'asset_events']);
+        const sortedEvents = _.sortBy(events, function(event) {
+            const created = _.get(event, 'created_date');
+
+            return new Date(created);
+        })
+        _.each(sortedEvents, (event) => {
+            const created = _.get(event, 'created_date');
+            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
+                return;
+            const message = buildMessageSale(event);
+            sales_bot_channel_ELDR.send(message);
+            return;
+        });
+    }).catch((error) => {
+        console.error(error);
+    });
+
+    console.log('Logging sales for Clonex');
+    axios.get('https://api.opensea.io/api/v1/events', {
+        headers: {
+            "X-API-KEY": process.env.OPENSEA_API_KEY,
+        },
+        params: {
+            collection_slug: "clonex",
+            event_type: 'successful',
+            only_opensea: 'false'
+        }
+    }).then((response) => {
+        const events = _.get(response, ['data', 'asset_events']);
+        const sortedEvents = _.sortBy(events, function(event) {
+            const created = _.get(event, 'created_date');
+
+            return new Date(created);
+        })
+        _.each(sortedEvents, (event) => {
+            const created = _.get(event, 'created_date');
+            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
+                return;
+            const message = buildMessageSale(event);
+            sales_bot_channel_ELDR.send(message);
+            return;
+        });
+    }).catch((error) => {
+        console.error(error);
+    });
+
+    console.log('Logging sales for Azuki');
+    axios.get('https://api.opensea.io/api/v1/events', {
+        headers: {
+            "X-API-KEY": process.env.OPENSEA_API_KEY,
+        },
+        params: {
+            collection_slug: "azuki",
+            event_type: 'successful',
+            only_opensea: 'false'
+        }
+    }).then((response) => {
+        const events = _.get(response, ['data', 'asset_events']);
+        const sortedEvents = _.sortBy(events, function(event) {
+            const created = _.get(event, 'created_date');
+
+            return new Date(created);
+        })
+        _.each(sortedEvents, (event) => {
+            const created = _.get(event, 'created_date');
+            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
+                return;
+            const message = buildMessageSale(event);
+            sales_bot_channel_ELDR.send(message);
+            return;
+        });
+    }).catch((error) => {
+        console.error(error);
+    });
+
+
+}, 60000);
 
 console.log(`============================================================`);
