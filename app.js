@@ -790,48 +790,48 @@ setInterval(() => {
 }, 60000);
 
 // GET SALE EVENT FOR CYBERHORNETS
-setInterval(() => {
-    const lastSaleTime_CYBERHORNETS = cache.get('lastSaleTime_CYBERHORNETS', null) || moment().startOf('minute').subtract(59, "seconds").unix();
+// setInterval(() => {
+//     const lastSaleTime_CYBERHORNETS = cache.get('lastSaleTime_CYBERHORNETS', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
-    console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime_CYBERHORNETS', null)}`);
+//     console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime_CYBERHORNETS', null)}`);
 
-    axios.get('https://api.opensea.io/api/v1/events', {
-        headers: {
-            "X-API-KEY": process.env.OPENSEA_API_KEY,
-        },
-        params: {
-            // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
-            collection_slug: "cyber-hornets-colony-club",
-            event_type: 'successful',
-            // occurred_after: lastSaleTime_CYBERHORNETS,
-            only_opensea: 'false'
-        }
-    }).then((response) => {
-        const events = _.get(response, ['data', 'asset_events']);
+//     axios.get('https://api.opensea.io/api/v1/events', {
+//         headers: {
+//             "X-API-KEY": process.env.OPENSEA_API_KEY,
+//         },
+//         params: {
+//             // collection_slug: process.env.OPENSEA_COLLECTION_SLUG,
+//             collection_slug: "cyber-hornets-colony-club",
+//             event_type: 'successful',
+//             // occurred_after: lastSaleTime_CYBERHORNETS,
+//             only_opensea: 'false'
+//         }
+//     }).then((response) => {
+//         const events = _.get(response, ['data', 'asset_events']);
 
-        const sortedEvents = _.sortBy(events, function(event) {
-            const created = _.get(event, 'created_date');
+//         const sortedEvents = _.sortBy(events, function(event) {
+//             const created = _.get(event, 'created_date');
 
-            return new Date(created);
-        })
+//             return new Date(created);
+//         })
 
-        console.log(`[CyberHornets] ${events.length} sales since the last one...`);
+//         console.log(`[CyberHornets] ${events.length} sales since the last one...`);
 
-        _.each(sortedEvents, (event) => {
-            const created = _.get(event, 'created_date');
+//         _.each(sortedEvents, (event) => {
+//             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
-                return;
+//             if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
+//                 return;
 
-            cache.set('lastSaleTime_CYBERHORNETS', moment(created).unix());
+//             cache.set('lastSaleTime_CYBERHORNETS', moment(created).unix());
 
-            return formatAndSendTweet(event, "CYBERHORNETS" , "#CyberHornets #TheSwarm");
-        });
-    }).catch((error) => {
-        // lastSaleTime_CYBERHORNETS++;
-        console.error(error);
-    });
-}, 60000);
+//             return formatAndSendTweet(event, "CYBERHORNETS" , "#CyberHornets #TheSwarm");
+//         });
+//     }).catch((error) => {
+//         // lastSaleTime_CYBERHORNETS++;
+//         console.error(error);
+//     });
+// }, 60000);
 
 // GET SALE EVENT FOR CASTLE_KID
 setInterval(() => {
@@ -863,7 +863,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(119, "seconds").unix() )
                 return;
             
 
@@ -880,7 +880,7 @@ setInterval(() => {
         // lastSaleTime_CASTLE_KID++;
         console.error(error);
     });
-}, 60000);
+}, 120000);
 
 
 // GET LISTING EVENT FOR ROO TROOP
@@ -913,7 +913,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(119, "seconds").unix() )
                 return;
 
             const message = buildMessageListing(event);
@@ -927,7 +927,7 @@ setInterval(() => {
         // lastListingTime_ROO_TROOP++;    // Increment the time by 1 second to skip the error-causing item
         console.error(error);
     });
-}, 60000);
+}, 120000);
 
 
 // GET DELISTING EVENT FOR ROO TROOP
@@ -960,7 +960,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(119, "seconds").unix() )
                 return;
 
             const message = buildMessageDelisting(event);
@@ -974,7 +974,7 @@ setInterval(() => {
         // lastDelistingTime_ROO_TROOP++;
         console.error(error);
     });
-}, 60000);
+}, 120000);
 
 // GET LISTING EVENT FOR JoeyMob
 setInterval(() => {
@@ -1006,7 +1006,7 @@ setInterval(() => {
         _.each(sortedEvents, (event) => {
             const created = _.get(event, 'created_date');
 
-            if(moment(created).unix() < moment().subtract(59, "seconds").unix() )
+            if(moment(created).unix() < moment().subtract(119, "seconds").unix() )
                 return;
 
             const message = buildMessageListing(event);
@@ -1020,7 +1020,7 @@ setInterval(() => {
         // lastListingTime_ROO_TROOP++;    // Increment the time by 1 second to skip the error-causing item
         console.error(error);
     });
-}, 60000);
+}, 120000);
 
 
 // GET DELISTING EVENT FOR JOEYMOB
