@@ -221,6 +221,29 @@ function showCommands_CASTLE_KID(message) {
     message.channel.send(msg);
 }
 
+function showCommands_ELDR(message) {
+    const msg = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle('ELDR LABS Bot Commands')
+        .setThumbnail('https://i.ibb.co/zNXmMfp/logo-eldr-labs.jpg')
+        .addFields(
+            { name: '\u200B', value: '──────── INFO ────────' },
+            { name: 'Links', value: ':link: `!links`' },
+            { name: 'OpenSea Collections', value: '`doodles`, `azuki`, `clonex`' },
+            { name: '\u200B', value: '──────── SALES ────────' },
+            { name: 'Show the Latest Sale', value: ':shopping_cart: `!sale <collection_name>`' },
+            { name: 'Show Last 3 Sales', value: ':shopping_bags: `!sales <collection_name>`' },
+            { name: 'Get Project Stats', value: ':bar_chart: `!stats <collection_name>`' },
+            { name: 'Get the Floor Price', value: ':chart_with_upwards_trend: `!floor <collection_name>`' },
+            { name: '\u200B', value: '──────── OTHERS ────────' },
+            { name: 'Get the Market Price for ETH', value: ':chart: `!eth`' },
+            { name: 'Get a Quote', value: ':speech_left: `!quote`' },
+            { name: '\u200B', value: 'Use `!commands` to see list of available commands.' },
+        )
+
+    message.channel.send(msg);
+}
+
 function showLinks(message) {
     const msg = new Discord.MessageEmbed()
         .setColor('#0099ff')
@@ -233,6 +256,21 @@ function showLinks(message) {
             { name: 'Verified Contract', value: '<https://etherscan.io/address/0x3f5fb35468e9834a43dca1c160c69eaae78b6360>\n' },
             { name: 'Rarity Tools:', value: '<https://rarity.tools/koala-intelligence-agency>\n' },
             { name: 'HackMD  (Roadmap V2)', value: '<https://hackmd.io/@sJX7GMieToGIMmb_nnCnFQ/kia-v2>\n' },
+            { name: '\u200B', value: 'Links can be found in #official-links channel' },
+        )
+
+    message.channel.send(msg);
+}
+
+
+function showLinks_ELDR(message) {
+    const msg = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle('ELDR Labs Official Links')
+        .setThumbnail('https://i.ibb.co/zNXmMfp/logo-eldr-labs.jpg')
+        .addFields(
+            { name: 'WhiteBearVG', value: 'YouTube - <https://t.co/OdUfZKAcVY>\nTwitter - <https://twitter.com/WhiteBearVG>\n' },
+            { name: 'ELDR Labs', value: 'Twitter - <https://twitter.com/ELDRLabs>\n' },
             { name: '\u200B', value: 'Links can be found in #official-links channel' },
         )
 
@@ -429,9 +467,9 @@ function showStats(message, collection_slug = null) {
 
         const msg = new Discord.MessageEmbed()
             .setColor('#0099ff')
-            .setTitle('OpenSea Stats')
-            .setURL('https://opensea.io/collection/koala-intelligence-agency?tab=activity')
-            .setThumbnail('https://den.koalaintelligence.agency/assets/logo.png')
+            .setTitle('OpenSea Stats for ' + collection_slug)
+            .setURL('https://opensea.io/collection/' + collection_slug + '?tab=activity')
+            .setThumbnail('https://i.ibb.co/zNXmMfp/logo-eldr-labs.jpg')
             .addFields(
                 { name: '\u200B', value: '────────────────────────────' },
                 { name: 'Unique Owners', value: `${stats.num_owners}`, inline: true },
@@ -456,7 +494,6 @@ function showStats(message, collection_slug = null) {
                 { name: 'Total Sales', value: `${stats.total_sales}`, inline: true },
                 { name: 'Total Volume', value: `${stats.total_volume.toFixed(2)}${ethers.constants.EtherSymbol} `, inline: true },
                 { name: 'Market Cap', value: `${stats.market_cap.toFixed(2)}${ethers.constants.EtherSymbol} `, inline: true },
-                { name: '\u200B', value: 'For charts, visit Dune Analytics.\n[:link: Dashboard by YatMaxi](https://dune.xyz/yatmaxi/Koala-Intelligence-Agency)\n[:link: Dashboard by JayC](https://dune.xyz/jayc/Koala-Intelligence-Agency-Dashboard)' },
             )
 
         message.channel.send(msg);
@@ -681,7 +718,7 @@ discordBot_ELDR.on('message', msg => {
         }
     }
 
-    if(content.startsWith("!sales"))
+    if(content.startsWith("!floor"))
     {
         if (content === "!floor doodles" ) {
             showFloor(msg, "doodles-official");
@@ -717,7 +754,7 @@ discordBot_ELDR.on('message', msg => {
     }
 
     if (content === "!links" ) {
-        showLinks(msg);
+        showLinks_ELDR(msg);
     }
 
     if (content === "!eth" ) {
