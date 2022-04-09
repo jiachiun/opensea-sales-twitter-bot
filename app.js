@@ -440,7 +440,7 @@ function showFloor(message, collection_slug = null) {
         })
         .then((response) => {
             const stats = _.get(response, ['data', 'stats']);
-            message.channel.send(`Floor Price: ${stats.floor_price}ETH`);
+            message.channel.send(`Floor Price for ` + collection_slug + `: ${stats.floor_price}ETH`);
         })
         .catch((error) => {
             console.error(error);
