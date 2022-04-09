@@ -1104,7 +1104,7 @@ setInterval(() => {
     console.log('Logging sales for Clonex');
     axios.get('https://api.opensea.io/api/v1/events', {
         headers: {
-            "X-API-KEY": process.env.OPENSEA_API_KEY,
+            "X-API-KEY": process.env.OPENSEA_API_KEY_JC,
         },
         params: {
             collection_slug: "clonex",
