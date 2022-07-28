@@ -817,6 +817,7 @@ discordBot_ELDR.on('message', msg => {
 // Login to Discord Bots
 // ====================================================================
 discordBot_KIA.login(process.env.DISCORD_BOT_TOKEN__KIA);
+discordBot_KIA_NEW.login(process.env.DISCORD_BOT_TOKEN__KIA_NEW);
 discordBot_CASTLE_KID.login(process.env.DISCORD_BOT_TOKEN__CASTLE_KID);
 discordBot_ROO_TROOP.login(process.env.DISCORD_BOT_TOKEN__ROO_TROOP);
 discordBot_ELDR.login(process.env.DISCORD_BOT_TOKEN__ELDR);
