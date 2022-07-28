@@ -560,6 +560,7 @@ function showStatsKIA(message) {
 // Discord Bots
 // ===================================================================================
 const discordBot_KIA = new Discord.Client();
+const discordBot_KIA_NEW = new Discord.Client();
 const discordBot_CASTLE_KID = new Discord.Client();
 const discordBot_ROO_TROOP = new Discord.Client();
 const discordBot_ELDR = new Discord.Client();
@@ -570,6 +571,7 @@ const discordBot_ELDR = new Discord.Client();
 
 // KIA
 var sales_bot_channel_KIA;
+var sales_bot_channel_KIA_NEW;
 
 // Castle Kid
 var sales_bot_channel_CASTLE_KID;
@@ -626,6 +628,54 @@ discordBot_KIA.on('message', msg => {
         showLinks(msg);
     }
 
+
+    if (msg.content === "!eth" ) {
+        showETH(msg);
+    }
+});
+
+// ====================================================================
+// Discord Bot: KIA New
+// ====================================================================
+
+discordBot_KIA_NEW.on('ready', () => {
+    console.log(`Logged in as ${discordBot_KIA_NEW.user.tag}!`);
+    sales_bot_channel_KIA_NEW = discordBot_KIA_NEW.channels.cache.get(process.env.DISCORD_CHANNEL_ID_SALES_BOT__KIA_NEW);
+});
+
+discordBot_KIA_NEW.on('message', msg => {
+
+    if (msg.content === "!commands" || msg.content === "!command" ) {
+        showCommands_KIA(msg);
+    }
+
+    if (msg.content === "!sale" ) {
+        showRecentSales(msg, "koala-intelligence-agency", 1);
+    }
+
+    if (msg.content === "!sales" ) {
+        showRecentSales(msg, "koala-intelligence-agency", 3);
+    }
+
+    if (msg.content === "!floor" ) {
+        showFloor(msg);
+    }
+
+    if (msg.content === "!stats" ) {
+        showStatsKIA(msg);
+    }
+
+    if (msg.content === "!joke" ) {
+        showJoke(msg);
+    }
+
+    if (msg.content === "!quote" ) {
+        showQuote(msg);
+    }
+
+    if (msg.content === "!links" ) {
+        showLinks(msg);
+    }
 
     if (msg.content === "!eth" ) {
         showETH(msg);
@@ -813,6 +863,7 @@ setInterval(() => {
 
             const message = buildMessageSale(event);
             sales_bot_channel_KIA.send(message);
+            sales_bot_channel_KIA_NEW.send(message);
 
             formatAndSendTweet(event, "KIA", "🐨 #HugLife #NFT");
             formatAndSendTweet(event, "KIA2", "🐨 #HugLife #NFT");
