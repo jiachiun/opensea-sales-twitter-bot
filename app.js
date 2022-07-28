@@ -456,6 +456,29 @@ function showMoonMessage(message) {
     message.channel.send(msg);
 }
 
+function showWenCommunityTakeOver(message) {
+    const msg = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle(`"August 1st! KIA Community takes over."`)
+    message.channel.send(msg);
+}
+
+function showKIASigners(message) {
+    const msg = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle(`"The 5 Multi-sig Signers:"`)
+        .addFields(
+            { name: '\u200B', value: '@TheAccountant | goingconcern.eth' },
+            { name: '\u200B', value: '@jwlpt45' },
+            { name: '\u200B', value: '@Bromelia.eth' },
+            { name: '\u200B', value: '@Wes' },
+            { name: '\u200B', value: '@djbooth.eth [Speg]' },
+        )
+    message.channel.send(msg);
+}
+
+
+
 function showStats(message, collection_slug = null) {
     axios.get('https://api.opensea.io/api/v1/collection/' + collection_slug + '/stats?format=json', {
         headers: {
@@ -680,6 +703,16 @@ discordBot_KIA_NEW.on('message', msg => {
     if (msg.content === "!eth" ) {
         showETH(msg);
     }
+
+    if (msg.content === "!wen" ) {
+        showWenCommunityTakeOver(msg);
+    }
+
+    if (msg.content === "!signers" ) {
+        showKIASigners(msg);
+    }
+
+    
 });
 
 // ====================================================================
