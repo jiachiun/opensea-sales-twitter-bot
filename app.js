@@ -862,7 +862,7 @@ setInterval(() => {
                 return;
 
             const message = buildMessageSale(event);
-            sales_bot_channel_KIA.send(message);
+            sales_bot_channel_KIA.send(message); 
             sales_bot_channel_KIA_NEW.send(message);
 
             formatAndSendTweet(event, "KIA", "🐨 #HugLife #NFT");
